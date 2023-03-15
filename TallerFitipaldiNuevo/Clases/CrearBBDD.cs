@@ -121,7 +121,7 @@ namespace TallerFitipaldiNuevo.Clases
                     Console.WriteLine("Datos de prueba insertados en la tabla Cliente.");
                 }
 
-                // Verificar si ya existen registros en la tabla Cliente
+                // Verificar si ya existen registros en la tabla Cliente.
                 selectCliente = "SELECT COUNT(*) FROM Vehiculo";
                 selectCommand = new MySqlCommand(selectCliente, this.connection);
                 result = selectCommand.ExecuteScalar();
