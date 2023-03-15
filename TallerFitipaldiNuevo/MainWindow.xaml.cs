@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Input;
 using TallerFitipaldiNuevo.Clases;
 
@@ -19,30 +17,12 @@ namespace TallerFitipaldiNuevo
             CrearBBDD crearBBDD = new CrearBBDD();
             InitializeComponent();
             mySqlConnector = new MySqlConnector("localhost", "TallerFitipaldiV", "root", "root");
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            tb_username.Focus();
         }
 
         private void bt_iniciar_sesion_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(tb_username.Text + " - " + pb_password.Password);
-            mySqlConnector.Connect();
-            bool loginSucces = mySqlConnector.Login(tb_username.Text, pb_password.Password);
-            mySqlConnector.Disconnect();
-
-            if (loginSucces)
-            {
-                MenuPrincipal menu = new MenuPrincipal();
-                this.Close();
-                menu.Show();
-            }
-            else
-            {
-                MessageBox.Show("El cliente y/o contraseña no son correctos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            IniciarSesion();
         }
 
         private void lbl_resgister_MouseDown(object sender, MouseButtonEventArgs e)
@@ -52,33 +32,9 @@ namespace TallerFitipaldiNuevo
             this.Close();
         }
 
-        private void tb_username_LostFocus(object sender, RoutedEventArgs e)
+        private void presionar_enter(object sender, KeyEventArgs e)
         {
-            if (string.IsNullOrEmpty(tb_username.Text))
-            {
-                MessageBox.Show("El usuario es obligatorio", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    tb_username.Focus();
-                }), System.Windows.Threading.DispatcherPriority.Background);
-            }
-        }
-
-        private void pb_password_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(tb_username.Text))
-            {
-                MessageBox.Show("La contraseña es obligatoria", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    tb_username.Focus();
-                }), System.Windows.Threading.DispatcherPriority.Background);
-            }
-        }
-
-        private void bt_iniciar_sesion_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
+            if (e.Key.Equals(Key.Enter))
             {
                 IniciarSesion();
             }
@@ -86,9 +42,26 @@ namespace TallerFitipaldiNuevo
 
         private void IniciarSesion()
         {
-            MenuPrincipal menuPrincipal = new MenuPrincipal();
-            menuPrincipal.Show();
-            this.Close();
+            if (tb_username.Text.Length > 0 && pb_password.Password.Length > 0)
+            {
+                bool loginSucces = mySqlConnector.Login(tb_username.Text, pb_password.Password);
+
+                if (loginSucces)
+                {
+                    Sesion.ClienteActual = mySqlConnector.SeleccionarClientePorUsername(tb_username.Text);
+                    MenuPrincipal menu = new MenuPrincipal();
+                    this.Close();
+                    menu.Show();
+                }
+                else
+                {
+                    MessageBox.Show("El cliente y/o contraseña no son correctos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debes rellenar los dos campos para iniciar sesión.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
     }

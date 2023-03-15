@@ -109,10 +109,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Clases\Sesion.cs" />
     <Compile Include="Clases\CrearBBDD.cs" />
     <Compile Include="Clases\MySqlConnector.cs" />
     <Compile Include="Clases\Cliente.cs" />
-    <Compile Include="Clases\ClienteDatabase.cs" />
     <Compile Include="Clases\Vehiculo.cs" />
     <Compile Include="Registro.xaml.cs">
       <DependentUpon>Registro.xaml</DependentUpon>

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TallerFitipaldiNuevo.Clases
 {
-    internal class Cliente
+    public class Cliente
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,6 +25,18 @@ namespace TallerFitipaldiNuevo.Clases
         {
             // Inicializamos la lista de vehículos
             this.Vehiculos = new HashSet<Vehiculo>();
+        }
+
+        public Cliente(int id, string username, string password, string nombre, string apellidos, string telefono, string ubicacion, string rol)
+        {
+            this.id = id;
+            this.username = username;
+            this.password = password;
+            this.nombre = nombre;
+            this.apellidos = apellidos;
+            this.telefono = telefono;
+            this.ubicacion = ubicacion;
+            this.rol = rol;
         }
 
         public Cliente(string username, string password, string nombre, string apellidos, string telefono, string ubicacion, string rol)
@@ -62,7 +74,8 @@ namespace TallerFitipaldiNuevo.Clases
 
         public override string ToString()
         {
-            return base.ToString();
+            return $"Cliente: [Id: {id}, Username: {username}, Password: {password}, Nombre: {nombre}, Apellidos: {apellidos}, Telefono: {telefono}, Ubicacion: {ubicacion}, Rol: {rol}]";
         }
+
     }
 }

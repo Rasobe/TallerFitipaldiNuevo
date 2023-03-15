@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TallerFitipaldiNuevo.Clases;
 
 namespace TallerFitipaldiNuevo
 {
@@ -19,9 +20,13 @@ namespace TallerFitipaldiNuevo
     /// </summary>
     public partial class MenuPrincipal : Window
     {
+
+        Cliente clienteActual = Sesion.ClienteActual;
+
         public MenuPrincipal()
         {
             InitializeComponent();
+            Console.WriteLine(clienteActual.ToString());
         }
     }
 }

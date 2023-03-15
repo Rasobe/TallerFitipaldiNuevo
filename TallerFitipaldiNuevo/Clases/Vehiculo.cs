@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TallerFitipaldiNuevo.Clases
 {
-    internal class Vehiculo
+    public class Vehiculo
     {
         [Key]
         private string matricula;
