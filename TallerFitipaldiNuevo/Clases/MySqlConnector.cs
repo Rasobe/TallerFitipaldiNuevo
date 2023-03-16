@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 
 namespace TallerFitipaldiNuevo.Clases
 {
@@ -286,6 +287,30 @@ namespace TallerFitipaldiNuevo.Clases
             }
             Disconnect();
             return cliente;
+        }
+
+        public List<Vehiculo> SeleccionarTodosLosVehiculos()
+        {
+            Connect();
+            string query = "SELECT * FROM vehiculo";
+            List<Vehiculo> vehiculos = new List<Vehiculo>();
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Vehiculo vehiculo = new Vehiculo();
+                        vehiculo.Matricula = reader.GetString("matricula");
+                        vehiculo.Marca = reader.GetString("marca");
+                        vehiculo.Modelo = reader.GetString("modelo");
+                        vehiculo.ClienteId = reader.GetInt32("clienteId");
+                        vehiculos.Add(vehiculo);
+                    }
+                }
+            }
+            Disconnect();
+            return vehiculos;
         }
 
     }

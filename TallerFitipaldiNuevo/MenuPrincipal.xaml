@@ -5,11 +5,91 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="MenuPrincipal" Height="1080" Width="1920" Icon="/img/icon.png" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="MenuPrincipal" Height="720" Width="1280" Icon="/img/icon.png" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/img/fondoTalleresFitipaldi.jpg"/>
         </Grid.Background>
+        <Rectangle HorizontalAlignment="Center" Height="159" Margin="0,-7,0,0" VerticalAlignment="Top" Width="1920" Stroke="#FFB10101">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="#FF080808" Opacity="0.8"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <TextBlock HorizontalAlignment="Left" Height="0" Margin="-3,-1,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="18"/>
+        <Rectangle HorizontalAlignment="Left" Height="196" VerticalAlignment="Top" Width="2125" Stroke="#FFDC0C00" StrokeThickness="5" Margin="-3,-41,0,0"/>
+        <TextBlock x:Name="tb_bienvenida" Margin="-3,8,0,0" TextWrapping="Wrap" Text="Bienvenido/a " VerticalAlignment="Top" Height="110" RenderTransformOrigin="0.5,0.5" Width="415" FontSize="50" Foreground="White" HorizontalAlignment="Left" Padding="60,30,60,30">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <Button x:Name="bt_vehiculos" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,220,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_vehiculos_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBlock x:Name="tb_bienvenida_Copy" Margin="311,8,0,0" TextWrapping="Wrap" Text="Bienvenido/a " VerticalAlignment="Top" Height="110" RenderTransformOrigin="0.5,0.5" Width="415" FontSize="50" Foreground="#FFFF0E00" HorizontalAlignment="Left" Padding="60,30,60,30">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <Menu Margin="0,52,58,0" Background="{x:Null}" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" VerticalAlignment="Top" HorizontalAlignment="Right" Width="140" Height="42">
+            <MenuItem Header="Configuración" FontSize="20" Background="{x:Null}" Height="40" Width="135" Foreground="White" VerticalContentAlignment="Center" VerticalAlignment="Top">
+                <MenuItem Header="Mi cuenta" Click="MiCuenta_Click" Height="30" Width="160" Background="#FF080808" Foreground="White" FontSize="14"/>
+                <MenuItem Header="Cerrar sesión" Click="CerrarSesion_Click" Height="30" Width="160" Foreground="White" FontSize="14">
+                    <MenuItem.Background>
+                        <SolidColorBrush Color="#FF080808"/>
+                    </MenuItem.Background>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Button x:Name="bt_clientes" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,338,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_vehiculos_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="bt_reparaciones" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,458,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_vehiculos_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
 
     </Grid>
 </Window>

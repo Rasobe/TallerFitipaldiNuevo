@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using TallerFitipaldiNuevo.Clases;
 
 namespace TallerFitipaldiNuevo
@@ -26,12 +14,49 @@ namespace TallerFitipaldiNuevo
         public MenuPrincipal()
         {
             InitializeComponent();
-            CrearToolBar();
+            tb_bienvenida_Copy.Text = clienteActual.Username;
+
+            if (clienteActual.Rol.Equals("USER"))
+            {
+                bt_vehiculos.Content = "Mis vehículos";
+                bt_reparaciones.Visibility = Visibility.Collapsed;
+                bt_clientes.Visibility = Visibility.Collapsed;
+            }
+            else if (clienteActual.Rol.Equals("ADMIN"))
+            {
+                bt_vehiculos.Content = "Vehículos";
+                bt_clientes.Content = "Clientes";
+                bt_reparaciones.Content = "Reparaciones";
+            }
+
         }
 
-        private void CrearToolBar()
+        private void bt_vehiculos_Click(object sender, RoutedEventArgs e)
         {
-
+            if (clienteActual.Rol.Equals("USER"))
+            {
+                
+            }
+            else if (clienteActual.Rol.Equals("ADMIN"))
+            {
+                Vehiculos vehiculos = new Vehiculos();
+                vehiculos.Show();
+            }
         }
+
+        private void MiCuenta_Click(object sender, RoutedEventArgs e)
+        {
+            // Acción para la opción "Mis vehículos"
+        }
+
+        private void CerrarSesion_Click(object sender, RoutedEventArgs e)
+        {
+            Sesion.ClienteActual = null;
+            MainWindow main = new MainWindow();
+            main.Show();
+            this.Close();
+        }
+
+
     }
 }
