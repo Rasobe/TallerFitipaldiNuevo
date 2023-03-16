@@ -11,6 +11,8 @@ namespace TallerFitipaldiNuevo.Clases
     public class Vehiculo
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        private int id;
         private string matricula;
         private string modelo;
         private string marca;
@@ -23,14 +25,15 @@ namespace TallerFitipaldiNuevo.Clases
         {
         }
 
-        public Vehiculo(string matricula, string modelo, string marca, Cliente cliente)
+        public Vehiculo(string matricula, string modelo, string marca, int clienteId)
         {
             this.matricula = matricula;
             this.modelo = modelo;
             this.marca = marca;
-            this.cliente = cliente;
+            this.clienteId = clienteId;
         }
 
+        public int Id { get => id; set => id = value; }
         public string Matricula { get => matricula; set => matricula = value; }
         public string Modelo { get => modelo; set => modelo = value; }
         public string Marca { get => marca; set => marca = value; }
@@ -39,7 +42,7 @@ namespace TallerFitipaldiNuevo.Clases
 
         public override string ToString()
         {
-            return base.ToString();
+            return $"Vehiculo: Id = {id}, Matricula = {matricula}, Modelo = {modelo}, Marca = {marca}, ClienteId = {clienteId}";
         }
     }
 }

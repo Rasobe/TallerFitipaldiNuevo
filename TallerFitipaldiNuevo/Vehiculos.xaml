@@ -5,32 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Vehiculos" Height="450" Width="800" WindowStyle="ToolWindow" Icon="/img/icon.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <DataGrid x:Name="VehiculosDataGrid" ColumnWidth="199" AutoGenerateColumns="False" Margin="0,70,0,0" MaxWidth="800">
+        Title="Vehiculos" Height="874" Width="1200" Icon="/img/icon.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" InputScope="Default">
+    <Grid Margin="0,0,0,-6">
+        <Grid.Background>
+            <ImageBrush ImageSource="/img/fondoTalleresFitipaldi.jpg"/>
+        </Grid.Background>
+        <Rectangle HorizontalAlignment="Left" Height="303" Margin="201,141,0,0" Stroke="White" VerticalAlignment="Top" Width="489" Fill="Black" Opacity="0.5" RadiusX="10" RadiusY="10" StrokeThickness="2"/>
+        <DataGrid x:Name="VehiculosDataGrid" IsReadOnly="True" ColumnWidth="194" AutoGenerateColumns="False" Margin="200,486,200,48" MaxWidth="800">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Editar" Click="MenuItemEditar_Click"/>
+                    <MenuItem Header="Eliminar" Click="MenuItemEliminar_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Resources>
-        <Style TargetType="{x:Type DataGridCell}">
-            <Setter Property="Background" Value="#333333"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="BorderBrush" Value="#FFFFFF"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-        <Style TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="Background" Value="#333333"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="BorderBrush" Value="#FFFFFF"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-    </DataGrid.Resources>
-    <DataGrid.RowStyle>
-        <Style TargetType="{x:Type DataGridRow}">
-            <Setter Property= "Height"
-                    Value= "40"
-                    />
-        </Style>
-    </DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Background" Value="#333333"/>
+                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                    <Setter Property="FontSize" Value="15"/>
+                    <Setter Property="BorderBrush" Value="#FFFFFF"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Opacity" Value="70"/>
+                </Style>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#222222"/>
+                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="BorderBrush" Value="#FFFFFF"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property= "Height" Value= "30"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Matrícula" Binding="{Binding Matricula}" />
                 <DataGridTextColumn Header="Marca" Binding="{Binding Marca}" />
@@ -38,5 +48,99 @@
                 <DataGridTextColumn Header="ID Cliente" Binding="{Binding ClienteId}" />
             </DataGrid.Columns>
         </DataGrid>
+        <GridSplitter HorizontalAlignment="Left" Height="306" Margin="445,103,0,0" VerticalAlignment="Top" Width="2" RenderTransformOrigin="0.5,0.5">
+            <GridSplitter.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.628" ScaleY="1.593"/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </GridSplitter.RenderTransform>
+        </GridSplitter>
+        <Label Content="Busca vehículo por matrícula" HorizontalAlignment="Left" Margin="225,154,0,0" VerticalAlignment="Top" Width="442" Height="38" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalContentAlignment="Center"/>
+        <Button x:Name="bt_buscar_vehiculo_por_matricula" Content="Buscar" HorizontalAlignment="Left" Height="36" Margin="485,197,0,0" VerticalAlignment="Top" Width="148" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_buscar_vehiculo_matricula_Click" FontSize="15">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBox x:Name="tb_matricula_buscar" HorizontalAlignment="Left" Margin="229,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="216" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1" KeyDown="presionar_enter">
+        </TextBox>
+        <TextBox x:Name="tb_matricula_vehiculo" HorizontalAlignment="Left" Margin="229,293,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="27" FontSize="15" VerticalContentAlignment="Center" TabIndex="1"/>
+        <TextBox x:Name="tb_marca_vehiculo" HorizontalAlignment="Left" Margin="389,293,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Height="27" FontSize="15" VerticalContentAlignment="Center" TabIndex="1"/>
+        <TextBox x:Name="tb_modelo_vehiculo" HorizontalAlignment="Left" Margin="229,350,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="296" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1"/>
+        <TextBox x:Name="tb_id_cliente_vehiculo" HorizontalAlignment="Left" Margin="568,350,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1"/>
+        <Label Content="Matricula" HorizontalAlignment="Left" Margin="229,268,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="93" Height="25"/>
+        <Label Content="Marca" HorizontalAlignment="Left" Margin="389,268,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="68" Height="25"/>
+        <Label Content="Modelo" HorizontalAlignment="Left" Margin="229,325,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="81" Height="25"/>
+        <Label x:Name="lbl_id_cliente_vehiculo" Content="Id cliente" HorizontalAlignment="Left" Margin="568,325,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="91" Height="25"/>
+        <Button x:Name="bt_crear_editar_vehiculo" Content="Crear" HorizontalAlignment="Left" Height="28" Margin="243,396,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_crear_editar_Click" FontSize="15">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="bt_cancelar" Content="Cancelar" HorizontalAlignment="Left" Height="28" Margin="472,396,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_cancelar_operacion_Click" FontSize="15">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Rectangle x:Name="rect_clientes_id" HorizontalAlignment="Left" Height="302" Margin="752,141,0,0" Stroke="White" VerticalAlignment="Top" Width="236" Fill="Black" Opacity="0.5" RadiusX="10" RadiusY="10" StrokeThickness="2"/>
+        <GridSplitter x:Name="linea_cliente_id" HorizontalAlignment="Left" Height="128" Margin="869,278,0,0" VerticalAlignment="Top" Width="3" RenderTransformOrigin="0.5,0.5">
+            <GridSplitter.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.541" ScaleY="1.848"/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </GridSplitter.RenderTransform>
+        </GridSplitter>
+        <Label x:Name="lbl_busca_id_cliente" Content="Busca Id de&#xA;   Cliente" HorizontalAlignment="Left" Margin="782,154,0,0" VerticalAlignment="Top" Width="176" Height="64" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="tb_buscar_username" HorizontalAlignment="Left" Margin="782,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1"/>
+        <Button x:Name="bt_buscar_id_usuario_por_username" Content="Buscar" HorizontalAlignment="Left" Height="27" Margin="817,291,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_buscar_id_por_username_Click" FontSize="15">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBox x:Name="tb_id_cliente_buscado" IsReadOnly="True" HorizontalAlignment="Left" Margin="826,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1"/>
+        <Label x:Name="lbl_id_buscar" Content="Id" HorizontalAlignment="Left" Margin="826,352,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="88" Height="25"/>
+        <Label x:Name="lbl_username" Content="Nombre de usuario" HorizontalAlignment="Left" Margin="782,220,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="151" Height="25"/>
+        <Label x:Name="titulo" Content="VEHÍCULOS" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="545" Margin="36,21,0,0" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="55" Foreground="White"/>
     </Grid>
 </Window>

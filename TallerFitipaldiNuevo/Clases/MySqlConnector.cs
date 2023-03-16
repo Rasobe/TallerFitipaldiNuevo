@@ -1,6 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows;
 
 namespace TallerFitipaldiNuevo.Clases
 {
@@ -64,9 +67,10 @@ namespace TallerFitipaldiNuevo.Clases
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex.Message);
+                MessageBox.Show("Error al iniciar sesión.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
             }
             finally
             {
@@ -83,13 +87,14 @@ namespace TallerFitipaldiNuevo.Clases
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
                     cmd.Connection = connection;
-                    cmd.CommandText = "INSERT INTO cliente (username, password, nombre, apellidos, telefono, ubicacion) VALUES (@username,@password,@nombre,@apellidos,@telefono,@ubicacion)";
+                    cmd.CommandText = "INSERT INTO cliente (username, password, nombre, apellidos, telefono, ubicacion, rol) VALUES (@username,@password,@nombre,@apellidos,@telefono,@ubicacion,@rol)";
                     cmd.Parameters.AddWithValue("@username", cliente.Username);
                     cmd.Parameters.AddWithValue("@password", cliente.Password);
                     cmd.Parameters.AddWithValue("@nombre", cliente.Nombre);
                     cmd.Parameters.AddWithValue("@apellidos", cliente.Apellidos);
                     cmd.Parameters.AddWithValue("@telefono", cliente.Telefono);
                     cmd.Parameters.AddWithValue("@ubicacion", cliente.Ubicacion);
+                    cmd.Parameters.AddWithValue("@rol", "USER");
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -101,9 +106,10 @@ namespace TallerFitipaldiNuevo.Clases
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex.Message);
+                MessageBox.Show("Error al registrarse.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
             }
             finally
             {
@@ -133,9 +139,9 @@ namespace TallerFitipaldiNuevo.Clases
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                // Maneja la excepción aqu
+                MessageBox.Show("Error al insertar client '" + cliente.ToString() + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Disconnect();
             }
             finally
@@ -146,7 +152,7 @@ namespace TallerFitipaldiNuevo.Clases
                 }
             }
         }
-        public void BorrarClientePorId(int id)
+        public void EliminarClientePorId(int id)
         {
             try
             {
@@ -159,9 +165,9 @@ namespace TallerFitipaldiNuevo.Clases
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                // Maneja la excepción aquí
+                MessageBox.Show("Error al eliminar cliente con id '" + id + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Disconnect();
             }
             finally
@@ -196,9 +202,9 @@ namespace TallerFitipaldiNuevo.Clases
                     Disconnect();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                // Maneja la excepción aquí
+                MessageBox.Show("Error al editar cliente con id '" + id + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Disconnect();
             }
             finally
@@ -289,6 +295,11 @@ namespace TallerFitipaldiNuevo.Clases
             return cliente;
         }
 
+        //
+        //
+        // VEHÍCULOS
+        //
+        //
         public List<Vehiculo> SeleccionarTodosLosVehiculos()
         {
             Connect();
@@ -311,6 +322,152 @@ namespace TallerFitipaldiNuevo.Clases
             }
             Disconnect();
             return vehiculos;
+        }
+
+        public List<Vehiculo> SeleccionarTodosLosVehiculosDelCliente(int id)
+        {
+            Connect();
+            string query = "SELECT * FROM vehiculo WHERE clienteId=@clienteId";
+            List<Vehiculo> vehiculos = new List<Vehiculo>();
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@clienteId", id);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Vehiculo vehiculo = new Vehiculo();
+                        vehiculo.Matricula = reader.GetString("matricula");
+                        vehiculo.Marca = reader.GetString("marca");
+                        vehiculo.Modelo = reader.GetString("modelo");
+                        vehiculo.ClienteId = reader.GetInt32("clienteId");
+                        vehiculos.Add(vehiculo);
+                    }
+                }
+            }
+            Disconnect();
+            return vehiculos;
+        }
+
+        public void InsertarVehiculo(Vehiculo vehiculo)
+        {
+            try
+            {
+                Connect();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandText = "INSERT INTO vehiculo (matricula, modelo, marca, clienteId) VALUES (@matricula, @modelo, @marca, @clienteId)";
+                    cmd.Parameters.AddWithValue("@matricula", vehiculo.Matricula);
+                    cmd.Parameters.AddWithValue("@modelo", vehiculo.Modelo);
+                    cmd.Parameters.AddWithValue("@marca", vehiculo.Marca);
+                    cmd.Parameters.AddWithValue("@clienteId", vehiculo.ClienteId);
+
+                    Connect();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Se ha añadido correctamente el vehículo.", "Inserción exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error al insertar vehículo '" + vehiculo.ToString() + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    Disconnect();
+                }
+            }
+        }
+
+        public Vehiculo SeleccionarVehiculoPorMatricula(string matricula)
+        {
+            Connect();
+            string query = "SELECT * FROM vehiculo WHERE matricula = @matricula";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@matricula", matricula);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Vehiculo vehiculo = new Vehiculo();
+                        vehiculo.Matricula = reader.GetString("matricula");
+                        vehiculo.Marca = reader.GetString("marca");
+                        vehiculo.Modelo = reader.GetString("modelo");
+                        vehiculo.ClienteId = reader.GetInt32("clienteId");
+                        Disconnect();
+                        return vehiculo;
+                    }
+                }
+            }
+            Disconnect();
+            return null;
+        }
+
+        public void EliminarVehiculoPorMatricula(String matricula)
+        {
+            try
+            {
+                Connect();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandText = "DELETE FROM vehiculo WHERE matricula = @matricula";
+                    cmd.Parameters.AddWithValue("@matricula", matricula);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.StackTrace);
+                MessageBox.Show("Error al eliminar el vehiculo con matrícula '" + matricula + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    Disconnect();
+                }
+            }
+        }
+
+        public void EditarVehiculoPorMatricula(String matricula, Vehiculo vehiculo)
+        {
+            try
+            {
+                Connect();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandText = "UPDATE vehiculo SET matricula=@nuevaMatricula, marca=@marca, modelo=@modelo, clienteId=@clienteId WHERE matricula=@viejaMatricula";
+
+                    cmd.Parameters.AddWithValue("@nuevaMatricula", vehiculo.Matricula);
+                    cmd.Parameters.AddWithValue("@viejaMatricula", matricula);
+                    cmd.Parameters.AddWithValue("@marca", vehiculo.Marca);
+                    cmd.Parameters.AddWithValue("@modelo", vehiculo.Modelo);
+                    cmd.Parameters.AddWithValue("@clienteId", vehiculo.ClienteId);
+
+                    cmd.ExecuteNonQuery();
+                    Disconnect();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.StackTrace);
+                MessageBox.Show("Error al editar el vehiculo con matrícula '" + matricula + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    Disconnect();
+                }
+            }
         }
 
     }

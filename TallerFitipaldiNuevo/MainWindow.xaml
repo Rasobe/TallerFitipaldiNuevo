@@ -15,7 +15,20 @@
         <TextBox x:Name="tb_username" HorizontalAlignment="Center" Height="46" Margin="0,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="532" VerticalContentAlignment="Center" TabIndex="0" FontSize="18" HorizontalContentAlignment="Left" KeyDown="presionar_enter" Text="cliente1"/>
         <Label Content="Usuario&#xA;" HorizontalAlignment="Left" Margin="334,271,0,0" VerticalAlignment="Top" Width="121" Height="44" Foreground="White" FontSize="18"/>
         <Label Content="Contraseña&#xA;" HorizontalAlignment="Left" Margin="334,378,0,0" VerticalAlignment="Top" Width="121" Height="46" Foreground="White" FontSize="18"/>
-        <Button x:Name="bt_iniciar_sesion" Content="Iniciar sesión" HorizontalAlignment="Center" Margin="0,496,0,0" VerticalAlignment="Top" Height="46" Width="222" Background="#FFE0000B" Click="bt_iniciar_sesion_Click" TabIndex="2" FontSize="20" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" KeyDown="presionar_enter"/>
+        <Button x:Name="bt_iniciar_sesion" Content="Iniciar sesión" HorizontalAlignment="Center" Height="51" Margin="0,498,0,0" VerticalAlignment="Top" Width="260" Background="#FF191919" Click="bt_iniciar_sesion_Click" TabIndex="2" FontSize="20" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" KeyDown="presionar_enter">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
         <PasswordBox x:Name="pb_password" HorizontalAlignment="Center" Margin="0,423,0,0" VerticalAlignment="Top" Width="532" Height="44" VerticalContentAlignment="Center" TabIndex="1" FontSize="18" HorizontalContentAlignment="Left" KeyDown="presionar_enter" Password="password1"/>
         <Label Content="¿No tienes cuenta?" HorizontalAlignment="Left" Margin="469,598,0,0" VerticalAlignment="Top" Foreground="White" VerticalContentAlignment="Center" Height="46" Width="185" HorizontalContentAlignment="Center" FontSize="18"/>
         <Label x:Name="lbl_resgister" Content="Regístrate" HorizontalAlignment="Left" Margin="643,600,0,0" VerticalAlignment="Top" Foreground="#FFEA000B" VerticalContentAlignment="Center" Cursor="Hand" ForceCursor="True" MouseDown="lbl_resgister_MouseDown" TabIndex="4" FontStyle="Italic" Height="44" Width="103" HorizontalContentAlignment="Center" FontSize="18" BorderBrush="White"/>

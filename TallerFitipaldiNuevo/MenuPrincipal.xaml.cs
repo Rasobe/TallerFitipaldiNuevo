@@ -33,15 +33,8 @@ namespace TallerFitipaldiNuevo
 
         private void bt_vehiculos_Click(object sender, RoutedEventArgs e)
         {
-            if (clienteActual.Rol.Equals("USER"))
-            {
-                
-            }
-            else if (clienteActual.Rol.Equals("ADMIN"))
-            {
-                Vehiculos vehiculos = new Vehiculos();
-                vehiculos.Show();
-            }
+            Vehiculos vehiculos = new Vehiculos();
+            vehiculos.Show();
         }
 
         private void MiCuenta_Click(object sender, RoutedEventArgs e)
