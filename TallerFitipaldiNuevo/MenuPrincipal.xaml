@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="MenuPrincipal" Height="700" Width="1200" Icon="/img/icon.png" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="MenuPrincipal" Height="1080" Width="1920" Icon="/img/icon.png" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
-        
+        <Grid.Background>
+            <ImageBrush ImageSource="/img/fondoTalleresFitipaldi.jpg"/>
+        </Grid.Background>
+
     </Grid>
 </Window>

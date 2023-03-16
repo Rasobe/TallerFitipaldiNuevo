@@ -26,7 +26,12 @@ namespace TallerFitipaldiNuevo
         public MenuPrincipal()
         {
             InitializeComponent();
-            Console.WriteLine(clienteActual.ToString());
+            CrearToolBar();
+        }
+
+        private void CrearToolBar()
+        {
+
         }
     }
 }
