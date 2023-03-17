@@ -22,8 +22,9 @@ namespace TallerFitipaldiNuevo
             tb_ubicacion.MaxLength = 100;
             tb_username.MaxLength = 50;
             pb_password.MaxLength = 50;
-            cb_roles.Items.Add("ADMIN");
             cb_roles.Items.Add("USER");
+            cb_roles.Items.Add("MECANICO");
+            cb_roles.Items.Add("ADMIN");
 
         }
 
@@ -34,7 +35,15 @@ namespace TallerFitipaldiNuevo
 
         private void MenuItemVehiculos_Click(object sender, RoutedEventArgs e)
         {
+            var selectedRow = ClientesDataGrid.SelectedItem;
 
+            if (selectedRow != null)
+            {
+                Cliente clieeteSeleccionado = (Cliente)selectedRow;
+                ClienteVer.clienteVerVehiculosReparaciones = connector.SeleccionarClientePorUsername(clieeteSeleccionado.Username);
+                VehiculoDeCliente vehiculoDeCliente = new VehiculoDeCliente();
+                vehiculoDeCliente.Show();
+            }
         }
 
         private void MenuItemEditar_Click(object sender, RoutedEventArgs e)
@@ -43,9 +52,9 @@ namespace TallerFitipaldiNuevo
 
             if (selectedRow != null)
             {
-                Cliente clineteSeleccionado = (Cliente)selectedRow;
-                rellenarCasillas(clineteSeleccionado);
-                tb_username_buscar.Text = clineteSeleccionado.Username;
+                Cliente clienteSeleccionado = (Cliente)selectedRow;
+                rellenarCasillas(clienteSeleccionado);
+                tb_username_buscar.Text = clienteSeleccionado.Username;
                 activarOpcionesEditar();
             }
         }
@@ -201,7 +210,7 @@ namespace TallerFitipaldiNuevo
                         {
                             MessageBox.Show("No se ha aplicado ningún cambio al usuario " + clienteParaEditar.Username + ".", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
-                    } 
+                    }
                     else
                     {
                         MessageBox.Show("No te puedes editar a ti mismo desde esta pestaña. Ve a 'Configuración -> Mi perfil' para editar tu perfil.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

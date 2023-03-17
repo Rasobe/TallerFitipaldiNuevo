@@ -9,14 +9,14 @@ namespace TallerFitipaldiNuevo.Clases
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        private int id;
-        private String username;
-        private String password;
-        private String nombre;
-        private String apellidos;
-        private String telefono;
-        private String ubicacion;
-        private String rol;
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Nombre { get; set; }
+        public string Apellidos { get; set; }
+        public string Telefono { get; set; }
+        public string Ubicacion { get; set; }
+        public string Rol { get; set; }
 
         // Propiedad de navegación para la relación One2Many
         public virtual ICollection<Vehiculo> Vehiculos { get; set; }
@@ -29,25 +29,25 @@ namespace TallerFitipaldiNuevo.Clases
 
         public Cliente(int id, string username, string password, string nombre, string apellidos, string telefono, string ubicacion, string rol)
         {
-            this.id = id;
-            this.username = username;
-            this.password = password;
-            this.nombre = nombre;
-            this.apellidos = apellidos;
-            this.telefono = telefono;
-            this.ubicacion = ubicacion;
-            this.rol = rol;
+            Id = id;
+            Username = username;
+            Password = password;
+            Nombre = nombre;
+            Apellidos = apellidos;
+            Telefono = telefono;
+            Ubicacion = ubicacion;
+            Rol = rol;
         }
 
         public Cliente(string username, string password, string nombre, string apellidos, string telefono, string ubicacion, string rol)
         {
-            this.username = username;
-            this.password = password;
-            this.nombre = nombre;
-            this.apellidos = apellidos;
-            this.telefono = telefono;
-            this.ubicacion = ubicacion;
-            this.rol = rol;
+            Username = username;
+            Password = password;
+            Nombre = nombre;
+            Apellidos = apellidos;
+            Telefono = telefono;
+            Ubicacion = ubicacion;
+            Rol = rol;
 
             // Inicializamos la lista de vehículos
             this.Vehiculos = new HashSet<Vehiculo>();
@@ -55,26 +55,17 @@ namespace TallerFitipaldiNuevo.Clases
 
         public Cliente(string username, string password, string nombre, string apellidos, string telefono, string ubicacion)
         {
-            this.username = username;
-            this.password = password;
-            this.nombre = nombre;
-            this.apellidos = apellidos;
-            this.telefono = telefono;
-            this.ubicacion = ubicacion;
+            Username = username;
+            Password = password;
+            Nombre = nombre;
+            Apellidos = apellidos;
+            Telefono = telefono;
+            Ubicacion = ubicacion;
         }
-
-        public int Id { get => id; set => id = value; }
-        public string Username { get => username; set => username = value; }
-        public string Password { get => password; set => password = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Apellidos { get => apellidos; set => apellidos = value; }
-        public string Telefono { get => telefono; set => telefono = value; }
-        public string Ubicacion { get => ubicacion; set => ubicacion = value; }
-        public string Rol { get => rol; set => rol = value; }
 
         public override string ToString()
         {
-            return $"Cliente: [Id: {id}, Username: {username}, Password: {password}, Nombre: {nombre}, Apellidos: {apellidos}, Telefono: {telefono}, Ubicacion: {ubicacion}, Rol: {rol}]";
+            return $"Cliente: [Id: {Id}, Username: {Username}, Password: {Password}, Nombre: {Nombre}, Apellidos: {Apellidos}, Telefono: {Telefono}, Ubicacion: {Ubicacion}, Rol: {Rol}]";
         }
 
     }

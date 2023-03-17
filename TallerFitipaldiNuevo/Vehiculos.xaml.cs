@@ -26,7 +26,7 @@ namespace TallerFitipaldiNuevo
             cb_tipo.Items.Add("Tractor");
             cb_tipo.Items.Add("Camión");
 
-            if (!Sesion.ClienteActual.Rol.Equals("ADMIN"))
+            if (Sesion.ClienteActual.Rol.Equals("USER"))
             {
                 rect_clientes_id.Visibility = Visibility.Collapsed;
                 lbl_busca_id_cliente.Visibility = Visibility.Collapsed;
@@ -55,7 +55,7 @@ namespace TallerFitipaldiNuevo
                 Vehiculo vehiculo = connector.SeleccionarVehiculoPorMatricula(tb_matricula_buscar.Text);
                 if (vehiculo != null)
                 {
-                    if (!Sesion.ClienteActual.Rol.Equals("ADMIN"))
+                    if (Sesion.ClienteActual.Rol.Equals("USER"))
                     {
                         if (vehiculo.ClienteId.Equals(Sesion.ClienteActual.Id))
                         {
@@ -209,7 +209,7 @@ namespace TallerFitipaldiNuevo
 
         private void actualizarDataGrid()
         {
-            if (Sesion.ClienteActual.Rol.Equals("ADMIN"))
+            if (!Sesion.ClienteActual.Rol.Equals("USER"))
             {
                 VehiculosDataGrid.ItemsSource = connector.SeleccionarTodosLosVehiculos();
             }
@@ -311,5 +311,6 @@ namespace TallerFitipaldiNuevo
                 bt_filtrar_por_username_Click(sender, e);
             }
         }
+
     }
 }

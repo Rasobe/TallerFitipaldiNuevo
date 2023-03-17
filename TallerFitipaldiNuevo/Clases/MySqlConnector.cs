@@ -455,7 +455,7 @@ namespace TallerFitipaldiNuevo.Clases
             return null;
         }
 
-        public void EliminarVehiculoPorMatricula(String matricula)
+        public void EliminarVehiculoPorMatricula(string matricula)
         {
             try
             {
@@ -471,7 +471,7 @@ namespace TallerFitipaldiNuevo.Clases
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.StackTrace);
-                MessageBox.Show("Error al eliminar el vehiculo con matrícula '" + matricula + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error al eliminar el vehículo con matrícula '" + matricula + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Disconnect();
             }
             finally
@@ -518,6 +518,21 @@ namespace TallerFitipaldiNuevo.Clases
                 }
             }
         }
+
+
+        //
+        //
+        // PIEZAS
+        //
+        //
+
+
+
+        //
+        //
+        // REPARACIONES
+        //
+        //
 
     }
 }

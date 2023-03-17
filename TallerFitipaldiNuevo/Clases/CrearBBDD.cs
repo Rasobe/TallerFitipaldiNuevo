@@ -45,29 +45,56 @@ namespace TallerFitipaldiNuevo.Clases
                 Console.WriteLine("Conexión establecida con éxito.");
 
                 string createClienteTable = @"
-            CREATE TABLE IF NOT EXISTS Cliente (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                username VARCHAR(50) NOT NULL,
-                password VARCHAR(50) NOT NULL,
-                nombre VARCHAR(50) NOT NULL,
-                apellidos VARCHAR(50) NOT NULL,
-                telefono VARCHAR(20),
-                ubicacion VARCHAR(100),
-                rol VARCHAR(20)
-            );
-        ";
+                 CREATE TABLE IF NOT EXISTS Cliente (
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    username VARCHAR(50) NOT NULL UNIQUE,
+                    password VARCHAR(50) NOT NULL,
+                    nombre VARCHAR(50) NOT NULL,
+                    apellidos VARCHAR(50) NOT NULL,
+                    telefono VARCHAR(20),
+                    ubicacion VARCHAR(100),
+                    rol VARCHAR(20)
+                );
+            ";
 
                 string createVehiculoTable = @"
-            CREATE TABLE IF NOT EXISTS Vehiculo (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                matricula VARCHAR(10) NOT NULL,
-                tipo VARCHAR(50) NOT NULL,
-                modelo VARCHAR(50) NOT NULL,
-                marca VARCHAR(50) NOT NULL,
-                clienteId INT,
-                FOREIGN KEY (clienteId) REFERENCES Cliente(id) ON DELETE CASCADE
-            );
-        ";
+                CREATE TABLE IF NOT EXISTS Vehiculo (
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    matricula VARCHAR(10) NOT NULL UNIQUE,
+                    tipo VARCHAR(50) NOT NULL,
+                    modelo VARCHAR(50) NOT NULL,
+                    marca VARCHAR(50) NOT NULL,
+                    clienteId INT,
+                    FOREIGN KEY (clienteId) REFERENCES Cliente(id) ON DELETE CASCADE ON UPDATE CASCADE
+                );
+            ";
+
+                string createPiezasTable = @"
+                CREATE TABLE IF NOT EXISTS Pieza (
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    nombre VARCHAR(50) NOT NULL,
+                    descripcion VARCHAR(255) NOT NULL,
+                    stock INT NOT NULL,
+                    precio float NOT NULL,
+                    vehiculoId INT,
+                    FOREIGN KEY (vehiculoId) REFERENCES Vehiculo(id) ON DELETE CASCADE ON UPDATE CASCADE
+                );
+            ";
+
+                string createReparacionesTable = @"
+                CREATE TABLE IF NOT EXISTS Reparacion (
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    vehiculoId INT NOT NULL,
+                    horas DECIMAL(10,2) NOT NULL,
+                    precioSinIva DECIMAL(10,2) NOT NULL,
+                    iva DECIMAL(10,2) NOT NULL,
+                    precioTotal DECIMAL(10,2) AS (precioSinIva + (precioSinIva * iva / 100)),
+                    mecanicoId INT NOT NULL,
+                    finalizado BIT NOT NULL,
+                    FOREIGN KEY (vehiculoId) REFERENCES Vehiculo(id) ON DELETE CASCADE ON UPDATE CASCADE, 
+                    FOREIGN KEY (mecanicoId) REFERENCES Cliente(id) ON DELETE CASCADE ON UPDATE CASCADE
+                );
+            ";
 
                 MySqlCommand command = new MySqlCommand(createClienteTable, this.connection);
                 command.ExecuteNonQuery();
@@ -76,6 +103,15 @@ namespace TallerFitipaldiNuevo.Clases
                 command.CommandText = createVehiculoTable;
                 command.ExecuteNonQuery();
                 Console.WriteLine("Tabla Vehiculo creada o ya existente.");
+
+                command.CommandText = createPiezasTable;
+                command.ExecuteNonQuery();
+                Console.WriteLine("Tabla Pieza creada o ya existente.");
+
+                command.CommandText = createReparacionesTable;
+                command.ExecuteNonQuery();
+                Console.WriteLine("Tabla Reparaciones creada o ya existente.");
+
             }
             catch (MySqlException ex)
             {
@@ -113,34 +149,34 @@ namespace TallerFitipaldiNuevo.Clases
                     INSERT INTO Cliente (username, password, nombre, apellidos, telefono, ubicacion, rol)
                     VALUES
                         ('cliente1', 'password1', 'Juan', 'Pérez', '+34 123456789', 'Madrid, España', 'ADMIN'), 
-                        ('cliente2', 'password2', 'María', 'García', '+34 234567890', 'Barcelona, España', 'ADMIN'), 
+                        ('cliente2', 'password2', 'María', 'García', '+34 234567890', 'Barcelona, España', 'MECANICO'), 
                         ('cliente3', 'password3', 'Carlos', 'Fernández','+34 345678901','Valencia, España','USER'), 
                         ('cliente4', 'password4','Ana','Rodríguez','+34 456789012','Sevilla, España','USER'), 
                         ('cliente5', 'password5','David','González','+34 567890123','Zaragoza, España','USER'),
                         ('cliente6', 'password6', 'Juan', 'Pérez', '+34 123456789', 'Madrid', 'USER'),
-                        ('cliente7', 'password7', 'María', 'García', '+34 234567890', 'Barcelona','USER'),
+                        ('cliente7', 'password7', 'María', 'García', '+34 234567890', 'Barcelona','MECANICO'),
                         ('cliente8', 'password8', 'Carlos','Fernández','+34 345678901','Valencia','USER'),
                         ('cliente9', 'password9','Ana','Rodríguez','+34 456789012','Sevilla','USER'),
                         ('cliente10', 'password10','David','González','+34 567890123','Zaragoza','USER'),
                         ('cliente11', 'password11', 'Lucía', 'Martínez', '+34 678901234', 'Bilbao, España', 'ADMIN'),
                         ('cliente12', 'password12', 'Javier', 'López', '+34 789012345', 'Málaga, España', 'ADMIN'),
                         ('cliente13', 'password13','Sofía','Gómez','+34 890123456','Alicante, España','USER'),
-                        ('cliente14', 'password14','Miguel','Sánchez','+34 901234567','Córdoba, España','USER'),
+                        ('cliente14', 'password14','Miguel','Sánchez','+34 901234567','Córdoba, España','MECANICO'),
                         ('cliente15', 'password15','Laura','Romero','+34 012345678','Valladolid, España' ,'USER'),
                         ('cliente16', 'password16', 'Daniel', 'Alonso' ,'+34 123456780' ,'Vigo ,España' ,'USER'),
                         ('cliente17', 'password17' ,'Isabel' ,'Castro' ,'+34 234567801' ,'Gijón ,España' ,'USER'),
                         ('cliente18', 'password18' ,'Sergio' ,'Ortega' ,'+34 345678012 ','Granada ,España ','USER'),
-                        ('cliente19', 'password19 ','Elena ','Torres ','+34 456780123 ','Oviedo ,España ','USER'),
+                        ('cliente19', 'password19 ','Elena ','Torres ','+34 456780123 ','Oviedo ,España ','MECANICO'),
                         ('cliente20', 'password20', 'Carmen', 'Gutiérrez', '+34 678901235', 'Pamplona, España', 'ADMIN'),
                         ('cliente21', 'password21', 'Antonio', 'Jiménez', '+34 789012346', 'San Sebastián, España', 'ADMIN'),
                         ('cliente22', 'password22','Marta','Navarro','+34 890123457','Burgos, España','USER'),
                         ('cliente23', 'password23','Pedro','Díaz','+34 901234568','Salamanca, España','USER'),
-                        ('cliente24', 'password24','Teresa' ,'Santos' ,'+34 012345679' ,'Toledo ,España' ,'USER'),
+                        ('cliente24', 'password24','Teresa' ,'Santos' ,'+34 012345679' ,'Toledo ,España' ,'MECANICO'),
                         ('cliente25', 'password25' ,'Fernando' ,'Domínguez' ,'+34 123456781' ,'León ,España ','USER'),
                         ('cliente26', 'password26 ','Pilar ','Vázquez ','+34 234567802 ','Lleida ,España ','USER'),
                         ('cliente27', 'password27', 'Carmen', 'Gutiérrez', '+34 678901235', 'Pamplona, España', 'ADMIN'),
-                        ('cliente28', 'password28', 'Antonio', 'Jiménez', '+34 789012346', 'San Sebastián, España', 'ADMIN'),
-                        ('cliente29', 'password29','Marta','Navarro','+34 890123457','Burgos, España','USER'),
+                        ('cliente28', 'password28', 'Antonio', 'Jiménez', '+34 789012346', 'San Sebastián, España', 'MECANICO'),
+                        ('cliente29', 'password29','Marta','Navarro','+34 890123457','Burgos, España','MECANICO'),
                         ('cliente30', 'password30','Pedro','Díaz','+34 901234568','Salamanca, España','USER'),
                         ('cliente31', 'password31', 'Carmen', 'Gutiérrez', '+34 678901235', 'Pamplona, España', 'ADMIN'),
                         ('cliente32', 'password32', 'Antonio', 'Jiménez', '+34 789012346', 'San Sebastián, España', 'ADMIN'),
@@ -153,8 +189,8 @@ namespace TallerFitipaldiNuevo.Clases
                         ('cliente39', 'password39','Marta','Navarro','+34 890123457','Burgos, España','USER'),
                         ('cliente40', 'password40','Pedro','Díaz','+34 901234568','Salamanca, España','USER'),
                         ('cliente41', 'password41' ,'Teresa' ,'Santos' ,'+34 012345679' ,'Toledo ,España' ,'USER'),
-                        ('cliente42', 'password42' ,'Fernando' ,'Domínguez' ,'+34 123456781' ,'León ,España ','USER'),
-                        ('cliente43', 'password43 ','Pilar ','Vázquez ','+34 234567802 ','Lleida ,España ','USER')
+                        ('cliente42', 'password42' ,'Fernando' ,'Domínguez' ,'+34 123456781' ,'León ,España ','MECANICO'),
+                        ('cliente43', 'password43 ','Pilar ','Vázquez ','+34 234567802 ','Lleida ,España ','MECANICO')
                     ;
                 ";
                     MySqlCommand command = new MySqlCommand(insertCliente, this.connection);
@@ -162,13 +198,13 @@ namespace TallerFitipaldiNuevo.Clases
                     Console.WriteLine("Datos de prueba insertados en la tabla Cliente.");
                 }
 
-                // Verificar si ya existen registros en la tabla Cliente.
+                // Verificar si ya existen registros en la tabla Vehiculo.
                 selectCliente = "SELECT COUNT(*) FROM Vehiculo";
                 selectCommand = new MySqlCommand(selectCliente, this.connection);
                 result = selectCommand.ExecuteScalar();
                 count = Convert.ToInt32(result);
 
-                // Si no se encuentran registros en la tabla Cliente, insertar datos de prueba
+                // Si no se encuentran registros en la tabla Vehiculo, insertar datos de prueba
                 if (count == 0)
                 {
 
@@ -208,11 +244,72 @@ namespace TallerFitipaldiNuevo.Clases
                         ('ABD0000','Tractor', 'Axion Series ', 'Claas',(SELECT id FROM Cliente WHERE username='cliente7'))
                     ; 
                 ";
+
                     MySqlCommand command = new MySqlCommand(insertVehiculo, this.connection);
                     command.ExecuteNonQuery();
                     Console.WriteLine("Datos de prueba insertados en la tabla Vehiculo.");
                 }
 
+                // Verificar si ya existen registros en la tabla Pieza.
+                selectCliente = "SELECT COUNT(*) FROM Pieza";
+                selectCommand = new MySqlCommand(selectCliente, this.connection);
+                result = selectCommand.ExecuteScalar();
+                count = Convert.ToInt32(result);
+
+                // Si no se encuentran registros en la tabla Pieza, insertar datos de prueba
+                if (count == 0)
+                {
+                    // Insertar datos de prueba en la tabla Pieza
+                    string insertPieza = @"
+                    INSERT INTO Pieza (nombre, descripcion, stock, precio, vehiculoId)
+                    VALUES ('Bujía', 'Descripción de la bujía', 10, 5.99, 1),
+                            ('Motor', 'Descripción del motor', 10, 500.00, 2),
+                            ('Llantas', 'Descripción de las llantas', 40, 75.00, 3),
+                            ('Frenos', 'Descripción de los frenos', 40, 100.00 ,2),
+                            ('Batería', 'Descripción de la batería', 20 ,50.00 ,2),
+                            ('Radiador', 'Descripción del radiador',10 ,80.00 ,1),
+                            ('Alternador','Descripción del alternador' ,10 ,120.00 ,3),
+                            ('Filtro de aire','Descripción del filtro de aire' ,30 ,15.99 ,2),
+                            ('Correa de distribución','Descripción de la correa de distribución' ,20 ,45.99 ,5),
+                            ('Embrague','Descripción del embrague' ,10 ,150.00 ,2),
+                            ('Amortiguadores','Descripción de los amortiguadores' ,40 ,200.00 ,2),
+                            ('Bomba de agua', 'Descripción de la bomba de agua', 10 ,30.00 ,8),
+                            ('Bomba de aceite', 'Descripción de la bomba de aceite', 10 ,40.00 ,5),
+                            ('Caja de cambios', 'Descripción de la caja de cambios', 10 ,300.00 ,3),
+                            ('Catalizador','Descripción del catalizador' ,10 ,250.00 ,2),
+                            ('Compresor del aire acondicionado','Descripción del compresor del aire acondicionado' ,10 ,150.00 ,1),
+                            ('Diferencial','Descripción del diferencial' ,10 ,200.00 ,2),
+                            ('Escape','Descripción del escape' ,10 ,100.00 ,3)
+                    ;
+                ";
+
+                    MySqlCommand command = new MySqlCommand(insertPieza, this.connection);
+                    command.ExecuteNonQuery();
+                    Console.WriteLine("Datos de prueba insertados en la tabla Pieza.");
+                }
+
+                selectCliente = "SELECT COUNT(*) FROM Reparacion";
+                selectCommand = new MySqlCommand(selectCliente, this.connection);
+                result = selectCommand.ExecuteScalar();
+                count = Convert.ToInt32(result);
+
+                // Si no se encuentran registros en la tabla Reparacion, insertar datos de prueba
+                if (count == 0)
+                {
+                    // Insertar datos de prueba en la tabla Reparacion
+                    string insertReparacion = @"
+                    INSERT INTO Reparacion (vehiculoId, horas, precioSinIva, iva, mecanicoId, finalizado)
+                        VALUES 
+                        (1, 10.5, 100.0, 21.0 ,1 ,0),
+                        (2 ,5.0 ,50.0 ,21.0 ,2 ,1),
+                        (3 ,8.5 ,75.0 ,21.0 ,3 ,1)
+                    ;
+                ";
+
+                    MySqlCommand command = new MySqlCommand(insertReparacion, this.connection);
+                    command.ExecuteNonQuery();
+                    Console.WriteLine("Datos de prueba insertados en la tabla Reparacion.");
+                }
             }
             catch (Exception e)
             {

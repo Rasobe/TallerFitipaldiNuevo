@@ -12,40 +12,36 @@ namespace TallerFitipaldiNuevo.Clases
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        private int id;
-        private string tipo;
-        private string matricula;
-        private string modelo;
-        private string marca;
+        public int Id { get; set; }
+        public string Tipo { get; set; }
+        public string Matricula { get; set; }
+        public string Modelo { get; set; }
+        public string Marca { get; set; }
 
         [ForeignKey("Cliente")]
-        private int clienteId;
-        private Cliente cliente;
+        public int ClienteId { get; set; }
+        public virtual Cliente Cliente { get; set; }
+
+        public virtual ICollection<Pieza> Piezas { get; set; }
 
         public Vehiculo()
         {
+            Piezas = new HashSet<Pieza>();
         }
 
         public Vehiculo(string matricula, string tipo, string modelo, string marca, int clienteId)
+            : this()
         {
-            this.tipo = tipo;
-            this.matricula = matricula;
-            this.modelo = modelo;
-            this.marca = marca;
-            this.clienteId = clienteId;
+            Tipo = tipo;
+            Matricula = matricula;
+            Modelo = modelo;
+            Marca = marca;
+            ClienteId = clienteId;
         }
-
-        public string Tipo { get => tipo; set => tipo = value; }
-        public int Id { get => id; set => id = value; }
-        public string Matricula { get => matricula; set => matricula = value; }
-        public string Modelo { get => modelo; set => modelo = value; }
-        public string Marca { get => marca; set => marca = value; }
-        public int ClienteId { get => clienteId; set => clienteId = value; }
-        public Cliente Cliente { get => cliente; set => cliente = value; }
 
         public override string ToString()
         {
-            return $"Vehiculo: Id = {id}, Tipo = {tipo}, Matricula = {matricula}, Modelo = {modelo}, Marca = {marca}, ClienteId = {clienteId}";
+            return $"Vehiculo: Tipo = {Tipo}, Matricula = {Matricula}, Modelo = {Modelo}, Marca = {Marca}";
         }
     }
 }

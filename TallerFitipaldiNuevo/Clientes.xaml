@@ -86,7 +86,7 @@
         <Label Content="Apellidos" HorizontalAlignment="Left" Margin="663,266,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="68" Height="26"/>
         <Label Content="Contraseña" HorizontalAlignment="Left" Margin="276,322,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="82" Height="25"/>
         <Label x:Name="lbl_id_cliente" Content="Id cliente" HorizontalAlignment="Left" Margin="982,322,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="90" Height="25"/>
-        <Button x:Name="bt_crear_editar_cliente" Content="Crear" HorizontalAlignment="Left" Height="28" Margin="322,393,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" FontSize="15" Click="bt_crear_editar_cliente_Click" TabIndex="9">
+        <Button x:Name="bt_crear_editar_cliente" Content="Crear" HorizontalAlignment="Left" Height="28" Margin="471,396,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" FontSize="15" Click="bt_crear_editar_cliente_Click" TabIndex="9">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -100,7 +100,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="bt_cancelar" Content="Cancelar" HorizontalAlignment="Left" Height="28" Margin="552,393,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_cancelar_operacion_Click" FontSize="15" TabIndex="10">
+        <Button x:Name="bt_cancelar" Content="Cancelar" HorizontalAlignment="Left" Height="28" Margin="701,396,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_cancelar_operacion_Click" FontSize="15" TabIndex="10">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">

@@ -111,6 +111,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Clases\ClienteVerVehiculosReparaciones.cs" />
+    <Compile Include="Clases\Pieza.cs" />
+    <Compile Include="Clases\Reparacion.cs" />
     <Compile Include="Clases\Sesion.cs" />
     <Compile Include="Clases\CrearBBDD.cs" />
     <Compile Include="Clases\MySqlConnector.cs" />
@@ -124,6 +127,12 @@
     </Compile>
     <Compile Include="Clientes.xaml.cs">
       <DependentUpon>Clientes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reparaciones.xaml.cs">
+      <DependentUpon>Reparaciones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VehiculoDeCliente.xaml.cs">
+      <DependentUpon>VehiculoDeCliente.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vehiculos.xaml.cs">
       <DependentUpon>Vehiculos.xaml</DependentUpon>
@@ -155,6 +164,14 @@
     <Page Include="Clientes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reparaciones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VehiculoDeCliente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vehiculos.xaml">
       <SubType>Designer</SubType>
@@ -199,6 +216,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\fondoMiperfil.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\fondo_reparaciones.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
