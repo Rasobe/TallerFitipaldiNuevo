@@ -313,6 +313,7 @@ namespace TallerFitipaldiNuevo.Clases
                     {
                         Vehiculo vehiculo = new Vehiculo();
                         vehiculo.Matricula = reader.GetString("matricula");
+                        vehiculo.Tipo = reader.GetString("tipo");
                         vehiculo.Marca = reader.GetString("marca");
                         vehiculo.Modelo = reader.GetString("modelo");
                         vehiculo.ClienteId = reader.GetInt32("clienteId");
@@ -338,6 +339,7 @@ namespace TallerFitipaldiNuevo.Clases
                     {
                         Vehiculo vehiculo = new Vehiculo();
                         vehiculo.Matricula = reader.GetString("matricula");
+                        vehiculo.Tipo = reader.GetString("tipo");
                         vehiculo.Marca = reader.GetString("marca");
                         vehiculo.Modelo = reader.GetString("modelo");
                         vehiculo.ClienteId = reader.GetInt32("clienteId");
@@ -357,8 +359,9 @@ namespace TallerFitipaldiNuevo.Clases
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
                     cmd.Connection = connection;
-                    cmd.CommandText = "INSERT INTO vehiculo (matricula, modelo, marca, clienteId) VALUES (@matricula, @modelo, @marca, @clienteId)";
+                    cmd.CommandText = "INSERT INTO vehiculo (matricula, tipo, modelo, marca, clienteId) VALUES (@matricula, @tipo, @modelo, @marca, @clienteId)";
                     cmd.Parameters.AddWithValue("@matricula", vehiculo.Matricula);
+                    cmd.Parameters.AddWithValue("@tipo", vehiculo.Tipo);
                     cmd.Parameters.AddWithValue("@modelo", vehiculo.Modelo);
                     cmd.Parameters.AddWithValue("@marca", vehiculo.Marca);
                     cmd.Parameters.AddWithValue("@clienteId", vehiculo.ClienteId);
@@ -395,6 +398,7 @@ namespace TallerFitipaldiNuevo.Clases
                     {
                         Vehiculo vehiculo = new Vehiculo();
                         vehiculo.Matricula = reader.GetString("matricula");
+                        vehiculo.Tipo = reader.GetString("tipo");
                         vehiculo.Marca = reader.GetString("marca");
                         vehiculo.Modelo = reader.GetString("modelo");
                         vehiculo.ClienteId = reader.GetInt32("clienteId");
@@ -443,10 +447,11 @@ namespace TallerFitipaldiNuevo.Clases
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
                     cmd.Connection = connection;
-                    cmd.CommandText = "UPDATE vehiculo SET matricula=@nuevaMatricula, marca=@marca, modelo=@modelo, clienteId=@clienteId WHERE matricula=@viejaMatricula";
+                    cmd.CommandText = "UPDATE vehiculo SET matricula=@nuevaMatricula, tipo=@tipo, marca=@marca, modelo=@modelo, clienteId=@clienteId WHERE matricula=@viejaMatricula";
 
                     cmd.Parameters.AddWithValue("@nuevaMatricula", vehiculo.Matricula);
                     cmd.Parameters.AddWithValue("@viejaMatricula", matricula);
+                    cmd.Parameters.AddWithValue("@tipo", vehiculo.Tipo);
                     cmd.Parameters.AddWithValue("@marca", vehiculo.Marca);
                     cmd.Parameters.AddWithValue("@modelo", vehiculo.Modelo);
                     cmd.Parameters.AddWithValue("@clienteId", vehiculo.ClienteId);

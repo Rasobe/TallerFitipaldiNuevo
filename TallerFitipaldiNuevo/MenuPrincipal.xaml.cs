@@ -9,17 +9,20 @@ namespace TallerFitipaldiNuevo
     public partial class MenuPrincipal : Window
     {
 
-        Cliente clienteActual = Sesion.ClienteActual;
+        Cliente clienteActual;
 
         public MenuPrincipal()
         {
+
+            clienteActual = Sesion.ClienteActual;
+
             InitializeComponent();
             tb_bienvenida_Copy.Text = clienteActual.Username;
 
             if (clienteActual.Rol.Equals("USER"))
             {
                 bt_vehiculos.Content = "Mis vehículos";
-                bt_reparaciones.Visibility = Visibility.Collapsed;
+                bt_reparaciones.Content = "Mis reparaciones";
                 bt_clientes.Visibility = Visibility.Collapsed;
             }
             else if (clienteActual.Rol.Equals("ADMIN"))
@@ -39,7 +42,9 @@ namespace TallerFitipaldiNuevo
 
         private void MiCuenta_Click(object sender, RoutedEventArgs e)
         {
-            // Acción para la opción "Mis vehículos"
+            MiPerfil miPerfil = new MiPerfil();
+            miPerfil.Show();
+            this.Close();
         }
 
         private void CerrarSesion_Click(object sender, RoutedEventArgs e)
@@ -50,6 +55,14 @@ namespace TallerFitipaldiNuevo
             this.Close();
         }
 
+        private void bt_reparaciones_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        private void bt_clientes_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

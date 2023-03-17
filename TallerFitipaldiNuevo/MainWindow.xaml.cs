@@ -49,9 +49,8 @@ namespace TallerFitipaldiNuevo
                 if (loginSucces)
                 {
                     Sesion.ClienteActual = mySqlConnector.SeleccionarClientePorUsername(tb_username.Text);
-                    MenuPrincipal menu = new MenuPrincipal();
+                    new MenuPrincipal().Show();
                     this.Close();
-                    menu.Show();
                 }
                 else
                 {

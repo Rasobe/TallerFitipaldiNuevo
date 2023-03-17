@@ -17,6 +17,14 @@ namespace TallerFitipaldiNuevo
             actualizarDataGrid();
             tb_matricula_vehiculo.MaxLength = 10;
 
+            cb_tipo.Items.Add("Moto");
+            cb_tipo.Items.Add("Ciclomotor");
+            cb_tipo.Items.Add("Coche");
+            cb_tipo.Items.Add("Furgoneta");
+            cb_tipo.Items.Add("Autocarabana");
+            cb_tipo.Items.Add("Tractor");
+            cb_tipo.Items.Add("Camión");
+
             if (!Sesion.ClienteActual.Rol.Equals("ADMIN"))
             {
                 rect_clientes_id.Visibility = Visibility.Collapsed;
@@ -45,19 +53,16 @@ namespace TallerFitipaldiNuevo
                         if (vehiculo.ClienteId.Equals(Sesion.ClienteActual.Id))
                         {
                             rellenarCasillas(vehiculo);
-                            tb_matricula_buscar.Text = "";
                             activarOpcionesEdicion();
                         }
                         else
                         {
                             MessageBox.Show("No puedes buscar vehículos que no sean de tu propiedad.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            tb_matricula_buscar.Text = "";
                         }
                     }
                     else
                     {
                         rellenarCasillas(vehiculo);
-                        tb_matricula_buscar.Text = "";
                         activarOpcionesEdicion();
                     }
                 }
@@ -71,11 +76,6 @@ namespace TallerFitipaldiNuevo
             {
                 MessageBox.Show("Debe estar el campo relleno para iniciar la búsqueda.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }
-
-        private void presionar_enter(object sender, KeyEventArgs e)
-        {
-
         }
 
         private void MenuItemEditar_Click(object sender, RoutedEventArgs e)
@@ -100,7 +100,7 @@ namespace TallerFitipaldiNuevo
                     MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas editar el vehículo con matrícula '", tb_matricula_vehiculo.Text, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
-                        connector.EditarVehiculoPorMatricula(tb_matricula_buscar.Text, new Vehiculo(tb_matricula_vehiculo.Text, tb_modelo_vehiculo.Text, tb_marca_vehiculo.Text, int.Parse(tb_id_cliente_vehiculo.Text)));
+                        connector.EditarVehiculoPorMatricula(tb_matricula_buscar.Text, new Vehiculo(tb_matricula_vehiculo.Text, cb_tipo.SelectedItem.ToString(), tb_modelo_vehiculo.Text, tb_marca_vehiculo.Text, int.Parse(tb_id_cliente_vehiculo.Text)));
                         desactivarOpcionesEdicion();
                         actualizarDataGrid();
                         limpiarCasillas();
@@ -108,18 +108,25 @@ namespace TallerFitipaldiNuevo
                 }
                 else
                 {
-                    Vehiculo vehiculo;
-                    if (tb_id_cliente_vehiculo.Text.Length == 0)
+                    if (tb_matricula_vehiculo.Text.Length > 0 && tb_marca_vehiculo.Text.Length > 0 && tb_modelo_vehiculo.Text.Length > 0 && cb_tipo.SelectedIndex != -1 && tb_id_cliente_vehiculo.Text.Length > 0)
                     {
-                        vehiculo = new Vehiculo(tb_matricula_vehiculo.Text, tb_modelo_vehiculo.Text, tb_marca_vehiculo.Text, Sesion.ClienteActual.Id);
+                        Vehiculo vehiculo;
+                        if (tb_id_cliente_vehiculo.Text.Length == 0)
+                        {
+                            vehiculo = new Vehiculo(tb_matricula_vehiculo.Text, cb_tipo.SelectedItem.ToString(), tb_modelo_vehiculo.Text, tb_marca_vehiculo.Text, Sesion.ClienteActual.Id);
+                        }
+                        else
+                        {
+                            vehiculo = new Vehiculo(tb_matricula_vehiculo.Text, cb_tipo.SelectedItem.ToString(), tb_modelo_vehiculo.Text, tb_marca_vehiculo.Text, int.Parse(tb_id_cliente_vehiculo.Text));
+                        }
+                        connector.InsertarVehiculo(vehiculo);
+                        actualizarDataGrid();
+                        limpiarCasillas();
                     }
                     else
                     {
-                        vehiculo = new Vehiculo(tb_matricula_vehiculo.Text, tb_modelo_vehiculo.Text, tb_marca_vehiculo.Text, int.Parse(tb_id_cliente_vehiculo.Text));
+                        MessageBox.Show("Deben estar todos los campos rellenos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
-                    connector.InsertarVehiculo(vehiculo);
-                    actualizarDataGrid();
-                    limpiarCasillas();
                 }
             }
             catch
@@ -166,6 +173,14 @@ namespace TallerFitipaldiNuevo
             tb_marca_vehiculo.Text = vehiculo.Marca;
             tb_matricula_vehiculo.Text = vehiculo.Matricula;
             tb_modelo_vehiculo.Text = vehiculo.Modelo;
+            for (int i = 0; i < cb_tipo.Items.Count; i++)
+            {
+                if (cb_tipo.Items[i].Equals(vehiculo.Tipo))
+                {
+                    cb_tipo.SelectedIndex = i;
+                    break;
+                }
+            }
         }
 
         private void limpiarCasillas()
@@ -174,6 +189,8 @@ namespace TallerFitipaldiNuevo
             tb_marca_vehiculo.Text = "";
             tb_matricula_vehiculo.Text = "";
             tb_modelo_vehiculo.Text = "";
+            cb_tipo.Text = "";
+            cb_tipo.SelectedIndex = -1;
         }
 
         private void actualizarDataGrid()
@@ -224,5 +241,28 @@ namespace TallerFitipaldiNuevo
             }
         }
 
+        private void buscar_vehiculo(object sender, KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+                bt_buscar_vehiculo_matricula_Click(sender, e);
+            }
+        }
+
+        private void crear_editar_vehiculo(object sender, KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+                bt_crear_editar_Click(sender, e);
+            }
+        }
+
+        private void id_cliente_por_username(object sender, KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+                bt_buscar_id_por_username_Click(sender, e);
+            }
+        }
     }
 }
