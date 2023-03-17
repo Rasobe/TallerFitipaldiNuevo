@@ -37,6 +37,12 @@ namespace TallerFitipaldiNuevo
                 lbl_id_cliente_vehiculo.Visibility = Visibility.Collapsed;
                 tb_id_cliente_vehiculo.Visibility = Visibility.Collapsed;
                 bt_buscar_id_usuario_por_username.Visibility = Visibility.Collapsed;
+                rect_filtro.Visibility = Visibility.Collapsed;
+                lbl_filtro.Visibility = Visibility.Collapsed;
+                lbl_username_Copy.Visibility = Visibility.Collapsed;
+                tb_filtrar_por_username.Visibility = Visibility.Collapsed;
+                bt_filtrar_por_username.Visibility = Visibility.Collapsed;
+                bt_reestablecer_tabla.Visibility = Visibility.Collapsed;
             }
 
         }
@@ -108,7 +114,7 @@ namespace TallerFitipaldiNuevo
                 }
                 else
                 {
-                    if (tb_matricula_vehiculo.Text.Length > 0 && tb_marca_vehiculo.Text.Length > 0 && tb_modelo_vehiculo.Text.Length > 0 && cb_tipo.SelectedIndex != -1 && tb_id_cliente_vehiculo.Text.Length > 0)
+                    if (tb_matricula_vehiculo.Text.Length > 0 && tb_marca_vehiculo.Text.Length > 0 && tb_modelo_vehiculo.Text.Length > 0 && cb_tipo.SelectedIndex != -1)
                     {
                         Vehiculo vehiculo;
                         if (tb_id_cliente_vehiculo.Text.Length == 0)
@@ -262,6 +268,39 @@ namespace TallerFitipaldiNuevo
             if (e.Key.Equals(Key.Enter))
             {
                 bt_buscar_id_por_username_Click(sender, e);
+            }
+        }
+
+        private void bt_filtrar_por_username_Click(object sender, RoutedEventArgs e)
+        {
+            if (tb_filtrar_por_username.Text.Length > 0)
+            {
+                Cliente cliente = connector.SeleccionarClientePorUsername(tb_filtrar_por_username.Text);
+                if (cliente != null)
+                {
+                    VehiculosDataGrid.ItemsSource = connector.SeleccionarTodosLosVehiculosDelCliente(cliente.Id);
+                }
+                else
+                {
+                    MessageBox.Show("No se ha encontrado ningún cliente con el nombre de usuario '" + tb_filtrar_por_username.Text + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            } else
+            {
+                MessageBox.Show("No puede estar este campo vacío. Por favor, introduzca un nombre de usuairo.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void bt_reestablecer_Click(object sender, RoutedEventArgs e)
+        {
+            actualizarDataGrid();
+            tb_filtrar_por_username.Text = "";
+        }
+
+        private void id_filtrar_por_username(object sender, KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+                bt_filtrar_por_username_Click(sender, e);
             }
         }
     }
