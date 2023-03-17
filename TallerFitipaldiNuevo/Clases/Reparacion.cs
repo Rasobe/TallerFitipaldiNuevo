@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TallerFitipaldiNuevo.Clases
@@ -16,6 +17,8 @@ namespace TallerFitipaldiNuevo.Clases
         public decimal Horas { get; set; }
         public decimal PrecioSinIva { get; set; }
         public decimal Iva { get; set; }
+
+        public DateTime DiaInicioReparacion { get; set; }
 
         [NotMapped]
         public decimal PrecioTotal => PrecioSinIva + (PrecioSinIva * Iva / 100);
@@ -37,7 +40,7 @@ namespace TallerFitipaldiNuevo.Clases
 
         public override string ToString()
         {
-            return $"Reparacion: Id={Id}, VehiculoId={VehiculoId}, Horas={Horas}, PrecioSinIva={PrecioSinIva}, Iva={Iva}, PrecioTotal={PrecioTotal}, MecanicoId={MecanicoId}, Finalizado={Finalizado}";
+            return $"Id: {Id}, VehiculoId: {VehiculoId}, Horas: {Horas}, PrecioSinIva: {PrecioSinIva}, Iva: {Iva}, DiaInicioReparacion: {DiaInicioReparacion.ToShortDateString()}, PrecioTotal: {PrecioTotal}, MecanicoId: {MecanicoId}, Finalizado: {Finalizado}";
         }
 
     }

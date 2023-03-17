@@ -72,12 +72,10 @@ namespace TallerFitipaldiNuevo.Clases
                 string createPiezasTable = @"
                 CREATE TABLE IF NOT EXISTS Pieza (
                     id INT PRIMARY KEY AUTO_INCREMENT,
-                    nombre VARCHAR(50) NOT NULL,
+                    nombre VARCHAR(50) NOT NULL UNIQUE,
                     descripcion VARCHAR(255) NOT NULL,
                     stock INT NOT NULL,
-                    precio float NOT NULL,
-                    vehiculoId INT,
-                    FOREIGN KEY (vehiculoId) REFERENCES Vehiculo(id) ON DELETE CASCADE ON UPDATE CASCADE
+                    precio float NOT NULL
                 );
             ";
 
@@ -89,6 +87,7 @@ namespace TallerFitipaldiNuevo.Clases
                     precioSinIva DECIMAL(10,2) NOT NULL,
                     iva DECIMAL(10,2) NOT NULL,
                     precioTotal DECIMAL(10,2) AS (precioSinIva + (precioSinIva * iva / 100)),
+                    diaInicioReparacion DATE NOT NULL,
                     mecanicoId INT NOT NULL,
                     finalizado BIT NOT NULL,
                     FOREIGN KEY (vehiculoId) REFERENCES Vehiculo(id) ON DELETE CASCADE ON UPDATE CASCADE, 
@@ -261,25 +260,25 @@ namespace TallerFitipaldiNuevo.Clases
                 {
                     // Insertar datos de prueba en la tabla Pieza
                     string insertPieza = @"
-                    INSERT INTO Pieza (nombre, descripcion, stock, precio, vehiculoId)
-                    VALUES ('Bujía', 'Descripción de la bujía', 10, 5.99, 1),
-                            ('Motor', 'Descripción del motor', 10, 500.00, 2),
-                            ('Llantas', 'Descripción de las llantas', 40, 75.00, 3),
-                            ('Frenos', 'Descripción de los frenos', 40, 100.00 ,2),
-                            ('Batería', 'Descripción de la batería', 20 ,50.00 ,2),
-                            ('Radiador', 'Descripción del radiador',10 ,80.00 ,1),
-                            ('Alternador','Descripción del alternador' ,10 ,120.00 ,3),
-                            ('Filtro de aire','Descripción del filtro de aire' ,30 ,15.99 ,2),
-                            ('Correa de distribución','Descripción de la correa de distribución' ,20 ,45.99 ,5),
-                            ('Embrague','Descripción del embrague' ,10 ,150.00 ,2),
-                            ('Amortiguadores','Descripción de los amortiguadores' ,40 ,200.00 ,2),
-                            ('Bomba de agua', 'Descripción de la bomba de agua', 10 ,30.00 ,8),
-                            ('Bomba de aceite', 'Descripción de la bomba de aceite', 10 ,40.00 ,5),
-                            ('Caja de cambios', 'Descripción de la caja de cambios', 10 ,300.00 ,3),
-                            ('Catalizador','Descripción del catalizador' ,10 ,250.00 ,2),
-                            ('Compresor del aire acondicionado','Descripción del compresor del aire acondicionado' ,10 ,150.00 ,1),
-                            ('Diferencial','Descripción del diferencial' ,10 ,200.00 ,2),
-                            ('Escape','Descripción del escape' ,10 ,100.00 ,3)
+                    INSERT INTO Pieza (nombre, descripcion, stock, precio)
+                    VALUES ('Bujía', 'Descripción de la bujía', 10, 5.99),
+                            ('Motor', 'Descripción del motor', 10, 500.00),
+                            ('Llantas', 'Descripción de las llantas', 40, 75.00),
+                            ('Frenos', 'Descripción de los frenos', 40, 100.00),
+                            ('Batería', 'Descripción de la batería', 20 ,50.00),
+                            ('Radiador', 'Descripción del radiador',10 ,80.00),
+                            ('Alternador','Descripción del alternador' ,10 ,120.00),
+                            ('Filtro de aire','Descripción del filtro de aire' ,30 ,15.99),
+                            ('Correa de distribución','Descripción de la correa de distribución' ,20 ,45.99),
+                            ('Embrague','Descripción del embrague' ,10 ,150.00),
+                            ('Amortiguadores','Descripción de los amortiguadores' ,40 ,200.00),
+                            ('Bomba de agua', 'Descripción de la bomba de agua', 10 ,30.00),
+                            ('Bomba de aceite', 'Descripción de la bomba de aceite', 10 ,40.00),
+                            ('Caja de cambios', 'Descripción de la caja de cambios', 10 ,300.00),
+                            ('Catalizador','Descripción del catalizador' ,10 ,250.00),
+                            ('Compresor del aire acondicionado','Descripción del compresor del aire acondicionado' ,10 ,150.00),
+                            ('Diferencial','Descripción del diferencial' ,10 ,200.00),
+                            ('Escape','Descripción del escape' ,10 ,100.00)
                     ;
                 ";
 
@@ -298,11 +297,11 @@ namespace TallerFitipaldiNuevo.Clases
                 {
                     // Insertar datos de prueba en la tabla Reparacion
                     string insertReparacion = @"
-                    INSERT INTO Reparacion (vehiculoId, horas, precioSinIva, iva, mecanicoId, finalizado)
+                    INSERT INTO Reparacion (vehiculoId, horas, precioSinIva, iva, diaInicioReparacion, mecanicoId, finalizado)
                         VALUES 
-                        (1, 10.5, 100.0, 21.0 ,1 ,0),
-                        (2 ,5.0 ,50.0 ,21.0 ,2 ,1),
-                        (3 ,8.5 ,75.0 ,21.0 ,3 ,1)
+                        (1, 10.5, 100.0, 21.0 , '2022-01-01',1 ,0),
+                        (2 ,5.0 ,50.0 ,21.0 , '2022-01-01',2 ,1),
+                        (3 ,8.5 ,75.0 ,21.0 , '2022-01-01',3 ,1)
                     ;
                 ";
 

@@ -65,5 +65,7 @@
         </DataGrid>
         <TextBox x:Name="tb_vehiculo_seleccionado" IsReadOnly="True" HorizontalAlignment="Left" Height="28" Margin="486,440,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" VerticalContentAlignment="Center"/>
         <Label x:Name="lbl_username_Copy" Content="Vehículo seleccionado" HorizontalAlignment="Left" Margin="484,410,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="24"/>
+        <Label Content="3 ) ¿Qué piezas se necesita cambiar?" HorizontalAlignment="Left" Margin="1124,116,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
+        <ComboBox x:Name="cb_piezas" HorizontalAlignment="Left" Margin="1164,197,0,0" VerticalAlignment="Top" Width="251" Height="28" SelectionChanged="ComboBox_SelectionChanged"/>
     </Grid>
 </Window>

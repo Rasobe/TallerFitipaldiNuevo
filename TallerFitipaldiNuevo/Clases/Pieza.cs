@@ -19,10 +19,6 @@ namespace TallerFitipaldiNuevo.Clases
         public float Precio { get; set; }
         public int Stock { get; set; }
 
-        [ForeignKey("Vehiculo")]
-        public int VehiculoId { get; set; }
-        public virtual Vehiculo Vehiculo { get; set; }
-
         public Pieza()
         {
         }
@@ -38,7 +34,7 @@ namespace TallerFitipaldiNuevo.Clases
 
         public override string ToString()
         {
-            return $"Pieza: Id={Id}, Nombre={Nombre}, Descripcion={Descripcion}, Precio={Precio}, Stock={Stock}, VehiculoId={VehiculoId}";
+            return $"Pieza: Id={Id}, Nombre={Nombre}, Descripcion={Descripcion}, Precio={Precio}, Stock={Stock}";
         }
     }
 }

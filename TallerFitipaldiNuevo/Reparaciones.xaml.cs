@@ -1,6 +1,9 @@
 ﻿
 
+using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using TallerFitipaldiNuevo.Clases;
 
@@ -14,8 +17,14 @@ namespace TallerFitipaldiNuevo
         MySqlConnector connector;
         public Reparaciones()
         {
-            connector = new MySqlConnector("localhost", "TallerFitipaldiV", "root", "root");
             InitializeComponent();
+            connector = new MySqlConnector("localhost", "TallerFitipaldiV", "root", "root");
+            List<Pieza> piezas = connector.SeleccionarTodasLasPiezas();
+            Console.WriteLine(piezas.Count);
+            foreach (Pieza pieza in piezas)
+            {
+                cb_piezas.Items.Add(pieza.Nombre);
+            }
         }
 
         private void buscar_cliente_por_username(object sender, System.Windows.Input.KeyEventArgs e)
@@ -53,6 +62,19 @@ namespace TallerFitipaldiNuevo
             if (vehiculoSeleccionado != null )
             {
                 tb_vehiculo_seleccionado.Text = vehiculoSeleccionado.ToString();
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (tb_vehiculo_seleccionado.Text.Length > 0)
+            {
+
+            } 
+            else
+            {
+                cb_piezas.SelectedIndex = -1;
+                MessageBox.Show("Debe haber seleccionado un vehículo posteriormente.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

@@ -519,14 +519,36 @@ namespace TallerFitipaldiNuevo.Clases
             }
         }
 
-
         //
         //
         // PIEZAS
         //
         //
 
-
+        public List<Pieza> SeleccionarTodasLasPiezas()
+        {
+            Connect();
+            string query = "SELECT * FROM pieza";
+            List<Pieza> piezas = new List<Pieza>();
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Pieza pieza = new Pieza();
+                        pieza.Stock = reader.GetInt32("id");
+                        pieza.Nombre = reader.GetString("nombre");
+                        pieza.Descripcion = reader.GetString("descripcion");
+                        pieza.Stock = reader.GetInt32("stock");
+                        pieza.Precio = reader.GetFloat("precio");
+                        piezas.Add(pieza);
+                    }
+                }
+            }
+            Disconnect();
+            return piezas;
+        }
 
         //
         //
