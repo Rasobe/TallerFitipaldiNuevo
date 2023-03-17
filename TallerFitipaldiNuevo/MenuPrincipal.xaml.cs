@@ -62,7 +62,8 @@ namespace TallerFitipaldiNuevo
 
         private void bt_clientes_Click(object sender, RoutedEventArgs e)
         {
-
+            Clientes clientes = new Clientes();
+            clientes.Show();
         }
     }
 }

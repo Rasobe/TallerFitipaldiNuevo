@@ -46,6 +46,12 @@ namespace TallerFitipaldiNuevo.Clases
             }
         }
 
+        //
+        //
+        // LOGIN Y REGISTER
+        //
+        //
+
         public bool Login(string username, string password)
         {
             try
@@ -118,6 +124,12 @@ namespace TallerFitipaldiNuevo.Clases
             return false;
         }
 
+        //
+        //
+        // CLIENTES
+        //
+        //
+
         public void InsertarCliente(Cliente cliente)
         {
             try
@@ -137,11 +149,12 @@ namespace TallerFitipaldiNuevo.Clases
 
                     Connect();
                     cmd.ExecuteNonQuery();
+                    MessageBox.Show("Se ha añadido correctamente el cliente.", "Inserción exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch
             {
-                MessageBox.Show("Error al insertar client '" + cliente.ToString() + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error al insertar cliente '" + cliente.ToString() + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Disconnect();
             }
             finally
@@ -159,15 +172,16 @@ namespace TallerFitipaldiNuevo.Clases
                 Connect();
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
+                    cmd.Connection = connection;
                     cmd.CommandText = "DELETE FROM cliente WHERE id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
-                    Connect();
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error al eliminar cliente con id '" + id + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Debug.WriteLine(ex.StackTrace);
+                MessageBox.Show("Error al eliminar el cliente con id '" + id + "'.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Disconnect();
             }
             finally
@@ -178,7 +192,6 @@ namespace TallerFitipaldiNuevo.Clases
                 }
             }
         }
-
         public void EditarClientePorId(int id, Cliente cliente)
         {
             try
@@ -293,6 +306,37 @@ namespace TallerFitipaldiNuevo.Clases
             }
             Disconnect();
             return cliente;
+        }
+
+        public List<Cliente> SeleccionarTodosLosClientes()
+        {
+            List<Cliente> clientes = new List<Cliente>();
+            Cliente cliente;
+            {
+                Connect();
+                string query = "SELECT * FROM cliente";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        cliente =  new Cliente
+                        {
+                            Id = reader.GetInt32("id"),
+                            Username = reader.GetString("username"),
+                            Password = reader.GetString("password"),
+                            Nombre = reader.GetString("nombre"),
+                            Apellidos = reader.GetString("apellidos"),
+                            Telefono = reader.GetString("telefono"),
+                            Ubicacion = reader.GetString("ubicacion"),
+                            Rol = reader.GetString("rol")
+                        };
+                        clientes.Add(cliente);
+                    }
+                }
+            }
+            Disconnect();
+            return clientes;
         }
 
         //

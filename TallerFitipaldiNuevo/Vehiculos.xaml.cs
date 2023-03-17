@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Data.Entity.Core.Common.CommandTrees;
+using System.Windows;
 using System.Windows.Input;
 using TallerFitipaldiNuevo.Clases;
 
@@ -103,13 +104,20 @@ namespace TallerFitipaldiNuevo
             {
                 if (bt_crear_editar_vehiculo.Content.Equals("Editar"))
                 {
-                    MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas editar el vehículo con matrícula '", tb_matricula_vehiculo.Text, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
+                    Vehiculo vehiculoPorCambiar = connector.SeleccionarVehiculoPorMatricula(tb_matricula_buscar.Text);
+                    if (!cb_tipo.Text.Equals(vehiculoPorCambiar.Tipo) || !vehiculoPorCambiar.Matricula.Equals(tb_matricula_vehiculo.Text) || !vehiculoPorCambiar.Marca.Equals(tb_marca_vehiculo.Text) || !vehiculoPorCambiar.Modelo.Equals(tb_modelo_vehiculo.Text) || !vehiculoPorCambiar.ClienteId.ToString().Equals(tb_id_cliente_vehiculo.Text))
                     {
-                        connector.EditarVehiculoPorMatricula(tb_matricula_buscar.Text, new Vehiculo(tb_matricula_vehiculo.Text, cb_tipo.SelectedItem.ToString(), tb_modelo_vehiculo.Text, tb_marca_vehiculo.Text, int.Parse(tb_id_cliente_vehiculo.Text)));
-                        desactivarOpcionesEdicion();
-                        actualizarDataGrid();
-                        limpiarCasillas();
+                        MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas editar el vehículo con matrícula '", tb_matricula_vehiculo.Text, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            connector.EditarVehiculoPorMatricula(tb_matricula_buscar.Text, new Vehiculo(tb_matricula_vehiculo.Text, cb_tipo.SelectedItem.ToString(), tb_modelo_vehiculo.Text, tb_marca_vehiculo.Text, int.Parse(tb_id_cliente_vehiculo.Text)));
+                            desactivarOpcionesEdicion();
+                            actualizarDataGrid();
+                            limpiarCasillas();
+                        }
+                    } else
+                    {
+                        MessageBox.Show("No se ha aplicado ningún cambio al vehículo con matrícula " + vehiculoPorCambiar.Matricula + ".", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
                 else

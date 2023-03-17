@@ -10,9 +10,9 @@
         <Grid.Background>
             <ImageBrush ImageSource="/img/fondoTalleresFitipaldi.jpg"/>
         </Grid.Background>
-        <Rectangle x:Name="rect_filtro" HorizontalAlignment="Left" Height="354" Margin="770,503,0,0" Stroke="White" VerticalAlignment="Top" Width="298" Fill="Black" Opacity="0.5" RadiusX="10" RadiusY="10" StrokeThickness="2"/>
+        <Rectangle x:Name="rect_filtro" HorizontalAlignment="Left" Height="351" Margin="770,503,0,0" Stroke="White" VerticalAlignment="Top" Width="298" Fill="Black" Opacity="0.5" RadiusX="10" RadiusY="10" StrokeThickness="2"/>
         <Rectangle HorizontalAlignment="Left" Height="303" Margin="280,138,0,0" Stroke="White" VerticalAlignment="Top" Width="490" Fill="Black" Opacity="0.5" RadiusX="10" RadiusY="10" StrokeThickness="2"/>
-        <DataGrid x:Name="VehiculosDataGrid" IsReadOnly="True" ColumnWidth="111" AutoGenerateColumns="False" Margin="279,502,464,48" MaxWidth="600">
+        <DataGrid x:Name="VehiculosDataGrid" IsReadOnly="True" ColumnWidth="115" AutoGenerateColumns="False" Margin="279,502,464,48" MaxWidth="600">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="Background" Value="#333333"/>
@@ -61,7 +61,7 @@
             </GridSplitter.RenderTransform>
         </GridSplitter>
         <Label Content="Busca vehículo por matrícula" HorizontalAlignment="Left" Margin="304,151,0,0" VerticalAlignment="Top" Width="442" Height="38" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalContentAlignment="Center"/>
-        <Button x:Name="bt_buscar_vehiculo_por_matricula" Content="Buscar" HorizontalAlignment="Left" Height="36" Margin="564,194,0,0" VerticalAlignment="Top" Width="148" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_buscar_vehiculo_matricula_Click" FontSize="15">
+        <Button x:Name="bt_buscar_vehiculo_por_matricula" Content="Buscar" HorizontalAlignment="Left" Height="36" Margin="564,194,0,0" VerticalAlignment="Top" Width="148" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_buscar_vehiculo_matricula_Click" FontSize="15" TabIndex="1">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -75,16 +75,16 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBox x:Name="tb_matricula_buscar" HorizontalAlignment="Left" Margin="308,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="216" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1" KeyDown="buscar_vehiculo"/>
-        <TextBox x:Name="tb_matricula_vehiculo" HorizontalAlignment="Left" Margin="308,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="27" FontSize="15" VerticalContentAlignment="Center" TabIndex="1" KeyDown="crear_editar_vehiculo"/>
-        <TextBox x:Name="tb_marca_vehiculo" HorizontalAlignment="Left" Margin="468,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Height="27" FontSize="15" VerticalContentAlignment="Center" TabIndex="1" KeyDown="crear_editar_vehiculo"/>
-        <TextBox x:Name="tb_modelo_vehiculo" HorizontalAlignment="Left" Margin="308,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1" KeyDown="crear_editar_vehiculo"/>
-        <TextBox x:Name="tb_id_cliente_vehiculo" HorizontalAlignment="Left" Margin="648,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1" KeyDown="crear_editar_vehiculo"/>
+        <TextBox x:Name="tb_matricula_buscar" HorizontalAlignment="Left" Margin="308,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="216" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="0" KeyDown="buscar_vehiculo"/>
+        <TextBox x:Name="tb_matricula_vehiculo" HorizontalAlignment="Left" Margin="308,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="27" FontSize="15" VerticalContentAlignment="Center" TabIndex="2" KeyDown="crear_editar_vehiculo"/>
+        <TextBox x:Name="tb_marca_vehiculo" HorizontalAlignment="Left" Margin="468,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Height="27" FontSize="15" VerticalContentAlignment="Center" TabIndex="4" KeyDown="crear_editar_vehiculo"/>
+        <TextBox x:Name="tb_modelo_vehiculo" HorizontalAlignment="Left" Margin="308,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="3" KeyDown="crear_editar_vehiculo"/>
+        <TextBox x:Name="tb_id_cliente_vehiculo" HorizontalAlignment="Left" Margin="648,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="6" KeyDown="crear_editar_vehiculo"/>
         <Label Content="Matricula" HorizontalAlignment="Left" Margin="308,265,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="94" Height="25"/>
         <Label Content="Marca" HorizontalAlignment="Left" Margin="468,265,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="68" Height="25"/>
         <Label Content="Modelo" HorizontalAlignment="Left" Margin="308,322,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="82" Height="25"/>
         <Label x:Name="lbl_id_cliente_vehiculo" Content="Id cliente" HorizontalAlignment="Left" Margin="648,322,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="90" Height="25"/>
-        <Button x:Name="bt_crear_editar_vehiculo" Content="Crear" HorizontalAlignment="Left" Height="28" Margin="322,393,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_crear_editar_Click" FontSize="15">
+        <Button x:Name="bt_crear_editar_vehiculo" Content="Crear" HorizontalAlignment="Left" Height="28" Margin="322,393,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_crear_editar_Click" FontSize="15" TabIndex="7">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -98,7 +98,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="bt_cancelar" Content="Cancelar" HorizontalAlignment="Left" Height="28" Margin="552,393,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_cancelar_operacion_Click" FontSize="15">
+        <Button x:Name="bt_cancelar" Content="Cancelar" HorizontalAlignment="Left" Height="28" Margin="552,393,0,0" VerticalAlignment="Top" Width="176" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_cancelar_operacion_Click" FontSize="15" TabIndex="8">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -124,8 +124,8 @@
             </GridSplitter.RenderTransform>
         </GridSplitter>
         <Label x:Name="lbl_busca_id_cliente" Content="Busca Id de&#xA;   Cliente" HorizontalAlignment="Left" Margin="862,151,0,0" VerticalAlignment="Top" Width="176" Height="64" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="tb_buscar_username" HorizontalAlignment="Left" Margin="862,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1" KeyDown="id_cliente_por_username"/>
-        <Button x:Name="bt_buscar_id_usuario_por_username" Content="Buscar" HorizontalAlignment="Left" Height="27" Margin="896,288,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_buscar_id_por_username_Click" FontSize="15">
+        <TextBox x:Name="tb_buscar_username" HorizontalAlignment="Left" Margin="862,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="9" KeyDown="id_cliente_por_username"/>
+        <Button x:Name="bt_buscar_id_usuario_por_username" Content="Buscar" HorizontalAlignment="Left" Height="27" Margin="896,288,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_buscar_id_por_username_Click" FontSize="15" TabIndex="10">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -139,11 +139,11 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBox x:Name="tb_id_cliente_buscado" IsReadOnly="True" HorizontalAlignment="Left" Margin="906,373,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="1"/>
+        <TextBox x:Name="tb_id_cliente_buscado" IsReadOnly="True" HorizontalAlignment="Left" Margin="906,373,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" Height="28" FontSize="15" VerticalContentAlignment="Center" TabIndex="8"/>
         <Label x:Name="lbl_id_buscar" Content="Id" HorizontalAlignment="Left" Margin="906,349,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="88" Height="25"/>
         <Label x:Name="lbl_username" Content="Nombre de usuario" HorizontalAlignment="Left" Margin="862,217,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="150" Height="25"/>
         <Label x:Name="titulo" Content="VEHÍCULOS" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="545" Margin="36,21,0,0" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="55" Foreground="White"/>
-        <ComboBox x:Name="cb_tipo" HorizontalAlignment="Left" Margin="488,347,0,0" VerticalAlignment="Top" Width="130" Height="28" FontSize="15" Foreground="Black">
+        <ComboBox x:Name="cb_tipo" HorizontalAlignment="Left" Margin="488,347,0,0" VerticalAlignment="Top" Width="130" Height="28" FontSize="15" Foreground="Black" TabIndex="5">
             <ComboBox.Background>
                 <LinearGradientBrush EndPoint="0,1">
                     <GradientStop Color="White"/>
@@ -153,8 +153,8 @@
         </ComboBox>
         <Label x:Name="lbl_tipo" Content="Tipo" HorizontalAlignment="Left" Margin="488,322,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="92" Height="25"/>
         <Label x:Name="lbl_filtro" Content="Filtrar vehículos &#xD;&#xA;por nombre de&#xD;&#xA;usuario" HorizontalAlignment="Left" Margin="894,515,0,0" VerticalAlignment="Top" Width="164" Height="121" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="tb_filtrar_por_username" HorizontalAlignment="Left" Margin="897,671,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="33" FontSize="15" VerticalContentAlignment="Center" TabIndex="1" KeyDown="id_filtrar_por_username"/>
-        <Button x:Name="bt_filtrar_por_username" Content="Filtrar" HorizontalAlignment="Left" Height="32" Margin="919,726,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_filtrar_por_username_Click" FontSize="15">
+        <TextBox x:Name="tb_filtrar_por_username" HorizontalAlignment="Left" Margin="897,671,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="33" FontSize="15" VerticalContentAlignment="Center" TabIndex="12" KeyDown="id_filtrar_por_username"/>
+        <Button x:Name="bt_filtrar_por_username" Content="Filtrar" HorizontalAlignment="Left" Height="32" Margin="919,726,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_filtrar_por_username_Click" FontSize="15" TabIndex="13">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -169,7 +169,7 @@
             </Button.Template>
         </Button>
         <Label x:Name="lbl_username_Copy" Content="Nombre de usuario" HorizontalAlignment="Left" Margin="897,641,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="150" Height="30"/>
-        <Button x:Name="bt_reestablecer_tabla" Content="Reestablecer" HorizontalAlignment="Left" Height="32" Margin="919,779,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_reestablecer_Click" FontSize="15">
+        <Button x:Name="bt_reestablecer_tabla" Content="Reestablecer" HorizontalAlignment="Left" Height="32" Margin="919,779,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_reestablecer_Click" FontSize="15" TabIndex="11">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
