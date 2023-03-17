@@ -2,10 +2,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using TallerFitipaldiNuevo.Clases;
+using MessageBox = System.Windows.MessageBox;
 
 namespace TallerFitipaldiNuevo
 {
@@ -23,7 +26,7 @@ namespace TallerFitipaldiNuevo
             Console.WriteLine(piezas.Count);
             foreach (Pieza pieza in piezas)
             {
-                cb_piezas.Items.Add(pieza.Nombre);
+                cb_piezas.Items.Add(pieza.Nombre + " - " + pieza.Stock + " Ud");
             }
         }
 
@@ -67,14 +70,31 @@ namespace TallerFitipaldiNuevo
 
         private void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (tb_vehiculo_seleccionado.Text.Length > 0)
-            {
-
-            } 
-            else
+            if (tb_vehiculo_seleccionado.Text.Length == 0)
             {
                 cb_piezas.SelectedIndex = -1;
                 MessageBox.Show("Debe haber seleccionado un vehículo posteriormente.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }               
+        }
+
+        private void solo_numeros(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+
+            }
+        }
+
+        private void bt_anyadir_pieza_Click(object sender, RoutedEventArgs e)
+        {
+            if (tb_cantidad_pieza.Text.All(char.IsDigit))
+            {
+                String nombrePieza = cb_piezas.Text.Substring(0, cb_piezas.Text.IndexOf(" "));
+                Console.WriteLine(nombrePieza);
+            }
+            else
+            {
+                MessageBox.Show("Solo se adminten números como cantidad.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
