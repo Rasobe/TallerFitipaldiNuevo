@@ -15,13 +15,16 @@ namespace TallerFitipaldiNuevo.Clases
         public virtual Vehiculo Vehiculo { get; set; }
 
         public decimal Horas { get; set; }
+        public decimal PrecioPorHora { get; set; }
         public decimal PrecioSinIva { get; set; }
         public decimal Iva { get; set; }
 
         public DateTime DiaInicioReparacion { get; set; }
 
         [NotMapped]
-        public decimal PrecioTotal => PrecioSinIva + (PrecioSinIva * Iva / 100);
+        public decimal PrecioTotalPiezas => PrecioSinIva + (PrecioSinIva * Iva / 100);
+        [NotMapped]
+        public decimal PrecioTotalHoras => Horas * PrecioPorHora;
 
         [ForeignKey("Mecanico")]
         public int MecanicoId { get; set; }
@@ -29,18 +32,21 @@ namespace TallerFitipaldiNuevo.Clases
         public bool Finalizado { get; set; }
         public Reparacion() { }
 
-        public Reparacion(int vehiculoId, decimal horas, decimal precioSinIva, decimal iva, int mecanicoId) : this()
+        public Reparacion(int vehiculoId, decimal horas, decimal precioPorHora, decimal precioSinIva, decimal iva, DateTime diaInicioReparacion, int mecanicoId) : this()
         {
             VehiculoId = vehiculoId;
             Horas = horas;
+            PrecioPorHora = precioPorHora;
             PrecioSinIva = precioSinIva;
             Iva = iva;
+            DiaInicioReparacion = diaInicioReparacion;
             MecanicoId = mecanicoId;
+            Finalizado = false;
         }
 
         public override string ToString()
         {
-            return $"Id: {Id}, VehiculoId: {VehiculoId}, Horas: {Horas}, PrecioSinIva: {PrecioSinIva}, Iva: {Iva}, DiaInicioReparacion: {DiaInicioReparacion.ToShortDateString()}, PrecioTotal: {PrecioTotal}, MecanicoId: {MecanicoId}, Finalizado: {Finalizado}";
+            return $"Id: {Id}, VehiculoId: {VehiculoId}, DiaInicioReparacion: {DiaInicioReparacion}, Horas: {Horas}, PrecioPorHora: {PrecioPorHora}, PrecioSinIva: {PrecioSinIva}, Iva: {Iva}, DiaInicioReparacion: {DiaInicioReparacion.ToShortDateString()}, PrecioTotalPiezas: {PrecioTotalPiezas}, MecanicoId: {MecanicoId}, Finalizado: {Finalizado}";
         }
 
     }

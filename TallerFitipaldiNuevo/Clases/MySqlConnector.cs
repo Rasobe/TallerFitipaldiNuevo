@@ -441,6 +441,33 @@ namespace TallerFitipaldiNuevo.Clases
                     if (reader.Read())
                     {
                         Vehiculo vehiculo = new Vehiculo();
+                        vehiculo.Id = reader.GetInt32("id");
+                        vehiculo.Matricula = reader.GetString("matricula");
+                        vehiculo.Tipo = reader.GetString("tipo");
+                        vehiculo.Modelo = reader.GetString("modelo");
+                        vehiculo.Marca = reader.GetString("marca");
+                        vehiculo.ClienteId = reader.GetInt32("clienteId");
+                        Disconnect();
+                        return vehiculo;
+                    }
+                }
+            }
+            Disconnect();
+            return null;
+        }
+
+        public Vehiculo SeleccionarVehiculoPorId(int id)
+        {
+            Connect();
+            string query = "SELECT * FROM vehiculo WHERE id = @id";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Vehiculo vehiculo = new Vehiculo();
                         vehiculo.Matricula = reader.GetString("matricula");
                         vehiculo.Tipo = reader.GetString("tipo");
                         vehiculo.Marca = reader.GetString("marca");
@@ -548,6 +575,50 @@ namespace TallerFitipaldiNuevo.Clases
             }
             Disconnect();
             return piezas;
+        }
+
+        public int SeleccionarStockDePiezaPorNombre(string nombre)
+        {
+            Connect();
+            string query = "SELECT * FROM pieza where nombre = @nombre";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@nombre", nombre);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return reader.GetInt32("stock");
+                    }
+                }
+            }
+            Disconnect();
+            return -1;
+        }
+
+        public Pieza SeleccionarPiezaPorNombre(string nombre)
+        {
+            Connect();
+            string query = "SELECT * FROM pieza WHERE nombre = @nombre";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@nombre", nombre);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Pieza pieza = new Pieza();
+                        pieza.Stock = reader.GetInt32("id");
+                        pieza.Nombre = reader.GetString("nombre");
+                        pieza.Descripcion = reader.GetString("descripcion");
+                        pieza.Stock = reader.GetInt32("stock");
+                        pieza.Precio = reader.GetFloat("precio");
+                        return pieza;
+                    }
+                }
+            }
+            Disconnect();
+            return null;
         }
 
         //

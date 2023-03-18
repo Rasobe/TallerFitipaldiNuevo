@@ -80,6 +80,7 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
@@ -120,6 +121,9 @@
     <Compile Include="Clases\MySqlConnector.cs" />
     <Compile Include="Clases\Cliente.cs" />
     <Compile Include="Clases\Vehiculo.cs" />
+    <Compile Include="ConfirmarCrearReparacion.xaml.cs">
+      <DependentUpon>ConfirmarCrearReparacion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MiPerfil.xaml.cs">
       <DependentUpon>MiPerfil.xaml</DependentUpon>
     </Compile>
@@ -138,6 +142,10 @@
     <Compile Include="Vehiculos.xaml.cs">
       <DependentUpon>Vehiculos.xaml</DependentUpon>
     </Compile>
+    <Page Include="ConfirmarCrearReparacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

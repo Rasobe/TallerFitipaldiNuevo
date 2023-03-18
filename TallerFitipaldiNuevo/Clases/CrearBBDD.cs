@@ -81,15 +81,17 @@ namespace TallerFitipaldiNuevo.Clases
 
                 string createReparacionesTable = @"
                 CREATE TABLE IF NOT EXISTS Reparacion (
-                    id INT PRIMARY KEY AUTO_INCREMENT,
-                    vehiculoId INT NOT NULL,
-                    horas DECIMAL(10,2) NOT NULL,
-                    precioSinIva DECIMAL(10,2) NOT NULL,
-                    iva DECIMAL(10,2) NOT NULL,
-                    precioTotal DECIMAL(10,2) AS (precioSinIva + (precioSinIva * iva / 100)),
-                    diaInicioReparacion DATE NOT NULL,
-                    mecanicoId INT NOT NULL,
-                    finalizado BIT NOT NULL,
+                    Id INTEGER PRIMARY KEY AUTO_INCREMENT,
+                    VehiculoId INTEGER NOT NULL,
+                    Horas DECIMAL NOT NULL,
+                    PrecioPorHora DECIMAL NOT NULL,
+                    precioTotalHoras DECIMAL(10,2) AS (Horas * PrecioPorHora),
+                    PrecioSinIva DECIMAL NOT NULL,
+                    Iva DECIMAL NOT NULL,
+                    precioTotal DECIMAL(10,2) AS (PrecioSinIva + (PrecioSinIva * Iva / 100)),
+                    DiaInicioReparacion DATETIME NOT NULL,
+                    MecanicoId INTEGER NOT NULL,
+                    Finalizado BOOLEAN NOT NULL,
                     FOREIGN KEY (vehiculoId) REFERENCES Vehiculo(id) ON DELETE CASCADE ON UPDATE CASCADE, 
                     FOREIGN KEY (mecanicoId) REFERENCES Cliente(id) ON DELETE CASCADE ON UPDATE CASCADE
                 );
@@ -297,11 +299,10 @@ namespace TallerFitipaldiNuevo.Clases
                 {
                     // Insertar datos de prueba en la tabla Reparacion
                     string insertReparacion = @"
-                    INSERT INTO Reparacion (vehiculoId, horas, precioSinIva, iva, diaInicioReparacion, mecanicoId, finalizado)
-                        VALUES 
-                        (1, 10.5, 100.0, 21.0 , '2022-01-01',1 ,0),
-                        (2 ,5.0 ,50.0 ,21.0 , '2022-01-01',2 ,1),
-                        (3 ,8.5 ,75.0 ,21.0 , '2022-01-01',3 ,1)
+                    INSERT INTO Reparacion (VehiculoId, Horas, PrecioPorHora, PrecioSinIva,Iva,DiaInicioReparacion,MecanicoId ,Finalizado)
+                    VALUES (1 ,10.5 ,50.0 ,525.0 ,21.0 ,'2022-01-01',1,false),
+                           (2 ,8.0 ,40.0 ,320.0 ,21.0 ,'2022-02-15',2,true),
+                           (3 ,12.5 ,60.0 ,750.0 ,21.0 ,'2022-03-20',3,false)
                     ;
                 ";
 

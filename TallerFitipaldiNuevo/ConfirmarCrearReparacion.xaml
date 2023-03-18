@@ -1,0 +1,22 @@
+﻿<Window x:Class="TallerFitipaldiNuevo.ConfirmarCrearReparacion"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TallerFitipaldiNuevo"
+        mc:Ignorable="d"
+        Title="ConfirmarCrearReparacion" Height="300" Width="400">
+    <StackPanel Margin="10">
+        <TextBlock TextWrapping="Wrap">Are you sure you want to create this repair with these details?</TextBlock>
+        <TextBlock Margin="0 10">· Cliente: <Run x:Name="ClienteText"/></TextBlock>
+        <TextBlock>· Vehiculo: <Run x:Name="VehiculoText"/></TextBlock>
+        <TextBlock>· Piezas a cambiar: <Run x:Name="PiezasText"/></TextBlock>
+        <TextBlock>· Horas de trabajo: <Run x:Name="HorasText"/></TextBlock>
+        <TextBlock>· Día de inicio: <Run x:Name="DiaInicioText"/></TextBlock>
+        <TextBlock>· Precio total con Iva: <Run x:Name="PrecioTotalText"/></TextBlock>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+            <Button Content="_Yes" IsDefault="True" Click="YesButton_Click"/>
+            <Button Content="_No" IsCancel ="True"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

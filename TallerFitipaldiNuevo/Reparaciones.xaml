@@ -13,7 +13,12 @@
         <Grid.Background>
             <SolidColorBrush Color="Black" Opacity="0.5"/>
         </Grid.Background>
-        <Label x:Name="titulo" Content="REPARACIONES" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="545" Margin="27,6,0,0" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="45" Foreground="White"/>
+        <Rectangle HorizontalAlignment="Left" Height="82" Margin="486,17,0,0" Stroke="#FF0029E0" VerticalAlignment="Top" Width="600">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="Black" Opacity="0.5"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Label x:Name="titulo" Content="REPARACIONES" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="367" Margin="27,6,0,0" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="45" Foreground="White"/>
         <Label Content="1) ¿A qué cliente le vas a hacer la reparación?" HorizontalAlignment="Left" Margin="50,124,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
         <Button x:Name="bt_buscar_cliente_por_username" Content="Buscar" HorizontalAlignment="Left" Height="28" Margin="167,242,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_buscar_cliente_por_username_Click" FontSize="15" TabIndex="10">
             <Button.Template>
@@ -30,7 +35,7 @@
             </Button.Template>
         </Button>
         <Label x:Name="lbl_username" Content="Nombre de usuario" HorizontalAlignment="Left" Margin="80,172,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="150" Height="39"/>
-        <TextBox x:Name="tb_buscar_cliente_username" HorizontalAlignment="Left" Height="28" Margin="80,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" VerticalContentAlignment="Center" KeyDown="buscar_cliente_por_username"/>
+        <TextBox x:Name="tb_buscar_cliente_username" HorizontalAlignment="Left" Height="28" Margin="80,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" VerticalContentAlignment="Center" KeyDown="buscar_cliente_por_username" Text="cliente4"/>
         <Label Content="2) ¿Qué vehículo necesita la reparación?" HorizontalAlignment="Left" Margin="604,116,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
         <DataGrid x:Name="VehiculosDataGrid" IsReadOnly="True" ColumnWidth="145" AutoGenerateColumns="False" Margin="484,166,413,425" MaxWidth="600" SelectionChanged="VehiculosDataGrid_SelectionChanged">
             <DataGrid.Resources>
@@ -63,7 +68,7 @@
                 <DataGridTextColumn Header="Modelo" Binding="{Binding Modelo}" />
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="tb_vehiculo_seleccionado" IsReadOnly="True" HorizontalAlignment="Left" Height="28" Margin="486,440,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="tb_vehiculo_seleccionado" IsReadOnly="True" HorizontalAlignment="Left" Height="28" Margin="486,440,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" VerticalContentAlignment="Center" TextChanged="tb_vehiculo_seleccionado_TextChanged"/>
         <Label x:Name="lbl_username_Copy" Content="Vehículo seleccionado" HorizontalAlignment="Left" Margin="484,410,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="24"/>
         <Label Content="3 ) ¿Qué piezas se necesita cambiar?" HorizontalAlignment="Left" Margin="1124,116,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
         <ComboBox x:Name="cb_piezas" HorizontalAlignment="Left" Margin="1164,197,0,0" VerticalAlignment="Top" Width="251" Height="28" SelectionChanged="ComboBox_SelectionChanged"/>
@@ -81,10 +86,85 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBox x:Name="tb_cantidad_pieza" HorizontalAlignment="Left" Height="28" Margin="1164,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" VerticalContentAlignment="Center" KeyDown="solo_numeros"/>
+        <TextBox x:Name="tb_cantidad_pieza" HorizontalAlignment="Left" Height="28" Margin="1164,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" VerticalContentAlignment="Center" GotFocus="tb_cantidad_pieza_GotFocus"/>
         <Label x:Name="lbl_cantidad_pieza" Content="¿Que cantidad?" HorizontalAlignment="Left" Margin="1164,235,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="31"/>
         <Label x:Name="lbl_username_Copy1" Content="Piezas en el almacén" HorizontalAlignment="Left" Margin="1164,172,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="150" Height="25"/>
-        <ComboBox x:Name="cb_piezas_elegidas" HorizontalAlignment="Left" Margin="1164,440,0,0" VerticalAlignment="Top" Width="251" Height="28" SelectionChanged="ComboBox_SelectionChanged"/>
+        <ComboBox x:Name="cb_piezas_elegidas" HorizontalAlignment="Left" Margin="1164,440,0,0" VerticalAlignment="Top" Width="251" Height="28" SelectionChanged="editarPieza_SelectionChanged"/>
         <Label x:Name="lbl_username_Copy2" Content="Piezas elegidas" HorizontalAlignment="Left" Margin="1164,408,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="150" Height="32"/>
+        <TextBox x:Name="tb_instrucciones" IsReadOnly="True" HorizontalAlignment="Left" Height="75" Margin="1164,319,0,0" TextWrapping="Wrap" Text="Si deseas eliminar una pieza elegida, la puedes seleccionar abajo, y poner la cantidad a 0. En el caso de que quieras modificar la cantidad, selecciónala abajo y pon la cantidad dentro de los límites." VerticalAlignment="Top" Width="251" HorizontalContentAlignment="Stretch" FontSize="11"/>
+        <Button x:Name="bt_ocultar_mostrar" Content="Ocultar" HorizontalAlignment="Left" Height="20" Margin="1345,394,0,0" VerticalAlignment="Top" Width="70" Background="#FFA00000" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_ocultar_mostrar_Click" FontSize="11" TabIndex="10">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="bt_hacer_factura" Content="Hacer factura" HorizontalAlignment="Left" Height="28" Margin="1309,495,0,0" VerticalAlignment="Top" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_generar_factura_Click" FontSize="15" TabIndex="10">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Label Content="5) Cálculo del precio total piezas" HorizontalAlignment="Left" Margin="62,524,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
+        <TextBox x:Name="tb_precio_sin_iva" IsReadOnly="True" HorizontalAlignment="Left" Height="28" Margin="92,596,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center"/>
+        <Label x:Name="lbl_cantidad_pieza_Copy" Content="Precio sin IVA" HorizontalAlignment="Left" Margin="92,568,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
+        <TextBox x:Name="tb_iva" HorizontalAlignment="Left" Height="28" Margin="254,596,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center" Text="21"/>
+        <Label x:Name="lbl_cantidad_pieza_Copy1" Content=" IVA" HorizontalAlignment="Left" Margin="254,568,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
+        <TextBox x:Name="tb_precio_total" IsReadOnly="True" HorizontalAlignment="Left" Height="28" Margin="94,664,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center"/>
+        <Label x:Name="lbl_cantidad_pieza_Copy2" Content="Precio total piezas" HorizontalAlignment="Left" Margin="94,636,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
+        <Label Content="4) Horas de trabajo" HorizontalAlignment="Left" Margin="62,302,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
+        <TextBox x:Name="tb_horas" HorizontalAlignment="Left" Height="28" Margin="92,374,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center" LostFocus="anyadir_horas_precio"/>
+        <Label x:Name="lbl_cantidad_pieza_Copy3" Content="Horas" HorizontalAlignment="Left" Margin="92,346,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
+        <TextBox x:Name="tb_precio_hora" HorizontalAlignment="Left" Height="28" Margin="254,374,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center" Text="50" LostFocus="anyadir_horas_precio"/>
+        <Label x:Name="lbl_cantidad_pieza_Copy4" Content="Precio por hora" HorizontalAlignment="Left" Margin="254,346,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
+        <TextBox x:Name="tb_precio_total_horas" IsReadOnly="True" HorizontalAlignment="Left" Height="28" Margin="94,439,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center"/>
+        <Label x:Name="lbl_cantidad_pieza_Copy5" Content="Precio total horas" HorizontalAlignment="Left" Margin="94,413,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
+        <Label x:Name="titulo_Copy" Content="Mecánico/a:" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="366" Margin="500,7,0,0" VerticalContentAlignment="Center" FontSize="45" Foreground="White"/>
+        <Label x:Name="titulo_nombre_apellidos" Content="Nombre y apellidos" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="322" Margin="764,13,0,0" VerticalContentAlignment="Center" FontSize="30" Foreground="White"/>
+        <Label Content="6) ¿Qué día se va a iniciar la reparación?" HorizontalAlignment="Left" Margin="484,524,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
+        <Calendar x:Name="dia_elegido_inicio" HorizontalAlignment="Left" Margin="575,568,0,0" VerticalAlignment="Top" SelectedDatesChanged="dia_elegido_inicio_SelectedDatesChanged"/>
+        <Button x:Name="bt_crear_reparacion" Content="Crear reparación" HorizontalAlignment="Left" Height="56" Margin="988,576,0,0" VerticalAlignment="Top" Width="246" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_crear_reparacion_Click" FontSize="15" TabIndex="10">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="bt_limpiar_todo" Content="Limpiar todo" HorizontalAlignment="Left" Height="56" Margin="988,664,0,0" VerticalAlignment="Top" Width="246" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_limpiar_todo_Click" FontSize="15" TabIndex="10">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Window>
