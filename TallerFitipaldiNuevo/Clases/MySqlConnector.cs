@@ -3,6 +3,7 @@ using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace TallerFitipaldiNuevo.Clases
@@ -608,7 +609,7 @@ namespace TallerFitipaldiNuevo.Clases
                     if (reader.Read())
                     {
                         Pieza pieza = new Pieza();
-                        pieza.Stock = reader.GetInt32("id");
+                        pieza.Id = reader.GetInt32("id");
                         pieza.Nombre = reader.GetString("nombre");
                         pieza.Descripcion = reader.GetString("descripcion");
                         pieza.Stock = reader.GetInt32("stock");
@@ -695,13 +696,113 @@ namespace TallerFitipaldiNuevo.Clases
             return listaReparaciones;
         }
 
+        public int seleccionarIdReparacionPorReparacion(Reparacion reparacion)
+        {
+            // SELECT Id FROM Reparacion WHERE VehiculoId = 14 AND Horas = 12 AND PrecioPorHora = 34 AND PrecioSinIva = 552 AND Iva = 21 AND DiaInicioReparacion = '3/16/2023 12:00:00' AND MecanicoId = 2 AND Finalizado = false;
+            Connect();
+            string query = "SELECT Id FROM Reparacion WHERE VehiculoId = @VehiculoId AND Horas = @Horas AND PrecioPorHora = @PrecioPorHora AND PrecioSinIva = @PrecioSinIva AND Iva = @Iva AND DiaInicioReparacion = @DiaInicioReparacion AND MecanicoId = @MecanicoId AND Finalizado = @Finalizado";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@VehiculoId", reparacion.VehiculoId);
+                command.Parameters.AddWithValue("@Horas", reparacion.Horas);
+                command.Parameters.AddWithValue("@PrecioPorHora", reparacion.PrecioPorHora);
+                command.Parameters.AddWithValue("@PrecioSinIva", reparacion.PrecioSinIva);
+                command.Parameters.AddWithValue("@Iva", reparacion.Iva);
+                command.Parameters.AddWithValue("@DiaInicioReparacion", reparacion.DiaInicioReparacion.ToString("yyyy-MM-dd 00:00:00"));
+                command.Parameters.AddWithValue("@MecanicoId", reparacion.MecanicoId);
+                command.Parameters.AddWithValue("@Finalizado", reparacion.Finalizado);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return reader.GetInt32("Id");
+                    }
+                }
+            }
+            Disconnect();
+            return -1;
+        }
+
         //
         //
         // REPARACIONS - PIEZAS
         //
         //
 
+        public void InsertarPiezasReparacionPorIdReparacion(int id, List<(int, int)> listaPiezas)
+        {
+            try
+            {
+                Connect();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandText = "INSERT INTO piezareparacion (ReparacionId, PiezaId, Cantidad) VALUES (@ReparacionId, @PiezaId, @Cantidad)";
+                    cmd.Parameters.Add("@ReparacionId", MySqlDbType.Int32);
+                    cmd.Parameters.Add("@PiezaId", MySqlDbType.Int32);
+                    cmd.Parameters.Add("@Cantidad", MySqlDbType.Int32);
 
+                    foreach (var pieza in listaPiezas)
+                    {
+                        cmd.Parameters["@ReparacionId"].Value = id;
+                        cmd.Parameters["@PiezaId"].Value = pieza.Item1;
+                        cmd.Parameters["@Cantidad"].Value = pieza.Item2;
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Se ha añadido correctamente la reparación con sus respectivas piezas.", "Inserción exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error al insertar la reparación con sus respectivas piezas.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    Disconnect();
+                }
+            }
+        }
+
+        public void ActualizarStockPieza(List<(int, int)> listaPiezas)
+        {
+            try
+            {
+                Connect();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandText = "UPDATE pieza SET stock=stock-@stock WHERE id=@id";
+                    cmd.Parameters.Add("@id", MySqlDbType.Int32);
+                    cmd.Parameters.Add("@stock", MySqlDbType.Int32);
+
+                    foreach (var pieza in listaPiezas)
+                    {
+                        cmd.Parameters["@id"].Value = pieza.Item1;
+                        cmd.Parameters["@stock"].Value = pieza.Item2;
+
+                        cmd.ExecuteNonQuery();
+                    }
+                    Disconnect();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error al editar el stock de las piezas de la reparación.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    Disconnect();
+                }
+            }
+        }
 
     }
 }

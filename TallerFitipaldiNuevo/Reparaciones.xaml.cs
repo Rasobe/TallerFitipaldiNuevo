@@ -97,7 +97,6 @@ namespace TallerFitipaldiNuevo
                 if (match.Success)
                 {
                     vehiculoId = connector.SeleccionarVehiculoPorMatricula(match.Groups[1].Value).Id;
-                    Console.WriteLine(vehiculoId);
                 }
             }
         }
@@ -389,7 +388,40 @@ namespace TallerFitipaldiNuevo
                     List<string> listaPiezas = cb_piezas_elegidas.Items.Cast<string>().ToList();
                     Reparacion reparacion = new Reparacion(vehiculoId, decimal.Parse(tb_horas.Text), decimal.Parse(tb_precio_hora.Text), decimal.Parse(tb_precio_sin_iva.Text), decimal.Parse(tb_iva.Text), DateTime.Parse(diaInicioReparacion), Sesion.ClienteActual.Id);
 
+                    // Insertamos la reparación
                     connector.InsertarReparacion(reparacion);
+
+                    // Recogemos el ID de la reparación que hemos creado anteriormente
+                    int idReparacion = connector.seleccionarIdReparacionPorReparacion(reparacion);
+                    Console.WriteLine("Id reparacion: " + idReparacion.ToString());
+
+                    // Antes de introducir lo del paso siguiente, tenemos que pasar el nombre de la pieza a su respectivo id y separarla de su cantidad pedida.
+                    List<(int, int)> listaPiezasBD = new List<(int, int)>();
+                    string nombrePieza = "";
+                    int idPieza = 0;
+                    int cantidadPieza = 0;
+                    for (int i = 0; i < listaPiezas.Count; i++)
+                    {
+                        nombrePieza = listaPiezas[i].Split('-')[0].Trim();
+                        idPieza = connector.SeleccionarPiezaPorNombre(nombrePieza).Id;
+
+                        Match match = Regex.Match(listaPiezas[i], @"\d+");
+                        if (match.Success)
+                        {
+                            cantidadPieza = int.Parse(match.Value);
+                        }
+
+                        listaPiezasBD.Add((idPieza, cantidadPieza));
+
+                    }
+
+                    // Introducimos las piezas con su reparación correspondiente y actualizamos el Stock de la tabla de Piezas.
+                    connector.InsertarPiezasReparacionPorIdReparacion(idReparacion, listaPiezasBD);
+
+                    // Actualizamos el Stock de las piezas
+                    connector.ActualizarStockPieza(listaPiezasBD);
+
+                    // Iniciamos el menú reparaciones
                     MenuReparaciones menuReparaciones = new MenuReparaciones();
                     menuReparaciones.Show();
                     this.Close();
