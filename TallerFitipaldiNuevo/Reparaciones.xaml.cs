@@ -432,8 +432,6 @@ namespace TallerFitipaldiNuevo
             {
                 MessageBox.Show("Debes rellenar todos los campos necesarios para hacer una reparación.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
-
         }
 
         private void bt_limpiar_todo_Click(object sender, RoutedEventArgs e)

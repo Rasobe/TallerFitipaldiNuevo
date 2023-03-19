@@ -39,12 +39,24 @@ namespace TallerFitipaldiNuevo
 
         private void ReparacionDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Reparacion reparacion = ReparacionDataGrid.SelectedItem as Reparacion;
+            Console.WriteLine(reparacion.ToString());
         }
         private void cb_piezas_no_cambiar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = sender as ComboBox;
             comboBox.SelectedIndex = -1;
+        }
+
+        private void MenuItemImprimirFactura_Click(object sender, RoutedEventArgs e)
+        {
+            Factura factura = new Factura(ReparacionDataGrid.SelectedItem as Reparacion);
+            factura.Imprimir();
+        }
+
+        private void MenuItemFinalizar_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
     }

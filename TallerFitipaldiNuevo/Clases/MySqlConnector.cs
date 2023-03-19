@@ -637,12 +637,12 @@ namespace TallerFitipaldiNuevo.Clases
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
                     cmd.Connection = connection;
-                    cmd.CommandText = "INSERT INTO reparacion (VehiculoId, Horas, PrecioPorHora, PrecioSinIva, Iva, DiaInicioReparacion, MecanicoId ,Finalizado) VALUES (@VehiculoId, @Horas, @PrecioPorHora, @PrecioSinIva, @Iva, @DiaInicioReparacion, @MecanicoId, @Finalizado)";
+                    cmd.CommandText = "INSERT INTO reparacion (VehiculoId, Horas, PrecioPorHora, PrecioSinIva, PrecioConIva, DiaInicioReparacion, MecanicoId ,Finalizado) VALUES (@VehiculoId, @Horas, @PrecioPorHora, @PrecioSinIva, @PrecioConIva, @DiaInicioReparacion, @MecanicoId, @Finalizado)";
                     cmd.Parameters.AddWithValue("@VehiculoId", reparacion.VehiculoId);
                     cmd.Parameters.AddWithValue("@Horas", reparacion.Horas);
                     cmd.Parameters.AddWithValue("@PrecioPorHora", reparacion.PrecioPorHora);
                     cmd.Parameters.AddWithValue("@PrecioSinIva", reparacion.PrecioSinIva);
-                    cmd.Parameters.AddWithValue("@Iva", reparacion.Iva);
+                    cmd.Parameters.AddWithValue("@PrecioConIva", reparacion.Iva);
                     cmd.Parameters.AddWithValue("@DiaInicioReparacion", reparacion.DiaInicioReparacion);
                     cmd.Parameters.AddWithValue("@MecanicoId", reparacion.MecanicoId);
                     cmd.Parameters.AddWithValue("@Finalizado", reparacion.Finalizado);
@@ -686,7 +686,7 @@ namespace TallerFitipaldiNuevo.Clases
                             Horas = reader.GetDecimal("Horas"),
                             PrecioPorHora = reader.GetDecimal("PrecioPorHora"),
                             PrecioSinIva = reader.GetDecimal("PrecioSinIva"),
-                            Iva = reader.GetDecimal("Iva"),
+                            Iva = reader.GetDecimal("PrecioConIva"),
                             DiaInicioReparacion = reader.GetDateTime("DiaInicioReparacion"),
                             MecanicoId = reader.GetInt32("MecanicoId"),
                             Finalizado = reader.GetBoolean("Finalizado"),
@@ -725,14 +725,14 @@ namespace TallerFitipaldiNuevo.Clases
         public int SeleccionarIdReparacionPorReparacion(Reparacion reparacion)
         {
             Connect();
-            string query = "SELECT Id FROM Reparacion WHERE VehiculoId = @VehiculoId AND Horas = @Horas AND PrecioPorHora = @PrecioPorHora AND PrecioSinIva = @PrecioSinIva AND Iva = @Iva AND DiaInicioReparacion = @DiaInicioReparacion AND MecanicoId = @MecanicoId AND Finalizado = @Finalizado";
+            string query = "SELECT Id FROM Reparacion WHERE VehiculoId = @VehiculoId AND Horas = @Horas AND PrecioPorHora = @PrecioPorHora AND PrecioSinIva = @PrecioSinIva AND PrecioConIva = @PrecioConIva AND DiaInicioReparacion = @DiaInicioReparacion AND MecanicoId = @MecanicoId AND Finalizado = @Finalizado";
             using (MySqlCommand command = new MySqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@VehiculoId", reparacion.VehiculoId);
                 command.Parameters.AddWithValue("@Horas", reparacion.Horas);
                 command.Parameters.AddWithValue("@PrecioPorHora", reparacion.PrecioPorHora);
                 command.Parameters.AddWithValue("@PrecioSinIva", reparacion.PrecioSinIva);
-                command.Parameters.AddWithValue("@Iva", reparacion.Iva);
+                command.Parameters.AddWithValue("@PrecioConIva", reparacion.Iva);
                 command.Parameters.AddWithValue("@DiaInicioReparacion", reparacion.DiaInicioReparacion.ToString("yyyy-MM-dd 00:00:00"));
                 command.Parameters.AddWithValue("@MecanicoId", reparacion.MecanicoId);
                 command.Parameters.AddWithValue("@Finalizado", reparacion.Finalizado);
@@ -832,5 +832,31 @@ namespace TallerFitipaldiNuevo.Clases
             }
         }
 
+        internal List<PiezaViewReparacion> SeleccionarPiezasPorIdReparacion(int id)
+        {
+            Connect();
+            List<PiezaViewReparacion> listaPiezas = new List<PiezaViewReparacion>();
+            string queryPiezas = "SELECT p.nombre, pr.cantidad FROM pieza p INNER JOIN piezareparacion pr ON p.Id = pr.PiezaId WHERE pr.ReparacionId = @ReparacionId";
+            using (MySqlConnection connectionPiezas = new MySqlConnection(connectionString))
+            {
+                connectionPiezas.Open();
+                using (MySqlCommand commandPiezas = new MySqlCommand(queryPiezas, connectionPiezas))
+                {
+                    commandPiezas.Parameters.AddWithValue("@ReparacionId", id);
+                    using (MySqlDataReader readerPiezas = commandPiezas.ExecuteReader())
+                    {
+                        while (readerPiezas.Read())
+                        {
+                            PiezaViewReparacion pieza = new PiezaViewReparacion();
+                            pieza.Nombre = readerPiezas.GetString("nombre");
+                            pieza.Cantidad = readerPiezas.GetInt32("cantidad");
+                            listaPiezas.Add(pieza);
+                        }
+                    }
+                }
+            }
+            Disconnect();
+            return listaPiezas;
+        }
     }
 }

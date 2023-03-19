@@ -45,6 +45,12 @@
                     <Setter Property="BorderThickness" Value="1"/>
                 </Style>
             </DataGrid.Resources>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Guardar y ver" Click="MenuItemImprimirFactura_Click"/>
+                    <MenuItem Header="Finalizar" Click="MenuItemFinalizar_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property= "Height" Value= "30"/>

@@ -87,8 +87,8 @@ namespace TallerFitipaldiNuevo.Clases
                     PrecioPorHora DECIMAL NOT NULL,
                     PrecioTotalHoras DECIMAL(10,2) AS (Horas * PrecioPorHora),
                     PrecioSinIva DECIMAL NOT NULL,
-                    Iva DECIMAL NOT NULL,
-                    PrecioTotalPiezas DECIMAL(10,2) AS (PrecioSinIva + (PrecioSinIva * Iva / 100)),
+                    PrecioConIva DECIMAL NOT NULL,
+                    PrecioTotalPiezas DECIMAL(10,2) AS (PrecioSinIva + (PrecioSinIva * PrecioConIva / 100)),
                     PrecioTotal DECIMAL(10,2) AS (precioTotalPiezas + precioTotalHoras),
                     DiaInicioReparacion DATETIME NOT NULL,
                     MecanicoId INTEGER NOT NULL,
@@ -317,7 +317,7 @@ namespace TallerFitipaldiNuevo.Clases
                 {
                     // Insertar datos de prueba en la tabla Reparacion
                     string insertReparacion = @"
-                    INSERT INTO Reparacion (VehiculoId, Horas, PrecioPorHora, PrecioSinIva,Iva,DiaInicioReparacion,MecanicoId ,Finalizado)
+                    INSERT INTO Reparacion (VehiculoId, Horas, PrecioPorHora, PrecioSinIva,PrecioConIva,DiaInicioReparacion,MecanicoId ,Finalizado)
                     VALUES (1 ,10.5 ,50.0 ,525.0 ,21.0 ,'2022-01-01',1,false),
                            (2 ,8.0 ,40.0 ,320.0 ,21.0 ,'2022-02-15',2,true),
                            (3 ,12.5 ,60.0 ,750.0 ,21.0 ,'2022-03-20',3,false)
