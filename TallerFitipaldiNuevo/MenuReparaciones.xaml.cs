@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using TallerFitipaldiNuevo.Clases;
 
@@ -16,7 +15,18 @@ namespace TallerFitipaldiNuevo
         {
             InitializeComponent();
             connector = new MySqlConnector("localhost", "TallerFitipaldiV", "root", "root");
-            ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+
+            if (Sesion.ClienteActual.Rol.Equals("MECANICO"))
+            {
+                ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                bt_crear_reparacion.Visibility = Visibility.Visible;
+            }
+            else if (Sesion.ClienteActual.Rol.Equals("ADMIN"))
+            {
+                bt_crear_reparacion.Visibility = Visibility.Collapsed;
+                ReparacionDataGrid.ItemsSource = connector.SeleccionarTodasReparaciones();
+            }
+
         }
 
         private void bt_crear_reparacion_Click(object sender, RoutedEventArgs e)
@@ -28,7 +38,7 @@ namespace TallerFitipaldiNuevo
 
         private void ReparacionDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
         private void cb_piezas_no_cambiar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -44,23 +54,37 @@ namespace TallerFitipaldiNuevo
 
         private void MenuItemFinalizar_Click(object sender, RoutedEventArgs e)
         {
-            Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
-            MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas finalizar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            if (Sesion.ClienteActual.Rol.Equals("MECANICO"))
             {
-                connector.FinalizarReparacionPorIdReparacion(r.Id);
-                ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
+                MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas finalizar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    connector.FinalizarReparacionPorIdReparacion(r.Id);
+                    ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                }
+            } 
+            else
+            {
+                MessageBox.Show("No tienes permiso para hacer esta acción.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void MenuItemEliminar_Click(object sender, RoutedEventArgs e)
         {
-            Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
-            MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas eliminar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            if (Sesion.ClienteActual.Rol.Equals("MECANICO"))
             {
-                connector.EliminarReparacionPorIdReparacion(r.Id);
-                ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
+                MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas eliminar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    connector.EliminarReparacionPorIdReparacion(r.Id);
+                    ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                }
+            } 
+            else
+            {
+                MessageBox.Show("No tienes permiso para hacer esta acción.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

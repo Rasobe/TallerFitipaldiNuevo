@@ -152,5 +152,19 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Button x:Name="bt_anyadir_piezas" Content="Añadir piezas" HorizontalAlignment="Left" Height="43" Margin="1186,43,0,0" VerticalAlignment="Top" Width="208" Background="#FF0074A5" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_anyadir_piezas_Click" FontSize="15" TabIndex="10">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Gray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Window>

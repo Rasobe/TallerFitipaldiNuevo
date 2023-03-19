@@ -1,10 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Windows;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace TallerFitipaldiNuevo.Clases
 {
@@ -624,6 +626,40 @@ namespace TallerFitipaldiNuevo.Clases
             return null;
         }
 
+        public void IncrementarStockPieza(string nombre, int cantidad)
+        {
+            try
+            {
+                Connect();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandText = "UPDATE pieza SET stock=stock + @cantidad WHERE nombre=@nombre";
+
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    cmd.Parameters.AddWithValue("@cantidad", cantidad);
+
+                    cmd.ExecuteNonQuery();
+                    Disconnect();
+
+                    MessageBox.Show("Stock actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error al editar el stock de las piezas de la reparación.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    Disconnect();
+                }
+            }
+        }
+
         //
         //
         // REPARACIONES
@@ -666,6 +702,61 @@ namespace TallerFitipaldiNuevo.Clases
                     Disconnect();
                 }
             }
+        }
+
+
+        public List<Reparacion> SeleccionarTodasReparaciones()
+        {
+            Connect();
+            List<Reparacion> listaReparaciones = new List<Reparacion>();
+            string query = "SELECT * FROM reparacion";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Reparacion reparacion = new Reparacion
+                        {
+                            Id = reader.GetInt32("Id"),
+                            VehiculoId = reader.GetInt32("VehiculoId"),
+                            Horas = reader.GetDecimal("Horas"),
+                            PrecioPorHora = reader.GetDecimal("PrecioPorHora"),
+                            PrecioSinIva = reader.GetDecimal("PrecioSinIva"),
+                            Iva = reader.GetDecimal("Iva"),
+                            DiaInicioReparacion = reader.GetDateTime("DiaInicioReparacion"),
+                            MecanicoId = reader.GetInt32("MecanicoId"),
+                            Finalizado = reader.GetBoolean("Finalizado"),
+                            Piezas = new List<PiezaViewReparacion>()
+                        };
+
+                        // Obtener las piezas relacionadas con esta reparación
+                        string queryPiezas = "SELECT p.nombre, pr.cantidad FROM pieza p INNER JOIN piezareparacion pr ON p.Id = pr.PiezaId WHERE pr.ReparacionId = @ReparacionId";
+                        using (MySqlConnection connectionPiezas = new MySqlConnection(connectionString))
+                        {
+                            connectionPiezas.Open();
+                            using (MySqlCommand commandPiezas = new MySqlCommand(queryPiezas, connectionPiezas))
+                            {
+                                commandPiezas.Parameters.AddWithValue("@ReparacionId", reparacion.Id);
+                                using (MySqlDataReader readerPiezas = commandPiezas.ExecuteReader())
+                                {
+                                    while (readerPiezas.Read())
+                                    {
+                                        PiezaViewReparacion pieza = new PiezaViewReparacion();
+                                        pieza.Nombre = readerPiezas.GetString("nombre");
+                                        pieza.Cantidad = readerPiezas.GetInt32("cantidad");
+                                        reparacion.Piezas.Add(pieza);
+                                    }
+                                }
+                            }
+                        }
+
+                        listaReparaciones.Add(reparacion);
+                    }
+                }
+            }
+            Disconnect();
+            return listaReparaciones;
         }
 
         public List<Reparacion> SeleccionarReparacionesPorMecanicoId(int mecanicoId)
@@ -723,14 +814,14 @@ namespace TallerFitipaldiNuevo.Clases
             return listaReparaciones;
         }
 
-        public List<Reparacion> SeleccionarReparacionesPorVehicuoId(int VehiculoId)
+        public List<Reparacion> SeleccionarReparacionesPorClienteId(string Username)
         {
             Connect();
             List<Reparacion> listaReparaciones = new List<Reparacion>();
-            string query = "SELECT * FROM reparacion WHERE VehiculoId = @VehiculoId";
+            string query = "SELECT Reparacion.* FROM Cliente JOIN Vehiculo ON Cliente.Id = Vehiculo.ClienteId JOIN Reparacion ON Vehiculo.Id = Reparacion.VehiculoId WHERE Cliente.Username = @Username;";
             using (MySqlCommand command = new MySqlCommand(query, connection))
             {
-                command.Parameters.AddWithValue("@VehiculoId", VehiculoId);
+                command.Parameters.AddWithValue("@Username", Username);
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -959,5 +1050,6 @@ namespace TallerFitipaldiNuevo.Clases
                 }
             }
         }
+
     }
 }

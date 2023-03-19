@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Menú de reparaciones" Height="720" Width="1280" Icon="/Image1.png" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Menú de reparaciones" Height="720" Width="1280" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Icon="/img/icon.png">
     <Window.Background>
         <ImageBrush ImageSource="/img/fondo_reparaciones.jpg"/>
     </Window.Background>
@@ -13,21 +13,8 @@
         <Grid.Background>
             <SolidColorBrush Color="Black" Opacity="0.5"/>
         </Grid.Background>
-        <Button x:Name="bt_crear_reparacion" Content="Crear reparación" HorizontalAlignment="Center" Height="56" Margin="0,452,0,0" VerticalAlignment="Top" Width="284" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_crear_reparacion_Click" FontSize="15" TabIndex="10">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="Red"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <DataGrid x:Name="ReparacionDataGrid" IsReadOnly="True" ColumnWidth="100" AutoGenerateColumns="False" Margin="242,125,242,290" MaxWidth="800" SelectionChanged="ReparacionDataGrid_SelectionChanged">
+        <Label x:Name="titulo" Content="REPARACIONES DE " HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="435" Margin="27,14,0,0" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="45" Foreground="White"/>
+        <DataGrid x:Name="ReparacionDataGrid" IsReadOnly="True" ColumnWidth="119" AutoGenerateColumns="False" Margin="31,127,31,75" MaxWidth="1217" SelectionChanged="ReparacionDataGrid_SelectionChanged">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="Background" Value="#333333"/>
@@ -45,14 +32,50 @@
                     <Setter Property="BorderThickness" Value="1"/>
                 </Style>
             </DataGrid.Resources>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Guardar y ver" Click="MenuItemImprimirFactura_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property= "Height" Value= "30"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
             </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="VehiculoId" Binding="{Binding VehiculoId}" />
+                <DataGridTextColumn Header="Horas" Binding="{Binding Horas}" />
+                <DataGridTextColumn Header="PrecioPorHora" Binding="{Binding PrecioPorHora}" />
+                <DataGridTextColumn Header="PrecioSinIva" Binding="{Binding PrecioSinIva}" />
+                <DataGridTextColumn Header="Iva" Binding="{Binding Iva}" />
+                <DataGridTemplateColumn Header="Piezas">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Piezas}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="Nombre: {0} - Cantidad pedida: {1}">
+                                                    <Binding Path="Nombre" />
+                                                    <Binding Path="Cantidad" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="DiaInicioReparacion" Binding="{Binding DiaInicioReparacion}" />
+                <DataGridTextColumn Header="MecanicoId" Binding="{Binding MecanicoId}" />
+                <DataGridTextColumn Header="Finalizado" Binding="{Binding Finalizado}" />
+            </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="titulo" Content="MIS REPARACIONES" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="435" Margin="27,6,0,0" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="45" Foreground="White"/>
+        <Label x:Name="nombre_cliente" Content="REPARACIONES DE " HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="435" Margin="450,16,0,0" VerticalContentAlignment="Center" FontSize="40" Foreground="White"/>
 
     </Grid>
 </Window>

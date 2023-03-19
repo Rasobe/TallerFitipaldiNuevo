@@ -28,7 +28,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <Button x:Name="bt_vehiculos" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,258,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_vehiculos_Click">
+        <Button x:Name="bt_vehiculos" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,373,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_vehiculos_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -62,7 +62,7 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Button x:Name="bt_clientes" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,387,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_clientes_Click">
+        <Button x:Name="bt_clientes" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,251,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_clientes_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -76,7 +76,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="bt_reparaciones" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,387,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_reparaciones_Click">
+        <Button x:Name="bt_reparaciones" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,505,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_reparaciones_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">

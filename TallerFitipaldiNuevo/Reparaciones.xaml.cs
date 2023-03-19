@@ -28,9 +28,16 @@ namespace TallerFitipaldiNuevo
         {
             InitializeComponent();
             connector = new MySqlConnector("localhost", "TallerFitipaldiV", "root", "root");
-            List<Pieza> piezas = connector.SeleccionarTodasLasPiezas();
+            
             inicioAplicacion();
             titulo_nombre_apellidos.Content = Sesion.ClienteActual.Nombre + " " + Sesion.ClienteActual.Apellidos;
+            actualizarCbPiezas();
+        }
+
+        public void actualizarCbPiezas()
+        {
+            List<Pieza> piezas = connector.SeleccionarTodasLasPiezas();
+            cb_piezas.Items.Clear();
             foreach (Pieza pieza in piezas)
             {
                 cb_piezas.Items.Add(pieza.Nombre + " - " + pieza.Stock + " Ud");
@@ -436,5 +443,11 @@ namespace TallerFitipaldiNuevo
             return numero.ToString("N2", nfi);
         }
 
+        private void bt_anyadir_piezas_Click(object sender, RoutedEventArgs e)
+        {
+            AnyadirPiezaVer.reparaciones = this;
+            AnyadirPiezas anyadirPiezas = new AnyadirPiezas();
+            anyadirPiezas.Show();
+        }
     }
 }

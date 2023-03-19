@@ -26,7 +26,16 @@ namespace TallerFitipaldiNuevo
         {
             InitializeComponent();
             connector = new MySqlConnector("localhost", "TallerFitipaldiV", "root", "root");
-            ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+            if (Sesion.ClienteActual.Rol.Equals("ADMIN"))
+            {
+                ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorClienteId(ClienteVer.clienteVerVehiculosReparaciones.Username);
+                nombre_cliente.Content = ClienteVer.clienteVerVehiculosReparaciones.Username;
+            } 
+            else
+            {
+                ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorClienteId(Sesion.ClienteActual.Username);
+                nombre_cliente.Content = Sesion.ClienteActual.Username;
+            }
         }
 
         private void bt_crear_reparacion_Click(object sender, RoutedEventArgs e)
@@ -39,5 +48,12 @@ namespace TallerFitipaldiNuevo
         {
 
         }
+
+        private void MenuItemImprimirFactura_Click(object sender, RoutedEventArgs e)
+        {
+            Factura factura = new Factura(ReparacionDataGrid.SelectedItem as Reparacion);
+            factura.Imprimir();
+        }
+
     }
 }

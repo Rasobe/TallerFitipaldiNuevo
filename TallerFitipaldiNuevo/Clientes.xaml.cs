@@ -30,7 +30,15 @@ namespace TallerFitipaldiNuevo
 
         private void MenuItemReparaciones_Click(object sender, RoutedEventArgs e)
         {
+            var selectedRow = ClientesDataGrid.SelectedItem;
 
+            if (selectedRow != null)
+            {
+                Cliente clieeteSeleccionado = (Cliente)selectedRow;
+                ClienteVer.clienteVerVehiculosReparaciones = connector.SeleccionarClientePorUsername(clieeteSeleccionado.Username);
+                MenuReparacionesCliente menuReparacionesCliente = new MenuReparacionesCliente();
+                menuReparacionesCliente.Show();
+            }
         }
 
         private void MenuItemVehiculos_Click(object sender, RoutedEventArgs e)

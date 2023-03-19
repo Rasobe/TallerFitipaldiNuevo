@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TallerFitipaldiNuevo.Clases
 {
-    public class ClienteVer
+    internal class AnyadirPiezaVer
     {
-        public static Cliente clienteVerVehiculosReparaciones { get; set; }
+        public static Pieza anyadirPiezaVer { get; set; }
+        public static Reparaciones reparaciones { get; set;}
 
     }
 }

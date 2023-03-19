@@ -119,6 +119,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnyadirPiezas.xaml.cs">
+      <DependentUpon>AnyadirPiezas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\AnyadirPiezaVer.cs" />
     <Compile Include="Clases\ClienteVerVehiculosReparaciones.cs" />
     <Compile Include="Clases\Factura.cs" />
     <Compile Include="Clases\Pieza.cs" />
@@ -156,6 +160,13 @@
     <Compile Include="Vehiculos.xaml.cs">
       <DependentUpon>Vehiculos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VentanaEmergenteAnyadirPieza.xaml.cs">
+      <DependentUpon>VentanaEmergenteAnyadirPieza.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AnyadirPiezas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ConfirmarCrearReparacion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +219,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="VentanaEmergenteAnyadirPieza.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MenuPrincipal.xaml.cs">
@@ -250,6 +265,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\fondo_reparaciones.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\fondo_anyadir_pieza.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,0 +1,34 @@
+﻿<Window x:Class="TallerFitipaldiNuevo.VentanaEmergenteAnyadirPieza"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TallerFitipaldiNuevo"
+        mc:Ignorable="d"
+        Title="¿Que cantidad quieres añadir?" Height="225" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Icon="/img/icon.png">
+    <Window.Background>
+        <ImageBrush ImageSource="/img/fondo_anyadir_pieza.jpg"/>
+    </Window.Background>
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0.7"/>
+        </Grid.Background>
+        <Label Content="¿Que cantidad quieres añadir a la pieza?" HorizontalAlignment="Center" Margin="0,26,0,0" VerticalAlignment="Top" Foreground="White" FontSize="16"/>
+        <TextBox x:Name="tb_cantidad" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Height="23" Margin="0,96,0,0"/>
+        <Button x:Name="bt_anyadir_pieza" Content="Añadir" HorizontalAlignment="Center" Height="19" Margin="0,143,0,0" VerticalAlignment="Top" Width="60" Background="White" Foreground="Black" BorderBrush="Black" BorderThickness="1,1,1,1" Click="bt_anyadir_pieza_Click" TabIndex="10" FontSize="11">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Label x:Name="tit_nombre_pieza" Content="Nombre pieza" HorizontalAlignment="Center" Margin="0,52,0,0" VerticalAlignment="Top" Foreground="White" FontSize="13" FontWeight="Bold"/>
+    </Grid>
+</Window>
