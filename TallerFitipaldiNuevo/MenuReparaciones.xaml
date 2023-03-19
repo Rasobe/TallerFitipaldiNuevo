@@ -48,6 +48,7 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Guardar y ver" Click="MenuItemImprimirFactura_Click"/>
+                    <MenuItem Header="Eliminar" Click="MenuItemEliminar_Click"/>
                     <MenuItem Header="Finalizar" Click="MenuItemFinalizar_Click"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>

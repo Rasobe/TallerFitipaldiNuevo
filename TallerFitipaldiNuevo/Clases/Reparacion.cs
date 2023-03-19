@@ -51,7 +51,7 @@ namespace TallerFitipaldiNuevo.Clases
 
         public override string ToString()
         {
-            return $"Id: {Id}, VehiculoId: {VehiculoId}, DiaInicioReparacion: {DiaInicioReparacion}, Horas: {Horas}, PrecioPorHora: {PrecioPorHora}, PrecioSinIva: {PrecioSinIva}, PrecioConIva: {Iva}, DiaInicioReparacion: {DiaInicioReparacion.ToShortDateString()}, PrecioTotalPiezas: {PrecioTotalPiezas}, MecanicoId: {MecanicoId}, Finalizado: {Finalizado}";
+            return $"Id: {Id}, VehiculoId: {VehiculoId}, DiaInicioReparacion: {DiaInicioReparacion}, Horas: {Horas}, PrecioPorHora: {PrecioPorHora}, PrecioSinIva: {PrecioSinIva}, Iva: {Iva}, DiaInicioReparacion: {DiaInicioReparacion.ToShortDateString()}, PrecioTotalPiezas: {PrecioTotalPiezas}, MecanicoId: {MecanicoId}, Finalizado: {Finalizado}";
         }
 
     }

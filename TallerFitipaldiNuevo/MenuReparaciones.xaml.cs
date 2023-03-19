@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TallerFitipaldiNuevo.Clases;
 
 namespace TallerFitipaldiNuevo
@@ -39,8 +28,7 @@ namespace TallerFitipaldiNuevo
 
         private void ReparacionDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Reparacion reparacion = ReparacionDataGrid.SelectedItem as Reparacion;
-            Console.WriteLine(reparacion.ToString());
+            
         }
         private void cb_piezas_no_cambiar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -56,7 +44,24 @@ namespace TallerFitipaldiNuevo
 
         private void MenuItemFinalizar_Click(object sender, RoutedEventArgs e)
         {
+            Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
+            MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas finalizar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                connector.FinalizarReparacionPorIdReparacion(r.Id);
+                ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+            }
+        }
 
+        private void MenuItemEliminar_Click(object sender, RoutedEventArgs e)
+        {
+            Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
+            MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas eliminar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                connector.EliminarReparacionPorIdReparacion(r.Id);
+                ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+            }
         }
 
     }

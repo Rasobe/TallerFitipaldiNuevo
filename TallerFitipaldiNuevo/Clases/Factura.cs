@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace TallerFitipaldiNuevo.Clases
 {
@@ -19,9 +20,11 @@ namespace TallerFitipaldiNuevo.Clases
         public Vehiculo Vehiculo { get; set; }
         public Cliente Cliente { get; set; }
         public Cliente Mecanico { get; set; }
+        public decimal Horas { get; set; }
         public List<PiezaViewReparacion> listaPiezas { get; set; }
         public decimal PrecioTotalPiezas { get; set; }
         public decimal PrecioTotalHoras { get; set; }
+        public decimal PrecioTotal { get; set; }
         public decimal PrecioConIva { get; set; }
         public decimal Iva { get; set; }
 
@@ -33,6 +36,8 @@ namespace TallerFitipaldiNuevo.Clases
                 PrecioConIva = reparacion.PrecioTotal;
                 PrecioTotalPiezas = reparacion.PrecioSinIva;
                 PrecioTotalHoras = reparacion.PrecioTotalHoras;
+                PrecioTotal = reparacion.PrecioTotal;
+                Horas = reparacion.Horas;
                 Iva = reparacion.Iva;
                 Vehiculo = connector.SeleccionarVehiculoPorId(reparacion.VehiculoId);
                 Mecanico = connector.SeleccionarClientePorId(reparacion.MecanicoId);
@@ -81,16 +86,13 @@ namespace TallerFitipaldiNuevo.Clases
                 {
                     pieza = connector.SeleccionarPiezaPorNombre(parte.Nombre);
 
-                    // Draw the part name
                     gfx.DrawString(parte.Nombre + " (" + parte.Cantidad + ")", font, XBrushes.Black, x, y);
 
-                    // Draw the price aligned to the right
-                    string priceString = $"{pieza.Precio:C2}";
+                    string priceString = $"{pieza.Precio * parte.Cantidad:C2}";
                     double priceWidth = gfx.MeasureString(priceString, font).Width;
                     double rightMargin = page.Width - x - priceWidth;
                     gfx.DrawString(priceString, font, XBrushes.Black, rightMargin, y);
 
-                    // Draw dots between part name and price
                     string dotsString = "..........................................";
                     double dotsWidth = gfx.MeasureString(dotsString, font).Width;
                     double dotsX = x + gfx.MeasureString(parte.Nombre + " (" + parte.Cantidad + ")", font).Width;
@@ -109,26 +111,66 @@ namespace TallerFitipaldiNuevo.Clases
 
                     y += 20;
                 }
+                y += 5;
+                string leftString = $"{Horas} horas en total";
 
-                string text = $"Precio sin IVA (Piezas): {PrecioTotalPiezas:C2}";
+                gfx.DrawString(leftString, font, XBrushes.Black, x, y);
 
-                double textWidth = gfx.MeasureString(text, font).Width;
+                string rightString = $"{PrecioTotalHoras:C2}";
+
+                double rightWidth = gfx.MeasureString(rightString, font).Width;
+                double rightMargin2 = page.Width - x - rightWidth;
+
+                gfx.DrawString(rightString, font, XBrushes.Black, rightMargin2, y);
+
+                string dotsString2 = "..........................................";
+                double dotsWidth2 = gfx.MeasureString(dotsString2, font).Width;
+                double dotsX2 = x + gfx.MeasureString(leftString, font).Width;
+
+                while (dotsX2 + dotsWidth2 < rightMargin2)
+                {
+                    gfx.DrawString(dotsString2, font, XBrushes.Black, dotsX2, y);
+                    dotsX2 += dotsWidth2;
+                }
+                if (dotsX2 < rightMargin2)
+                {
+                    int remainingDots = (int)((rightMargin2 - dotsX2) / gfx.MeasureString(".", font).Width);
+                    string remainingDotsStr = new String('.', remainingDots);
+                    gfx.DrawString(remainingDotsStr, font, XBrushes.Black, dotsX2, y);
+                }
+
+                string textox2 = $"Precio sin IVA (piezas): {PrecioTotalPiezas:C2}";
+                double textWidth = gfx.MeasureString(textox2, font).Width;
                 double x2 = page.Width - textWidth - 50;
+                y += 30;
 
-                // Draw the right-aligned text
-                gfx.DrawString(text, font, XBrushes.Black, x2, y);
-                gfx.DrawString($"IVA: {Iva}", font, XBrushes.Black, x2, y);
-                gfx.DrawString($"Precio con IVA (Piezas): {PrecioConIva}", font, XBrushes.Black, x2, y);
+                gfx.DrawString(textox2, font, XBrushes.Black, x2, y);
+                y += 20;
+
+                textox2 = $"IVA: {Iva}%";
+                textWidth = gfx.MeasureString(textox2, font).Width;
+                x2 = page.Width - textWidth - 50;
+                gfx.DrawString(textox2, font, XBrushes.Black, x2, y);
+                y += 20;
+
+                textox2 = $"Precio con IVA (piezas): {PrecioTotalPiezas + (PrecioTotalPiezas * Iva / 100):C2}";
+                textWidth = gfx.MeasureString(textox2, font).Width;
+                x2 = page.Width - textWidth - 50;
+                gfx.DrawString(textox2, font, XBrushes.Black, x2, y);
+                y += 30;
+
+                textox2 = $"Precio TOTAL (con horas): {PrecioTotalPiezas + (PrecioTotalPiezas * Iva / 100) + PrecioTotalHoras:C2}";
+                textWidth = gfx.MeasureString(textox2, new XFont("Arial", 12)).Width;
+                x2 = page.Width - textWidth - 50;
+                gfx.DrawString(textox2, font, XBrushes.Black, x2, y);
+                y += 30;
 
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.FileName = $"Factura_{Numero}.pdf";
-                y += 20;
 
                 saveFileDialog1.Filter = "PDF File|*.pdf";
-                y += 20;
 
                 saveFileDialog1.Title = "Guardar archivo PDF";
-                y += 20;
 
                 if (saveFileDialog1.ShowDialog() == true)
                 {

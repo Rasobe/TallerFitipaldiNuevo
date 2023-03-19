@@ -281,15 +281,6 @@ namespace TallerFitipaldiNuevo
             }
         }
 
-        private void bt_generar_factura_Click(object sender, RoutedEventArgs e)
-        {
-            PrintDocument printDocument = new PrintDocument();
-            printDocument.PrintPage += PrintDocument_PrintPage;
-            PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
-            printPreviewDialog.Document = printDocument;
-            printPreviewDialog.ShowDialog();
-        }
-
         private void actualizarPrecios()
         {
             decimal precioTotalSinIva = 0;
@@ -384,18 +375,12 @@ namespace TallerFitipaldiNuevo
 
                 if (dialog.Confirmed)
                 {
-
-                    List<string> listaPiezas = cb_piezas_elegidas.Items.Cast<string>().ToList();
-                    Reparacion reparacion = new Reparacion(vehiculoId, decimal.Parse(tb_horas.Text), decimal.Parse(tb_precio_hora.Text), decimal.Parse(tb_precio_sin_iva.Text), decimal.Parse(tb_iva.Text), DateTime.Parse(diaInicioReparacion), Sesion.ClienteActual.Id);
-
                     // Insertamos la reparación
+                    Reparacion reparacion = new Reparacion(vehiculoId, decimal.Parse(tb_horas.Text), decimal.Parse(tb_precio_hora.Text), decimal.Parse(tb_precio_sin_iva.Text), decimal.Parse(tb_iva.Text), DateTime.Parse(diaInicioReparacion), Sesion.ClienteActual.Id);
                     connector.InsertarReparacion(reparacion);
 
-                    // Recogemos el ID de la reparación que hemos creado anteriormente
-                    int idReparacion = connector.SeleccionarIdReparacionPorReparacion(reparacion);
-                    Console.WriteLine("Id reparacion: " + idReparacion.ToString());
-
                     // Antes de introducir lo del paso siguiente, tenemos que pasar el nombre de la pieza a su respectivo id y separarla de su cantidad pedida.
+                    List<string> listaPiezas = cb_piezas_elegidas.Items.Cast<string>().ToList();
                     List<(int, int)> listaPiezasBD = new List<(int, int)>();
                     string nombrePieza = "";
                     int idPieza = 0;
@@ -414,6 +399,10 @@ namespace TallerFitipaldiNuevo
                         listaPiezasBD.Add((idPieza, cantidadPieza));
 
                     }
+
+                    // Recogemos el ID de la reparación que hemos creado anteriormente
+                    int idReparacion = connector.SeleccionarIdReparacionPorReparacion(reparacion);
+                    Console.WriteLine("Id reparacion: " + idReparacion.ToString());
 
                     // Introducimos las piezas con su reparación correspondiente y actualizamos el Stock de la tabla de Piezas.
                     Console.WriteLine(idReparacion);

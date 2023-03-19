@@ -87,8 +87,8 @@ namespace TallerFitipaldiNuevo.Clases
                     PrecioPorHora DECIMAL NOT NULL,
                     PrecioTotalHoras DECIMAL(10,2) AS (Horas * PrecioPorHora),
                     PrecioSinIva DECIMAL NOT NULL,
-                    PrecioConIva DECIMAL NOT NULL,
-                    PrecioTotalPiezas DECIMAL(10,2) AS (PrecioSinIva + (PrecioSinIva * PrecioConIva / 100)),
+                    Iva DECIMAL NOT NULL,
+                    PrecioTotalPiezas DECIMAL(10,2) AS (PrecioSinIva + (PrecioSinIva * Iva / 100)),
                     PrecioTotal DECIMAL(10,2) AS (precioTotalPiezas + precioTotalHoras),
                     DiaInicioReparacion DATETIME NOT NULL,
                     MecanicoId INTEGER NOT NULL,
@@ -104,8 +104,8 @@ namespace TallerFitipaldiNuevo.Clases
                     PiezaId INTEGER NOT NULL,
                     Cantidad int NOT NULL,
                     PRIMARY KEY (ReparacionId, PiezaId),
-                    FOREIGN KEY (ReparacionId) REFERENCES Reparacion(Id) ON DELETE CASCADE,
-                    FOREIGN KEY (PiezaId) REFERENCES Pieza(Id) ON DELETE CASCADE
+                    FOREIGN KEY (ReparacionId) REFERENCES Reparacion(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+                    FOREIGN KEY (PiezaId) REFERENCES Pieza(Id) ON DELETE CASCADE ON UPDATE CASCADE
                 );
             ";
 
@@ -279,15 +279,15 @@ namespace TallerFitipaldiNuevo.Clases
                     // Insertar datos de prueba en la tabla Pieza
                     string insertPieza = @"
                     INSERT INTO Pieza (nombre, descripcion, stock, precio)
-                    VALUES ('Bujía', 'Descripción de la bujía', 10, 5.99),
+                    VALUES ('Bujía', 'Descripción de la bujía', 10, 5.00),
                             ('Motor', 'Descripción del motor', 10, 500.00),
                             ('Llantas', 'Descripción de las llantas', 40, 75.00),
                             ('Frenos', 'Descripción de los frenos', 40, 100.00),
                             ('Batería', 'Descripción de la batería', 20 ,50.00),
                             ('Radiador', 'Descripción del radiador',10 ,80.00),
                             ('Alternador','Descripción del alternador' ,10 ,120.00),
-                            ('Filtro de aire','Descripción del filtro de aire' ,30 ,15.99),
-                            ('Correa de distribución','Descripción de la correa de distribución' ,20 ,45.99),
+                            ('Filtro de aire','Descripción del filtro de aire' ,30 ,15.00),
+                            ('Correa de distribución','Descripción de la correa de distribución' ,20 ,45.00),
                             ('Embrague','Descripción del embrague' ,10 ,150.00),
                             ('Amortiguadores','Descripción de los amortiguadores' ,40 ,200.00),
                             ('Bomba de agua', 'Descripción de la bomba de agua', 10 ,30.00),
@@ -305,30 +305,6 @@ namespace TallerFitipaldiNuevo.Clases
                     Console.WriteLine("Datos de prueba insertados en la tabla Pieza.");
                 }
 
-                /*
-
-                selectCliente = "SELECT COUNT(*) FROM Reparacion";
-                selectCommand = new MySqlCommand(selectCliente, this.connection);
-                result = selectCommand.ExecuteScalar();
-                count = Convert.ToInt32(result);
-
-                // Si no se encuentran registros en la tabla Reparacion, insertar datos de prueba
-                if (count == 0)
-                {
-                    // Insertar datos de prueba en la tabla Reparacion
-                    string insertReparacion = @"
-                    INSERT INTO Reparacion (VehiculoId, Horas, PrecioPorHora, PrecioSinIva,PrecioConIva,DiaInicioReparacion,MecanicoId ,Finalizado)
-                    VALUES (1 ,10.5 ,50.0 ,525.0 ,21.0 ,'2022-01-01',1,false),
-                           (2 ,8.0 ,40.0 ,320.0 ,21.0 ,'2022-02-15',2,true),
-                           (3 ,12.5 ,60.0 ,750.0 ,21.0 ,'2022-03-20',3,false)
-                    ;
-                ";
-
-                    MySqlCommand command = new MySqlCommand(insertReparacion, this.connection);
-                    command.ExecuteNonQuery();
-                    Console.WriteLine("Datos de prueba insertados en la tabla Reparacion.");
-                }
-                */
             }
             catch (Exception e)
             {
