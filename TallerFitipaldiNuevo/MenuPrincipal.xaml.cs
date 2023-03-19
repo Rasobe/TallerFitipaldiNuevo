@@ -29,12 +29,12 @@ namespace TallerFitipaldiNuevo
             {
                 bt_vehiculos.Content = "Vehículos";
                 bt_clientes.Content = "Clientes";
-                bt_reparaciones.Content = "Reparaciones";
+                bt_reparaciones.Visibility = Visibility.Collapsed;
             } else
             {
-                bt_clientes.Visibility= Visibility.Collapsed;
                 bt_vehiculos.Content = "Vehículos";
                 bt_reparaciones.Content = "Reparaciones";
+                bt_clientes.Visibility= Visibility.Collapsed;
             }
 
         }
@@ -62,8 +62,15 @@ namespace TallerFitipaldiNuevo
 
         private void bt_reparaciones_Click(object sender, RoutedEventArgs e)
         {
-            Reparaciones reparaciones = new Reparaciones();
-            reparaciones.Show();
+            if (clienteActual.Rol.Equals("MECANICO"))
+            {
+                MenuReparaciones reparaciones = new MenuReparaciones();
+                reparaciones.Show();
+            } else
+            {
+                MenuReparacionesCliente reparacionesCliente = new MenuReparacionesCliente();
+                reparacionesCliente.Show();
+            }
         }
 
         private void bt_clientes_Click(object sender, RoutedEventArgs e)

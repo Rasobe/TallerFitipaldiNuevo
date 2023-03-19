@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -18,10 +19,10 @@ namespace TallerFitipaldiNuevo
 {
     public partial class Reparaciones : Window
     {
-        MySqlConnector connector;
+        private MySqlConnector connector;
 
-        private static int vehiculoId;
-        private static string diaInicioReparacion;
+        private int vehiculoId;
+        private string diaInicioReparacion;
 
         public Reparaciones()
         {
@@ -46,6 +47,13 @@ namespace TallerFitipaldiNuevo
             cb_piezas_elegidas.Items.Clear();
             bt_anyadir_pieza.Content = "Añadir";
             cb_piezas.IsEnabled = true;
+            tb_horas.Text = "0,0";
+            tb_precio_hora.Text = "0,0";
+            tb_precio_total_horas.Text = "0,0";
+            tb_precio_sin_iva.Text = "0,0";
+            tb_iva.Text = "21";
+            tb_precio_total.Text = "0,0";
+            dia_elegido_inicio.SelectedDate = DateTime.Now;
         }
 
         private void buscar_cliente_por_username(object sender, System.Windows.Input.KeyEventArgs e)
@@ -285,7 +293,7 @@ namespace TallerFitipaldiNuevo
 
         private void actualizarPrecios()
         {
-            float precioTotalSinIva = 0;
+            decimal precioTotalSinIva = 0;
             foreach (string pieza in cb_piezas_elegidas.Items)
             {
                 string nombrePieza = pieza.Split('-')[0].Trim();
@@ -296,11 +304,11 @@ namespace TallerFitipaldiNuevo
                 }
             }
 
-            tb_precio_sin_iva.Text = precioTotalSinIva.ToString();
+            tb_precio_sin_iva.Text = formatearNumero(precioTotalSinIva);
 
-            float iva = float.Parse("1," + tb_iva.Text);
+            decimal iva = decimal.Parse("1," + tb_iva.Text);
 
-            tb_precio_total.Text = (precioTotalSinIva * iva).ToString();
+            tb_precio_total.Text = formatearNumero(precioTotalSinIva * iva);
 
         }
 
@@ -312,14 +320,30 @@ namespace TallerFitipaldiNuevo
 
         private void anyadir_horas_precio(object sender, RoutedEventArgs e)
         {
-            if (tb_horas.Text.All(char.IsDigit) && tb_horas.Text.Length > 0 && tb_precio_hora.Text.All(char.IsDigit) && tb_precio_hora.Text.Length > 0)
+            if (tb_horas.Text.All(c => char.IsDigit(c) || c == ',') && tb_horas.Text.Length > 0)
             {
-                tb_precio_total_horas.Text = (float.Parse(tb_horas.Text) * float.Parse(tb_precio_hora.Text)).ToString();
+                tb_precio_total_horas.Text = formatearNumero(decimal.Parse(tb_horas.Text) * decimal.Parse(tb_precio_hora.Text));
             }
             else
             {
                 MessageBox.Show("Debes rellenar ambos campos con carácteres numéricos o no puedes poner una cantidad inferior a 0.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                tb_horas.Text = "0";
                 tb_horas.Focus();
+            }
+        }
+
+        private void anyadir_horas_precio2(object sender, RoutedEventArgs e)
+        {
+            if (tb_precio_hora.Text.All(c => char.IsDigit(c) || c == ',') && tb_precio_hora.Text.Length > 0)
+            {
+
+                tb_precio_total_horas.Text = formatearNumero(decimal.Parse(tb_horas.Text) * decimal.Parse(tb_precio_hora.Text));
+            }
+            else
+            {
+                MessageBox.Show("Debes rellenar ambos campos con carácteres numéricos o no puedes poner una cantidad inferior a 0.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                tb_precio_hora.Text = "0";
+                tb_precio_hora.Focus();
             }
         }
 
@@ -337,7 +361,7 @@ namespace TallerFitipaldiNuevo
 
             // Comprobaciones previas a la creación de la reparación
 
-            if (tb_buscar_cliente_username.Text.Length > 0 && tb_vehiculo_seleccionado.Text.Length > 0 && tb_horas.Text.Length > 0 && tb_precio_total_horas.Text.Length > 0 && diaInicioReparacion.Length > 0 && cb_piezas_elegidas.Items.Count > 0)
+            if (tb_buscar_cliente_username.Text.Length > 0 && tb_vehiculo_seleccionado.Text.Length > 0 && tb_horas.Text.Length > 0 && tb_precio_total_horas.Text.Length > 0 && diaInicioReparacion != null && cb_piezas_elegidas.Items.Count > 0)
             {
                 Vehiculo vehiculo = connector.SeleccionarVehiculoPorId(vehiculoId);
                 Cliente clienteDelVehiculo = connector.SeleccionarClientePorId(vehiculo.ClienteId);
@@ -357,13 +381,18 @@ namespace TallerFitipaldiNuevo
                         Math.Round((float.Parse(tb_precio_total_horas.Text) + float.Parse(tb_precio_total.Text)), 2).ToString() + " €"
                     );
 
-                // Show the dialog box
                 dialog.ShowDialog();
 
-                // Check if the user confirmed their choice
                 if (dialog.Confirmed)
                 {
-                    // The user clicked Yes
+
+                    List<string> listaPiezas = cb_piezas_elegidas.Items.Cast<string>().ToList();
+                    Reparacion reparacion = new Reparacion(vehiculoId, decimal.Parse(tb_horas.Text), decimal.Parse(tb_precio_hora.Text), decimal.Parse(tb_precio_sin_iva.Text), decimal.Parse(tb_iva.Text), DateTime.Parse(diaInicioReparacion), Sesion.ClienteActual.Id);
+
+                    connector.InsertarReparacion(reparacion);
+                    MenuReparaciones menuReparaciones = new MenuReparaciones();
+                    menuReparaciones.Show();
+                    this.Close();
                 }
             }
             else
@@ -376,7 +405,16 @@ namespace TallerFitipaldiNuevo
 
         private void bt_limpiar_todo_Click(object sender, RoutedEventArgs e)
         {
-
+            inicioAplicacion();
         }
+
+        private string formatearNumero(decimal numero)
+        {
+            NumberFormatInfo nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ",";
+            nfi.NumberGroupSeparator = ".";
+            return numero.ToString("N2", nfi);
+        }
+
     }
 }

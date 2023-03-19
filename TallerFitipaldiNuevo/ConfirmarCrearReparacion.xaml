@@ -5,18 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="ConfirmarCrearReparacion" Height="300" Width="400">
+        Title="ConfirmarCrearReparacion" Height="300" Width="400" Icon="/img/icon.png" SizeToContent="Width" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <StackPanel Margin="10">
-        <TextBlock TextWrapping="Wrap">Are you sure you want to create this repair with these details?</TextBlock>
+        <TextBlock TextWrapping="Wrap">¿Estás seguro de que quieres crear esta reparación con los siguientes datos?</TextBlock>
         <TextBlock Margin="0 10">· Cliente: <Run x:Name="ClienteText"/></TextBlock>
         <TextBlock>· Vehiculo: <Run x:Name="VehiculoText"/></TextBlock>
         <TextBlock>· Piezas a cambiar: <Run x:Name="PiezasText"/></TextBlock>
         <TextBlock>· Horas de trabajo: <Run x:Name="HorasText"/></TextBlock>
         <TextBlock>· Día de inicio: <Run x:Name="DiaInicioText"/></TextBlock>
         <TextBlock>· Precio total con Iva: <Run x:Name="PrecioTotalText"/></TextBlock>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
-            <Button Content="_Yes" IsDefault="True" Click="YesButton_Click"/>
-            <Button Content="_No" IsCancel ="True"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 30 0 0">
+            <Button x:Name="bt_si" IsDefault="true" Margin="0,0,10,0" Content="Si" Height="28" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" FontSize="15" TabIndex="10" Click="YesButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="Red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="bt_no" IsDefault="true" Margin="10,0,0,0" Content="No" IsCancel="True" Height="28" Width="106" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" FontSize="15" TabIndex="10">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="Red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
     </StackPanel>
 </Window>

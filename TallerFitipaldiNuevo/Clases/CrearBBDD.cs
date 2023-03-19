@@ -75,7 +75,7 @@ namespace TallerFitipaldiNuevo.Clases
                     nombre VARCHAR(50) NOT NULL UNIQUE,
                     descripcion VARCHAR(255) NOT NULL,
                     stock INT NOT NULL,
-                    precio float NOT NULL
+                    precio decimal(10,2) NOT NULL
                 );
             ";
 
@@ -97,6 +97,17 @@ namespace TallerFitipaldiNuevo.Clases
                 );
             ";
 
+                string createReparacionPiezasTable = @"
+                CREATE TABLE PiezaReparacion (
+                    ReparacionId INTEGER NOT NULL,
+                    PiezaId INTEGER NOT NULL,
+                    Cantidad int NOT NULL,
+                    PRIMARY KEY (ReparacionId, PiezaId),
+                    FOREIGN KEY (ReparacionId) REFERENCES Reparacion(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+                    FOREIGN KEY (PiezaId) REFERENCES Pieza(Id) ON DELETE CASCADE ON UPDATE CASCADE
+                );
+            ";
+
                 MySqlCommand command = new MySqlCommand(createClienteTable, this.connection);
                 command.ExecuteNonQuery();
                 Console.WriteLine("Tabla Cliente creada o ya existente.");
@@ -112,6 +123,10 @@ namespace TallerFitipaldiNuevo.Clases
                 command.CommandText = createReparacionesTable;
                 command.ExecuteNonQuery();
                 Console.WriteLine("Tabla Reparaciones creada o ya existente.");
+
+                command.CommandText = createReparacionPiezasTable;
+                command.ExecuteNonQuery();
+                Console.WriteLine("Tabla relacion Reparacion / Piezas creada o ya existente.");
 
             }
             catch (MySqlException ex)
@@ -289,6 +304,8 @@ namespace TallerFitipaldiNuevo.Clases
                     Console.WriteLine("Datos de prueba insertados en la tabla Pieza.");
                 }
 
+                /*
+
                 selectCliente = "SELECT COUNT(*) FROM Reparacion";
                 selectCommand = new MySqlCommand(selectCliente, this.connection);
                 result = selectCommand.ExecuteScalar();
@@ -310,6 +327,7 @@ namespace TallerFitipaldiNuevo.Clases
                     command.ExecuteNonQuery();
                     Console.WriteLine("Datos de prueba insertados en la tabla Reparacion.");
                 }
+                */
             }
             catch (Exception e)
             {

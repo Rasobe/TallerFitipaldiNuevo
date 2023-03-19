@@ -568,7 +568,7 @@ namespace TallerFitipaldiNuevo.Clases
                         pieza.Nombre = reader.GetString("nombre");
                         pieza.Descripcion = reader.GetString("descripcion");
                         pieza.Stock = reader.GetInt32("stock");
-                        pieza.Precio = reader.GetFloat("precio");
+                        pieza.Precio = reader.GetDecimal("precio");
                         piezas.Add(pieza);
                     }
                 }
@@ -612,7 +612,7 @@ namespace TallerFitipaldiNuevo.Clases
                         pieza.Nombre = reader.GetString("nombre");
                         pieza.Descripcion = reader.GetString("descripcion");
                         pieza.Stock = reader.GetInt32("stock");
-                        pieza.Precio = reader.GetFloat("precio");
+                        pieza.Precio = reader.GetDecimal("precio");
                         return pieza;
                     }
                 }
@@ -626,6 +626,82 @@ namespace TallerFitipaldiNuevo.Clases
         // REPARACIONES
         //
         //
+
+        public void InsertarReparacion(Reparacion reparacion)
+        {
+            try
+            {
+                Connect();
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    cmd.Connection = connection;
+                    cmd.CommandText = "INSERT INTO reparacion (VehiculoId, Horas, PrecioPorHora, PrecioSinIva, Iva, DiaInicioReparacion, MecanicoId ,Finalizado) VALUES (@VehiculoId, @Horas, @PrecioPorHora, @PrecioSinIva, @Iva, @DiaInicioReparacion, @MecanicoId, @Finalizado)";
+                    cmd.Parameters.AddWithValue("@VehiculoId", reparacion.VehiculoId);
+                    cmd.Parameters.AddWithValue("@Horas", reparacion.Horas);
+                    cmd.Parameters.AddWithValue("@PrecioPorHora", reparacion.PrecioPorHora);
+                    cmd.Parameters.AddWithValue("@PrecioSinIva", reparacion.PrecioSinIva);
+                    cmd.Parameters.AddWithValue("@Iva", reparacion.Iva);
+                    cmd.Parameters.AddWithValue("@DiaInicioReparacion", reparacion.DiaInicioReparacion);
+                    cmd.Parameters.AddWithValue("@MecanicoId", reparacion.MecanicoId);
+                    cmd.Parameters.AddWithValue("@Finalizado", reparacion.Finalizado);
+
+                    Connect();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Se ha añadido correctamente la reparación.", "Inserción exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error al insertar la reparación.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Disconnect();
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    Disconnect();
+                }
+            }
+        }
+
+        public List<Reparacion> seleccionarReparacionesPorMecanicoId(int mecanicoId)
+        {
+            Connect();
+            List<Reparacion> listaReparaciones = new List<Reparacion>();
+            string query = "SELECT * FROM reparacion WHERE MecanicoId = @MecanicoId";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@MecanicoId", mecanicoId);
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Reparacion reparacion = new Reparacion();
+                        reparacion.Id = reader.GetInt32("Id");
+                        reparacion.VehiculoId = reader.GetInt32("VehiculoId");
+                        reparacion.Horas = reader.GetDecimal("Horas");
+                        reparacion.PrecioPorHora = reader.GetDecimal("PrecioPorHora");
+                        reparacion.PrecioSinIva = reader.GetDecimal("PrecioSinIva");
+                        reparacion.Iva = reader.GetDecimal("Iva");
+                        reparacion.DiaInicioReparacion = reader.GetDateTime("DiaInicioReparacion");
+                        reparacion.MecanicoId = reader.GetInt32("MecanicoId");
+                        reparacion.Finalizado = reader.GetBoolean("Finalizado");
+                        listaReparaciones.Add(reparacion);
+                    }
+                }
+            }
+            Disconnect();
+            return listaReparaciones;
+        }
+
+        //
+        //
+        // REPARACIONS - PIEZAS
+        //
+        //
+
+
 
     }
 }

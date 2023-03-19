@@ -124,6 +124,12 @@
     <Compile Include="ConfirmarCrearReparacion.xaml.cs">
       <DependentUpon>ConfirmarCrearReparacion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MenuReparacionesCliente.xaml.cs">
+      <DependentUpon>MenuReparacionesCliente.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuReparaciones.xaml.cs">
+      <DependentUpon>MenuReparaciones.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MiPerfil.xaml.cs">
       <DependentUpon>MiPerfil.xaml</DependentUpon>
     </Compile>
@@ -159,6 +165,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MenuPrincipal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuReparacionesCliente.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MenuReparaciones.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

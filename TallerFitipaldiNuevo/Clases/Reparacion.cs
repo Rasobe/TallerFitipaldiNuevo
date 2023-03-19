@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,6 +21,8 @@ namespace TallerFitipaldiNuevo.Clases
         public decimal Iva { get; set; }
 
         public DateTime DiaInicioReparacion { get; set; }
+
+        public virtual List<Pieza> Piezas { get; set; }
 
         [NotMapped]
         public decimal PrecioTotalPiezas => PrecioSinIva + (PrecioSinIva * Iva / 100);

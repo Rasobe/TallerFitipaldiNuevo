@@ -130,7 +130,7 @@
         <Label Content="4) Horas de trabajo" HorizontalAlignment="Left" Margin="62,302,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
         <TextBox x:Name="tb_horas" HorizontalAlignment="Left" Height="28" Margin="92,374,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center" LostFocus="anyadir_horas_precio"/>
         <Label x:Name="lbl_cantidad_pieza_Copy3" Content="Horas" HorizontalAlignment="Left" Margin="92,346,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
-        <TextBox x:Name="tb_precio_hora" HorizontalAlignment="Left" Height="28" Margin="254,374,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center" Text="50" LostFocus="anyadir_horas_precio"/>
+        <TextBox x:Name="tb_precio_hora" HorizontalAlignment="Left" Height="28" Margin="254,374,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center" Text="50" LostFocus="anyadir_horas_precio2"/>
         <Label x:Name="lbl_cantidad_pieza_Copy4" Content="Precio por hora" HorizontalAlignment="Left" Margin="254,346,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
         <TextBox x:Name="tb_precio_total_horas" IsReadOnly="True" HorizontalAlignment="Left" Height="28" Margin="94,439,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" VerticalContentAlignment="Center"/>
         <Label x:Name="lbl_cantidad_pieza_Copy5" Content="Precio total horas" HorizontalAlignment="Left" Margin="94,413,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="140" Height="32"/>
