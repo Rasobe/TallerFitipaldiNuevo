@@ -104,8 +104,8 @@ namespace TallerFitipaldiNuevo.Clases
                     PiezaId INTEGER NOT NULL,
                     Cantidad int NOT NULL,
                     PRIMARY KEY (ReparacionId, PiezaId),
-                    FOREIGN KEY (ReparacionId) REFERENCES Reparacion(Id) ON DELETE CASCADE ON UPDATE CASCADE,
-                    FOREIGN KEY (PiezaId) REFERENCES Pieza(Id) ON DELETE CASCADE ON UPDATE CASCADE
+                    FOREIGN KEY (ReparacionId) REFERENCES Reparacion(Id) ON DELETE CASCADE,
+                    FOREIGN KEY (PiezaId) REFERENCES Pieza(Id) ON DELETE CASCADE
                 );
             ";
 

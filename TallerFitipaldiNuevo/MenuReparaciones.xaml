@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Menú de reparaciones" Height="724" Width="1464" Icon="/Image1.png" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Menú de reparaciones" Height="724" Width="1464" Icon="/img/icon.png" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="/img/fondo_reparaciones.jpg"/>
     </Window.Background>
@@ -13,7 +13,7 @@
         <Grid.Background>
             <SolidColorBrush Color="Black" Opacity="0.5"/>
         </Grid.Background>
-        <Button x:Name="bt_crear_reparacion" Content="Crear reparación" HorizontalAlignment="Center" Height="56" Margin="0,452,0,0" VerticalAlignment="Top" Width="284" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_crear_reparacion_Click" FontSize="15" TabIndex="10">
+        <Button x:Name="bt_crear_reparacion" Content="Crear reparación" HorizontalAlignment="Center" Height="56" Margin="0,494,0,0" VerticalAlignment="Top" Width="284" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_crear_reparacion_Click" FontSize="15" TabIndex="10">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -27,7 +27,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <DataGrid x:Name="ReparacionDataGrid" IsReadOnly="True" ColumnWidth="119" AutoGenerateColumns="False" Margin="123,113,123,302" MaxWidth="1217" SelectionChanged="ReparacionDataGrid_SelectionChanged">
+        <DataGrid x:Name="ReparacionDataGrid" IsReadOnly="True" ColumnWidth="119" AutoGenerateColumns="False" Margin="123,155,123,260" MaxWidth="1217" SelectionChanged="ReparacionDataGrid_SelectionChanged">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="Background" Value="#333333"/>
@@ -84,6 +84,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Label x:Name="titulo" Content="MIS REPARACIONES" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="435" Margin="27,6,0,0" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="45" Foreground="White"/>
+        <Label Content="Para finalizar una reparación o ver la factura, haga Click derecho en la fila que deseas." HorizontalAlignment="Center" Margin="0,118,0,0" VerticalAlignment="Top" FontSize="15" Foreground="White"/>
 
     </Grid>
 </Window>

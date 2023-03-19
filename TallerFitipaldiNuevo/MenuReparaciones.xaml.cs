@@ -44,7 +44,6 @@ namespace TallerFitipaldiNuevo
         private void cb_piezas_no_cambiar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = sender as ComboBox;
-            comboBox.Text = "Visualizar";
             comboBox.SelectedIndex = -1;
         }
 
