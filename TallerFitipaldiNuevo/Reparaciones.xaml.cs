@@ -47,8 +47,8 @@ namespace TallerFitipaldiNuevo
             cb_piezas_elegidas.Items.Clear();
             bt_anyadir_pieza.Content = "Añadir";
             cb_piezas.IsEnabled = true;
-            tb_horas.Text = "0,0";
-            tb_precio_hora.Text = "0,0";
+            tb_horas.Text = "0";
+            tb_precio_hora.Text = "0";
             tb_precio_total_horas.Text = "0,0";
             tb_precio_sin_iva.Text = "0,0";
             tb_iva.Text = "21";
@@ -319,7 +319,7 @@ namespace TallerFitipaldiNuevo
 
         private void anyadir_horas_precio(object sender, RoutedEventArgs e)
         {
-            if (tb_horas.Text.All(c => char.IsDigit(c) || c == ',') && tb_horas.Text.Length > 0)
+            if (tb_horas.Text.All(c => char.IsDigit(c)) && tb_horas.Text.Length > 0)
             {
                 tb_precio_total_horas.Text = formatearNumero(decimal.Parse(tb_horas.Text) * decimal.Parse(tb_precio_hora.Text));
             }
@@ -333,7 +333,7 @@ namespace TallerFitipaldiNuevo
 
         private void anyadir_horas_precio2(object sender, RoutedEventArgs e)
         {
-            if (tb_precio_hora.Text.All(c => char.IsDigit(c) || c == ',') && tb_precio_hora.Text.Length > 0)
+            if (tb_precio_hora.Text.All(c => char.IsDigit(c)) && tb_precio_hora.Text.Length > 0)
             {
 
                 tb_precio_total_horas.Text = formatearNumero(decimal.Parse(tb_horas.Text) * decimal.Parse(tb_precio_hora.Text));
@@ -392,7 +392,7 @@ namespace TallerFitipaldiNuevo
                     connector.InsertarReparacion(reparacion);
 
                     // Recogemos el ID de la reparación que hemos creado anteriormente
-                    int idReparacion = connector.seleccionarIdReparacionPorReparacion(reparacion);
+                    int idReparacion = connector.SeleccionarIdReparacionPorReparacion(reparacion);
                     Console.WriteLine("Id reparacion: " + idReparacion.ToString());
 
                     // Antes de introducir lo del paso siguiente, tenemos que pasar el nombre de la pieza a su respectivo id y separarla de su cantidad pedida.
@@ -416,6 +416,7 @@ namespace TallerFitipaldiNuevo
                     }
 
                     // Introducimos las piezas con su reparación correspondiente y actualizamos el Stock de la tabla de Piezas.
+                    Console.WriteLine(idReparacion);
                     connector.InsertarPiezasReparacionPorIdReparacion(idReparacion, listaPiezasBD);
 
                     // Actualizamos el Stock de las piezas

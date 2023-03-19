@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Menú de reparaciones" Height="720" Width="1280" Icon="/Image1.png" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Menú de reparaciones" Height="724" Width="1464" Icon="/Image1.png" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="/img/fondo_reparaciones.jpg"/>
     </Window.Background>
@@ -27,7 +27,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <DataGrid x:Name="ReparacionDataGrid" IsReadOnly="True" ColumnWidth="119" AutoGenerateColumns="False" Margin="95,121,88,294" MaxWidth="1100" SelectionChanged="ReparacionDataGrid_SelectionChanged">
+        <DataGrid x:Name="ReparacionDataGrid" IsReadOnly="True" ColumnWidth="119" AutoGenerateColumns="False" Margin="123,113,123,302" MaxWidth="1217" SelectionChanged="ReparacionDataGrid_SelectionChanged">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="Background" Value="#333333"/>
@@ -58,6 +58,26 @@
                 <DataGridTextColumn Header="PrecioPorHora" Binding="{Binding PrecioPorHora}" />
                 <DataGridTextColumn Header="PrecioSinIva" Binding="{Binding PrecioSinIva}" />
                 <DataGridTextColumn Header="Iva" Binding="{Binding Iva}" />
+                <DataGridTemplateColumn Header="Piezas">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Piezas}" SelectionChanged="cb_piezas_no_cambiar_SelectionChanged">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}Nombre: {0} - Cantidad pedida: {1}">
+                                                    <Binding Path="Nombre" />
+                                                    <Binding Path="Cantidad" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="DiaInicioReparacion" Binding="{Binding DiaInicioReparacion}" />
                 <DataGridTextColumn Header="MecanicoId" Binding="{Binding MecanicoId}" />
                 <DataGridTextColumn Header="Finalizado" Binding="{Binding Finalizado}" />

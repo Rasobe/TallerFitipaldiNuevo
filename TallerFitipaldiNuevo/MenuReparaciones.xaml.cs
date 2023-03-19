@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,7 +27,7 @@ namespace TallerFitipaldiNuevo
         {
             InitializeComponent();
             connector = new MySqlConnector("localhost", "TallerFitipaldiV", "root", "root");
-            ReparacionDataGrid.ItemsSource = connector.seleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+            ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
         }
 
         private void bt_crear_reparacion_Click(object sender, RoutedEventArgs e)
@@ -40,5 +41,12 @@ namespace TallerFitipaldiNuevo
         {
 
         }
+        private void cb_piezas_no_cambiar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            comboBox.Text = "Visualizar";
+            comboBox.SelectedIndex = -1;
+        }
+
     }
 }

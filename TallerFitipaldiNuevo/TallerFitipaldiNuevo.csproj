@@ -115,6 +115,7 @@
     </ApplicationDefinition>
     <Compile Include="Clases\ClienteVerVehiculosReparaciones.cs" />
     <Compile Include="Clases\Pieza.cs" />
+    <Compile Include="Clases\PiezaViewReparacion.cs" />
     <Compile Include="Clases\Reparacion.cs" />
     <Compile Include="Clases\Sesion.cs" />
     <Compile Include="Clases\CrearBBDD.cs" />

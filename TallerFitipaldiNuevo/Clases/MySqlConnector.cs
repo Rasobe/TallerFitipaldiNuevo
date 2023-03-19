@@ -1,9 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace TallerFitipaldiNuevo.Clases
@@ -11,6 +10,8 @@ namespace TallerFitipaldiNuevo.Clases
     internal class MySqlConnector
     {
         private MySqlConnection connection;
+        private string connectionString;
+
         private string server;
         private string database;
         private string uid;
@@ -31,7 +32,7 @@ namespace TallerFitipaldiNuevo.Clases
 
         public void Connect()
         {
-            string connectionString = $"SERVER={server};DATABASE={database};UID={uid};PASSWORD={password};";
+            connectionString = $"SERVER={server};DATABASE={database};UID={uid};PASSWORD={password};";
 
             connection = new MySqlConnection(connectionString);
             connection.Open();
@@ -321,7 +322,7 @@ namespace TallerFitipaldiNuevo.Clases
                 {
                     while (reader.Read())
                     {
-                        cliente =  new Cliente
+                        cliente = new Cliente
                         {
                             Id = reader.GetInt32("id"),
                             Username = reader.GetString("username"),
@@ -565,7 +566,7 @@ namespace TallerFitipaldiNuevo.Clases
                     while (reader.Read())
                     {
                         Pieza pieza = new Pieza();
-                        pieza.Stock = reader.GetInt32("id");
+                        pieza.Id = reader.GetInt32("id");
                         pieza.Nombre = reader.GetString("nombre");
                         pieza.Descripcion = reader.GetString("descripcion");
                         pieza.Stock = reader.GetInt32("stock");
@@ -666,7 +667,7 @@ namespace TallerFitipaldiNuevo.Clases
             }
         }
 
-        public List<Reparacion> seleccionarReparacionesPorMecanicoId(int mecanicoId)
+        public List<Reparacion> SeleccionarReparacionesPorMecanicoId(int mecanicoId)
         {
             Connect();
             List<Reparacion> listaReparaciones = new List<Reparacion>();
@@ -678,16 +679,41 @@ namespace TallerFitipaldiNuevo.Clases
                 {
                     while (reader.Read())
                     {
-                        Reparacion reparacion = new Reparacion();
-                        reparacion.Id = reader.GetInt32("Id");
-                        reparacion.VehiculoId = reader.GetInt32("VehiculoId");
-                        reparacion.Horas = reader.GetDecimal("Horas");
-                        reparacion.PrecioPorHora = reader.GetDecimal("PrecioPorHora");
-                        reparacion.PrecioSinIva = reader.GetDecimal("PrecioSinIva");
-                        reparacion.Iva = reader.GetDecimal("Iva");
-                        reparacion.DiaInicioReparacion = reader.GetDateTime("DiaInicioReparacion");
-                        reparacion.MecanicoId = reader.GetInt32("MecanicoId");
-                        reparacion.Finalizado = reader.GetBoolean("Finalizado");
+                        Reparacion reparacion = new Reparacion
+                        {
+                            Id = reader.GetInt32("Id"),
+                            VehiculoId = reader.GetInt32("VehiculoId"),
+                            Horas = reader.GetDecimal("Horas"),
+                            PrecioPorHora = reader.GetDecimal("PrecioPorHora"),
+                            PrecioSinIva = reader.GetDecimal("PrecioSinIva"),
+                            Iva = reader.GetDecimal("Iva"),
+                            DiaInicioReparacion = reader.GetDateTime("DiaInicioReparacion"),
+                            MecanicoId = reader.GetInt32("MecanicoId"),
+                            Finalizado = reader.GetBoolean("Finalizado"),
+                            Piezas = new List<PiezaViewReparacion>()
+                        };
+
+                        // Obtener las piezas relacionadas con esta reparación
+                        string queryPiezas = "SELECT p.nombre, pr.cantidad FROM pieza p INNER JOIN piezareparacion pr ON p.Id = pr.PiezaId WHERE pr.ReparacionId = @ReparacionId";
+                        using (MySqlConnection connectionPiezas = new MySqlConnection(connectionString))
+                        {
+                            connectionPiezas.Open();
+                            using (MySqlCommand commandPiezas = new MySqlCommand(queryPiezas, connectionPiezas))
+                            {
+                                commandPiezas.Parameters.AddWithValue("@ReparacionId", reparacion.Id);
+                                using (MySqlDataReader readerPiezas = commandPiezas.ExecuteReader())
+                                {
+                                    while (readerPiezas.Read())
+                                    {
+                                        PiezaViewReparacion pieza = new PiezaViewReparacion();
+                                        pieza.Nombre = readerPiezas.GetString("nombre");
+                                        pieza.Cantidad = readerPiezas.GetInt32("cantidad");
+                                        reparacion.Piezas.Add(pieza);
+                                    }
+                                }
+                            }
+                        }
+
                         listaReparaciones.Add(reparacion);
                     }
                 }
@@ -696,9 +722,8 @@ namespace TallerFitipaldiNuevo.Clases
             return listaReparaciones;
         }
 
-        public int seleccionarIdReparacionPorReparacion(Reparacion reparacion)
+        public int SeleccionarIdReparacionPorReparacion(Reparacion reparacion)
         {
-            // SELECT Id FROM Reparacion WHERE VehiculoId = 14 AND Horas = 12 AND PrecioPorHora = 34 AND PrecioSinIva = 552 AND Iva = 21 AND DiaInicioReparacion = '3/16/2023 12:00:00' AND MecanicoId = 2 AND Finalizado = false;
             Connect();
             string query = "SELECT Id FROM Reparacion WHERE VehiculoId = @VehiculoId AND Horas = @Horas AND PrecioPorHora = @PrecioPorHora AND PrecioSinIva = @PrecioSinIva AND Iva = @Iva AND DiaInicioReparacion = @DiaInicioReparacion AND MecanicoId = @MecanicoId AND Finalizado = @Finalizado";
             using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -734,6 +759,10 @@ namespace TallerFitipaldiNuevo.Clases
             try
             {
                 Connect();
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
                 using (MySqlCommand cmd = new MySqlCommand())
                 {
                     cmd.Connection = connection;
@@ -754,10 +783,9 @@ namespace TallerFitipaldiNuevo.Clases
                     MessageBox.Show("Se ha añadido correctamente la reparación con sus respectivas piezas.", "Inserción exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error al insertar la reparación con sus respectivas piezas.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Disconnect();
+                MessageBox.Show("Error al insertar la reparación con sus respectivas piezas: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

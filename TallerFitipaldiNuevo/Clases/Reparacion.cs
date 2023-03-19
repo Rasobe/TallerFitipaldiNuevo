@@ -22,12 +22,14 @@ namespace TallerFitipaldiNuevo.Clases
 
         public DateTime DiaInicioReparacion { get; set; }
 
-        public virtual List<Pieza> Piezas { get; set; }
+        public virtual List<PiezaViewReparacion> Piezas { get; set; }
 
         [NotMapped]
         public decimal PrecioTotalPiezas => PrecioSinIva + (PrecioSinIva * Iva / 100);
         [NotMapped]
         public decimal PrecioTotalHoras => Horas * PrecioPorHora;
+        [NotMapped]
+        public decimal PrecioTotal => PrecioTotalHoras + PrecioTotalPiezas;
 
         [ForeignKey("Mecanico")]
         public int MecanicoId { get; set; }

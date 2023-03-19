@@ -62,7 +62,7 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Button x:Name="bt_clientes" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,518,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_clientes_Click">
+        <Button x:Name="bt_clientes" Content="Button" HorizontalAlignment="Center" Height="62" Margin="0,387,0,0" VerticalAlignment="Top" Width="332" FontSize="20" Background="#FF191919" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" Click="bt_clientes_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">

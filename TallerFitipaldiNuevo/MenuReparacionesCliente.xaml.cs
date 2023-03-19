@@ -26,7 +26,7 @@ namespace TallerFitipaldiNuevo
         {
             InitializeComponent();
             connector = new MySqlConnector("localhost", "TallerFitipaldiV", "root", "root");
-            ReparacionDataGrid.ItemsSource = connector.seleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+            ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
         }
 
         private void bt_crear_reparacion_Click(object sender, RoutedEventArgs e)

@@ -46,36 +46,36 @@ namespace TallerFitipaldiNuevo.Clases
 
                 string createClienteTable = @"
                  CREATE TABLE IF NOT EXISTS Cliente (
-                    id INT PRIMARY KEY AUTO_INCREMENT,
-                    username VARCHAR(50) NOT NULL UNIQUE,
-                    password VARCHAR(50) NOT NULL,
-                    nombre VARCHAR(50) NOT NULL,
-                    apellidos VARCHAR(50) NOT NULL,
-                    telefono VARCHAR(20),
-                    ubicacion VARCHAR(100),
-                    rol VARCHAR(20)
+                    Id INT PRIMARY KEY AUTO_INCREMENT,
+                    Username VARCHAR(50) NOT NULL UNIQUE,
+                    Password VARCHAR(50) NOT NULL,
+                    Nombre VARCHAR(50) NOT NULL,
+                    Apellidos VARCHAR(50) NOT NULL,
+                    Telefono VARCHAR(20),
+                    Ubicacion VARCHAR(100),
+                    Rol VARCHAR(20)
                 );
             ";
 
                 string createVehiculoTable = @"
                 CREATE TABLE IF NOT EXISTS Vehiculo (
-                    id INT PRIMARY KEY AUTO_INCREMENT,
-                    matricula VARCHAR(10) NOT NULL UNIQUE,
-                    tipo VARCHAR(50) NOT NULL,
-                    modelo VARCHAR(50) NOT NULL,
-                    marca VARCHAR(50) NOT NULL,
-                    clienteId INT,
+                    Id INT PRIMARY KEY AUTO_INCREMENT,
+                    Matricula VARCHAR(10) NOT NULL UNIQUE,
+                    Tipo VARCHAR(50) NOT NULL,
+                    Modelo VARCHAR(50) NOT NULL,
+                    Marca VARCHAR(50) NOT NULL,
+                    ClienteId INT,
                     FOREIGN KEY (clienteId) REFERENCES Cliente(id) ON DELETE CASCADE ON UPDATE CASCADE
                 );
             ";
 
                 string createPiezasTable = @"
                 CREATE TABLE IF NOT EXISTS Pieza (
-                    id INT PRIMARY KEY AUTO_INCREMENT,
-                    nombre VARCHAR(50) NOT NULL UNIQUE,
-                    descripcion VARCHAR(255) NOT NULL,
-                    stock INT NOT NULL,
-                    precio decimal(10,2) NOT NULL
+                    Id INT PRIMARY KEY AUTO_INCREMENT,
+                    Nombre VARCHAR(50) NOT NULL UNIQUE,
+                    Descripcion VARCHAR(255) NOT NULL,
+                    Stock INT NOT NULL,
+                    Precio decimal(10,2) NOT NULL
                 );
             ";
 
@@ -85,10 +85,11 @@ namespace TallerFitipaldiNuevo.Clases
                     VehiculoId INTEGER NOT NULL,
                     Horas DECIMAL NOT NULL,
                     PrecioPorHora DECIMAL NOT NULL,
-                    precioTotalHoras DECIMAL(10,2) AS (Horas * PrecioPorHora),
+                    PrecioTotalHoras DECIMAL(10,2) AS (Horas * PrecioPorHora),
                     PrecioSinIva DECIMAL NOT NULL,
                     Iva DECIMAL NOT NULL,
-                    precioTotal DECIMAL(10,2) AS (PrecioSinIva + (PrecioSinIva * Iva / 100)),
+                    PrecioTotalPiezas DECIMAL(10,2) AS (PrecioSinIva + (PrecioSinIva * Iva / 100)),
+                    PrecioTotal DECIMAL(10,2) AS (precioTotalPiezas + precioTotalHoras),
                     DiaInicioReparacion DATETIME NOT NULL,
                     MecanicoId INTEGER NOT NULL,
                     Finalizado BOOLEAN NOT NULL,

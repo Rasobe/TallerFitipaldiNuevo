@@ -12,7 +12,7 @@
         </Grid.Background>
         <Rectangle HorizontalAlignment="Center" Height="397" Margin="0,195,0,0" Stroke="White" VerticalAlignment="Top" Width="783" Fill="Black" Opacity="0.5" RadiusX="10" RadiusY="10" StrokeThickness="2"/>
 
-        <TextBox x:Name="tb_username" HorizontalAlignment="Center" Height="46" Margin="0,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="532" VerticalContentAlignment="Center" TabIndex="0" FontSize="18" HorizontalContentAlignment="Left" KeyDown="presionar_enter" Text="cliente1"/>
+        <TextBox x:Name="tb_username" HorizontalAlignment="Center" Height="46" Margin="0,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="532" VerticalContentAlignment="Center" TabIndex="0" FontSize="18" HorizontalContentAlignment="Left" KeyDown="presionar_enter" Text="cliente2"/>
         <Label Content="Usuario&#xA;" HorizontalAlignment="Left" Margin="334,271,0,0" VerticalAlignment="Top" Width="121" Height="44" Foreground="White" FontSize="18"/>
         <Label Content="Contraseña&#xA;" HorizontalAlignment="Left" Margin="334,378,0,0" VerticalAlignment="Top" Width="121" Height="46" Foreground="White" FontSize="18"/>
         <Button x:Name="bt_iniciar_sesion" Content="Iniciar sesión" HorizontalAlignment="Center" Height="51" Margin="0,498,0,0" VerticalAlignment="Top" Width="260" Background="#FF191919" Click="bt_iniciar_sesion_Click" TabIndex="2" FontSize="20" Foreground="White" BorderBrush="White" BorderThickness="2,2,2,2" KeyDown="presionar_enter">
@@ -29,7 +29,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <PasswordBox x:Name="pb_password" HorizontalAlignment="Center" Margin="0,423,0,0" VerticalAlignment="Top" Width="532" Height="44" VerticalContentAlignment="Center" TabIndex="1" FontSize="18" HorizontalContentAlignment="Left" KeyDown="presionar_enter" Password="password1"/>
+        <PasswordBox x:Name="pb_password" HorizontalAlignment="Center" Margin="0,423,0,0" VerticalAlignment="Top" Width="532" Height="44" VerticalContentAlignment="Center" TabIndex="1" FontSize="18" HorizontalContentAlignment="Left" KeyDown="presionar_enter" Password="password2"/>
         <Label Content="¿No tienes cuenta?" HorizontalAlignment="Left" Margin="469,598,0,0" VerticalAlignment="Top" Foreground="White" VerticalContentAlignment="Center" Height="46" Width="185" HorizontalContentAlignment="Center" FontSize="18"/>
         <Label x:Name="lbl_resgister" Content="Regístrate" HorizontalAlignment="Left" Margin="643,600,0,0" VerticalAlignment="Top" Foreground="#FFEA000B" VerticalContentAlignment="Center" Cursor="Hand" ForceCursor="True" MouseDown="lbl_resgister_MouseDown" TabIndex="4" FontStyle="Italic" Height="44" Width="103" HorizontalContentAlignment="Center" FontSize="18" BorderBrush="White"/>
         <Label x:Name="titulo" Content="TALLER FITIPALDI" HorizontalAlignment="Left" VerticalAlignment="Top" Height="93" Width="545" Margin="36,21,0,0" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="55" Foreground="White"/>
