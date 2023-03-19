@@ -65,6 +65,7 @@ namespace TallerFitipaldiNuevo
                         else
                         {
                             MessageBox.Show("No puedes buscar vehículos que no sean de tu propiedad.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            tb_matricula_buscar.Text = string.Empty;
                         }
                     }
                     else
