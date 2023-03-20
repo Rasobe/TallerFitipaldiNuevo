@@ -35,7 +35,7 @@
             </Button.Template>
         </Button>
         <Label x:Name="lbl_username" Content="Nombre de usuario" HorizontalAlignment="Left" Margin="80,172,0,0" VerticalAlignment="Top" FontSize="13" Foreground="White" IsEnabled="False" Width="150" Height="39"/>
-        <TextBox x:Name="tb_buscar_cliente_username" HorizontalAlignment="Left" Height="28" Margin="80,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" VerticalContentAlignment="Center" KeyDown="buscar_cliente_por_username" Text="cliente4"/>
+        <TextBox x:Name="tb_buscar_cliente_username" HorizontalAlignment="Left" Height="28" Margin="80,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" VerticalContentAlignment="Center" KeyDown="buscar_cliente_por_username"/>
         <Label Content="2) ¿Qué vehículo necesita la reparación?" HorizontalAlignment="Left" Margin="604,116,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
         <DataGrid x:Name="VehiculosDataGrid" IsReadOnly="True" ColumnWidth="145" AutoGenerateColumns="False" Margin="484,166,413,425" MaxWidth="600" SelectionChanged="VehiculosDataGrid_SelectionChanged">
             <DataGrid.Resources>
