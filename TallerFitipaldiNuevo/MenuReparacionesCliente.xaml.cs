@@ -51,8 +51,11 @@ namespace TallerFitipaldiNuevo
 
         private void MenuItemImprimirFactura_Click(object sender, RoutedEventArgs e)
         {
-            Factura factura = new Factura(ReparacionDataGrid.SelectedItem as Reparacion);
-            factura.Imprimir();
+           if (ReparacionDataGrid.SelectedItem!= null)
+            {
+                Factura factura = new Factura(ReparacionDataGrid.SelectedItem as Reparacion);
+                factura.Imprimir();
+            }
         }
 
     }
