@@ -48,22 +48,28 @@ namespace TallerFitipaldiNuevo
 
         private void MenuItemImprimirFactura_Click(object sender, RoutedEventArgs e)
         {
-            Factura factura = new Factura(ReparacionDataGrid.SelectedItem as Reparacion);
-            factura.Imprimir();
+            if (ReparacionDataGrid.SelectedItem != null)
+            {
+                Factura factura = new Factura(ReparacionDataGrid.SelectedItem as Reparacion);
+                factura.Imprimir();
+            }
         }
 
         private void MenuItemFinalizar_Click(object sender, RoutedEventArgs e)
         {
             if (Sesion.ClienteActual.Rol.Equals("MECANICO"))
             {
-                Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
-                MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas finalizar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
+                if (ReparacionDataGrid.SelectedItem != null)
                 {
-                    connector.FinalizarReparacionPorIdReparacion(r.Id);
-                    ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                    Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
+                    MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas finalizar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        connector.FinalizarReparacionPorIdReparacion(r.Id);
+                        ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                    }
                 }
-            } 
+            }
             else
             {
                 MessageBox.Show("No tienes permiso para hacer esta acción.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -74,14 +80,17 @@ namespace TallerFitipaldiNuevo
         {
             if (Sesion.ClienteActual.Rol.Equals("MECANICO"))
             {
-                Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
-                MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas eliminar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
+                if (ReparacionDataGrid.SelectedItem != null)
                 {
-                    connector.EliminarReparacionPorIdReparacion(r.Id);
-                    ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                    Reparacion r = (Reparacion)ReparacionDataGrid.SelectedItem;
+                    MessageBoxResult result = MessageBox.Show(string.Concat("¿Estás seguro de que deseas eliminar la reparación con Id '", r.Id, "'? \n"), "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        connector.EliminarReparacionPorIdReparacion(r.Id);
+                        ReparacionDataGrid.ItemsSource = connector.SeleccionarReparacionesPorMecanicoId(Sesion.ClienteActual.Id);
+                    }
                 }
-            } 
+            }
             else
             {
                 MessageBox.Show("No tienes permiso para hacer esta acción.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
