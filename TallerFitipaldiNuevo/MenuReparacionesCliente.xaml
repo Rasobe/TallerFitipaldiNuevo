@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Menú de reparaciones" Height="720" Width="1280" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Icon="/img/icon.png">
+        Title="Menú de reparaciones" Height="720" Width="1280" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="/img/fondo_reparaciones.jpg"/>
     </Window.Background>

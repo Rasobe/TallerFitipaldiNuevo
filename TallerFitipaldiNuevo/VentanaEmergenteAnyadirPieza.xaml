@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="¿Que cantidad quieres añadir?" Height="225" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Icon="/img/icon.png">
+        Title="¿Que cantidad quieres añadir?" Height="225" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.Background>
         <ImageBrush ImageSource="/img/fondo_anyadir_pieza.jpg"/>
     </Window.Background>

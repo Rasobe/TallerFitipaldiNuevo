@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Vehiculos" Height="936" Width="1342" Icon="/img/icon.png" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" InputScope="Default">
+        Title="Vehiculos" Height="936" Width="1342" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" InputScope="Default">
     <Grid Margin="0,0,0,-6">
         <Grid.Background>
             <ImageBrush ImageSource="/img/fondoTalleresFitipaldi.jpg"/>

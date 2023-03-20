@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Inicio de sesión" Height="691" Width="1200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="/img/icon.png">
+        Title="Inicio de sesión" Height="691" Width="1200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="fondo" MaxWidth="1200" MaxHeight="700" Width="1200" Height="700">
         <Grid.Background>
             <ImageBrush ImageSource="/img/fondoTalleresFitipaldi.jpg" Stretch="Fill"/>

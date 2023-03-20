@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Registro" Height="700" Width="1200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="/img/icon.png">
+        Title="Registro" Height="700" Width="1200" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="/img/fondoTalleresFitipaldi.jpg"/>
     </Window.Background>

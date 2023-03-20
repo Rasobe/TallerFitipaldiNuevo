@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="MiPerfil" Height="900" Width="450" HorizontalAlignment="Center" Icon="/img/icon.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="MiPerfil" Height="900" Width="450" HorizontalAlignment="Center" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/img/fondoMiperfil.jpg" Stretch="UniformToFill"/>

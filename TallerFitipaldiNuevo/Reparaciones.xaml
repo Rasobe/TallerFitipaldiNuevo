@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TallerFitipaldiNuevo"
         mc:Ignorable="d"
-        Title="Reparaciones" Height="844" Width="1500" Icon="/img/icon.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Reparaciones" Height="844" Width="1500" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="/img/fondo_reparaciones.jpg"/>
     </Window.Background>
